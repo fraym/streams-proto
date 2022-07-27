@@ -4,7 +4,7 @@ import "transport/backchannel_broadcast.proto";
 import "transport/backchannel_lock.proto";
 import "transport/backchannel_unlock.proto";
 import "transport/backchannel_handled.proto";
-option go_package = "github.com/Becklyn-Studios/crud/streams-proto/backchannel/pb";
+option go_package = "github.com/Becklyn-Studios/streams-proto/backchannel/pb";
 
 service Service {
 	rpc Broadcast(BroadcastRequest) returns (BroadcastResponse);

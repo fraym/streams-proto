@@ -1,7 +1,7 @@
 syntax = "proto3";
 package transport;
 import "transport/event.proto";
-option go_package = "github.com/Becklyn-Studios/crud/streams-proto/backchannel/pb";
+option go_package = "github.com/Becklyn-Studios/streams-proto/backchannel/pb";
 
 message BroadcastRequest {
 	string topic = 1;

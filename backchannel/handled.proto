@@ -1,6 +1,6 @@
 syntax = "proto3";
 package transport;
-option go_package = "github.com/Becklyn-Studios/crud/streams-proto/backchannel/pb";
+option go_package = "github.com/Becklyn-Studios/streams-proto/backchannel/pb";
 
 message HandledRequest {
 	string topic = 1;

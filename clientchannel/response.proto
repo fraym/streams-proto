@@ -1,7 +1,7 @@
 syntax = "proto3";
 package transport;
 import "event.proto";
-option go_package = "github.com/Becklyn-Studios/crud/streams-proto/clientchannel/pb";
+option go_package = "github.com/Becklyn-Studios/streams-proto/clientchannel/pb";
 
 message Response {
 	message InitAck {}
