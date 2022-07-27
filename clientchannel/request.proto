@@ -1,8 +1,7 @@
 syntax = "proto3";
-package transport;
-import "event.proto";
-option go_package = "github.com/Becklyn-Studios/streams-proto/clientchannel/pb";
-
+package clientchannel;
+import "clientchannel/event.proto";
+ 
 message Request {
 	message InitAction {
 		string group_id = 1;

@@ -1,6 +1,5 @@
 syntax = "proto3";
-package transport;
-option go_package = "github.com/Becklyn-Studios/streams-proto/backchannel/pb";
+package backchannel;
 
 message LockRequest {
 	string topic = 1;

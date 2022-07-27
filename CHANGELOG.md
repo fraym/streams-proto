@@ -1,3 +1,8 @@
+# v1.0.2
+
+- (bug) Remove go_package option
+- (bug) Fix imports
+
 # v1.0.1
 
 - (bug) Fix go_package option

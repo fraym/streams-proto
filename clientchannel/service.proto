@@ -1,9 +1,8 @@
 syntax = "proto3";
-package transport;
-import "request.proto";
-import "response.proto";
-option go_package = "github.com/Becklyn-Studios/streams-proto/clientchannel/pb";
-
+package clientchannel;
+import "clientchannel/request.proto";
+import "clientchannel/response.proto";
+ 
 service Service {
 	rpc Connect(stream Request) returns (stream Response);
 }
