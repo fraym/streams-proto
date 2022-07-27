@@ -1,0 +1,11 @@
+syntax = "proto3";
+package transport;
+option go_package = "github.com/Becklyn-Studios/crud/streams-proto/backchannel/pb";
+
+message HandledRequest {
+	string topic = 1;
+	string group_id = 2;
+	string event_id = 3;
+}
+
+message HandledResponse {}

@@ -1,0 +1,22 @@
+syntax = "proto3";
+package transport;
+option go_package = "github.com/Becklyn-Studios/crud/streams-proto/backchannel/pb";
+
+message UnlockRequest {
+	string topic = 1;
+	string group_id = 2;
+	string owner = 3;
+}
+
+message UnlockResponse {
+	message Unlock_Ack {}
+
+	message Unlock_NotAck {
+		string reason = 1;
+	}
+
+	oneof payload {
+		Unlock_Ack unlock_ack = 1;
+		Unlock_NotAck unlock_not_ack = 2;
+	}
+}

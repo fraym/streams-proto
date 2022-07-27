@@ -1,0 +1,23 @@
+syntax = "proto3";
+package transport;
+import "transport/event.proto";
+option go_package = "github.com/Becklyn-Studios/crud/streams-proto/backchannel/pb";
+
+message BroadcastRequest {
+	string topic = 1;
+	bool broadcast = 2;
+	Event event = 3;
+}
+
+message BroadcastResponse {
+	message Broadcast_Ack {}
+
+	message Broadcast_NotAck {
+		string reason = 1;
+	}
+
+	oneof payload {
+		Broadcast_Ack broadcast_ack = 1;
+		Broadcast_NotAck broadcast_not_ack = 2;
+	}
+}

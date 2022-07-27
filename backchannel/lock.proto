@@ -1,0 +1,22 @@
+syntax = "proto3";
+package transport;
+option go_package = "github.com/Becklyn-Studios/crud/streams-proto/backchannel/pb";
+
+message LockRequest {
+	string topic = 1;
+	string group_id = 2;
+	string owner = 3;
+}
+
+message LockResponse {
+	message Lock_Ack {}
+
+	message Lock_NotAck {
+		string reason = 1;
+	}
+
+	oneof payload {
+		Lock_Ack lock_ack = 1;
+		Lock_NotAck lock_not_ack = 2;
+	}
+}

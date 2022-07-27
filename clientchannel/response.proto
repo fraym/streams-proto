@@ -1,0 +1,65 @@
+syntax = "proto3";
+package transport;
+import "event.proto";
+option go_package = "github.com/Becklyn-Studios/crud/streams-proto/clientchannel/pb";
+
+message Response {
+	message InitAck {}
+
+	message InitNotAck {
+		string reason = 1;
+	}
+
+	message PublishAck {
+		string event_id = 1;
+	}
+
+	message PublishNotAck {
+		string event_id = 1;
+		string reason = 2;
+	}
+
+	message SubscribeAck {
+		string topic = 1;
+	}
+
+	message SubscribeNotAck {
+		string topic = 1;
+		string reason = 2;
+	}
+
+	message UnsubscribeAck {
+		string topic = 1;
+	}
+
+	message UnsubscribeNotAck {
+		string topic = 1;
+		string reason = 2;
+	}
+
+	message InvalidateGdprAck {
+		string topic = 1;
+		string gdpr_id = 2;
+	}
+
+	message InvalidateGdprNotAck {
+		string topic = 1;
+		string gdpr_id = 2;
+		string reason = 3;
+	}
+
+	oneof data {
+		Event event = 1;
+
+		InitAck init_ack = 2;
+		InitNotAck init_not_ack = 3;
+		PublishAck publish_ack = 4;
+		PublishNotAck publish_not_ack = 5;
+		SubscribeAck subscribe_ack = 6;
+		SubscribeNotAck subscribe_not_ack = 7;
+		UnsubscribeAck unsubscribe_ack = 8;
+		UnsubscribeNotAck unsubscribe_not_ack = 9;
+		InvalidateGdprAck invalidate_gdpr_ack = 10;
+		InvalidateGdprNotAck invalidate_gdpr_not_ack = 11;
+	}
+}

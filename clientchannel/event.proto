@@ -1,0 +1,27 @@
+syntax = "proto3";
+package transport;
+option go_package = "github.com/Becklyn-Studios/crud/streams-proto/clientchannel/pb";
+
+message Data {
+	message GdprMetadata {
+		string default = 3;
+	}
+
+	oneof metadata {
+		GdprMetadata gdpr = 4;
+	}
+
+	string value = 1;
+}
+
+message Event {
+	string id = 1;
+	string type = 2;
+	string aggregate_id = 3;
+	string aggregate_type = 4;
+	string correlation_id = 5;
+	string causation_id = 6;
+	string raised_at = 7;
+	map<string, Data> payload = 8;
+	string reason = 9;
+}

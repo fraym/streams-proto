@@ -1,0 +1,14 @@
+syntax = "proto3";
+package transport;
+import "transport/backchannel_broadcast.proto";
+import "transport/backchannel_lock.proto";
+import "transport/backchannel_unlock.proto";
+import "transport/backchannel_handled.proto";
+option go_package = "github.com/Becklyn-Studios/crud/streams-proto/backchannel/pb";
+
+service Service {
+	rpc Broadcast(BroadcastRequest) returns (BroadcastResponse);
+	rpc Lock(LockRequest) returns (LockResponse);
+	rpc Unlock(UnlockRequest) returns (UnlockResponse);
+	rpc Handled(HandledRequest) returns (HandledResponse);
+}
