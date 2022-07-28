@@ -21,6 +21,11 @@ message Request {
 	message UnsubscribeAction {
 		string topic = 1;
 	}
+
+	message SnapshotAction {
+		string topic = 1;
+		string to = 2;
+	}
 	
 	message InvalidateGdprAction {
 		string topic = 1;
