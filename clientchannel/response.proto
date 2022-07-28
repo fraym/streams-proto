@@ -36,6 +36,18 @@ message Response {
 		string reason = 2;
 	}
 
+	message SnapshotAck {
+		string topic = 1;
+		string snapshot_id = 2;
+		string from_time = 3;
+		string to_time = 4;
+	}
+
+	message SnapshotNotAck {
+		string topic = 1;
+		string reason = 3;
+	}
+
 	message InvalidateGdprAck {
 		string topic = 1;
 		string gdpr_id = 2;
@@ -63,7 +75,9 @@ message Response {
 		SubscribeNotAck subscribe_not_ack = 7;
 		UnsubscribeAck unsubscribe_ack = 8;
 		UnsubscribeNotAck unsubscribe_not_ack = 9;
-		InvalidateGdprAck invalidate_gdpr_ack = 10;
-		InvalidateGdprNotAck invalidate_gdpr_not_ack = 11;
+		SnapshotAck snapshot_ack = 10;
+		SnapshotNotAck snapshot_not_ack = 11;
+		InvalidateGdprAck invalidate_gdpr_ack = 12;
+		InvalidateGdprNotAck invalidate_gdpr_not_ack = 13;
 	}
 }
