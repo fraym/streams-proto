@@ -1,3 +1,7 @@
+# v2.0.0
+
+- (bc) Replace `Event` by new `SubscribedEvent` in `clientchannel.Response`
+
 # v1.0.2
 
 - (bug) Remove go_package option

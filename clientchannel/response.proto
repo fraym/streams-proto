@@ -47,8 +47,13 @@ message Response {
 		string reason = 3;
 	}
 
+	message SubscribedEvent {
+		string topic = 1;
+		Event event = 2;
+	}
+
 	oneof data {
-		Event event = 1;
+		SubscribedEvent event = 1;
 
 		InitAck init_ack = 2;
 		InitNotAck init_not_ack = 3;
