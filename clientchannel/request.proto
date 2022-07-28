@@ -24,7 +24,7 @@ message Request {
 
 	message SnapshotAction {
 		string topic = 1;
-		string to = 2;
+		string to_time = 2;
 	}
 	
 	message InvalidateGdprAction {

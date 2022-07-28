@@ -39,8 +39,8 @@ message Response {
 	message SnapshotAck {
 		string topic = 1;
 		string snapshot_id = 2;
-		string from = 3;
-		string to = 4;
+		string from_time = 3;
+		string to_time = 4;
 	}
 
 	message SnapshotNotAck {
