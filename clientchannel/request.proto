@@ -49,8 +49,9 @@ message Request {
 		SubscribeAction subscribe = 3;
 		UnsubscribeAction unsubscribe = 4;
 		InvalidateGdprAction invalidate_gdpr = 5;
+		SnapshotAction snapshot = 6;
 		
-		EventAck event_ack = 6;
-		EventNotAck event_not_ack = 7;
+		EventAck event_ack = 7;
+		EventNotAck event_not_ack = 8;
 	}
 }

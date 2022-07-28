@@ -1,3 +1,7 @@
+# v2.1.0
+
+- (feature) Add `SnapshotAction` with corresponding ack messages to clientchannel
+
 # v2.0.0
 
 - (bc) Replace `Event` by new `SubscribedEvent` in `clientchannel.Response`
