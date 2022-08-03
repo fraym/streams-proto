@@ -9,9 +9,10 @@ message Request {
 	}
 
 	message PublishAction {
-		string topic = 1;
-		bool broadcast = 2;
-		Event event = 3;
+		string tenant_id = 1;
+		string topic = 2;
+		bool broadcast = 3;
+		Event event = 4;
 	}
 
 	message SubscribeAction {
@@ -28,19 +29,22 @@ message Request {
 	}
 	
 	message InvalidateGdprAction {
-		string topic = 1;
-		string gdpr_id = 2;
+		string tenant_id = 1;
+		string topic = 2;
+		string gdpr_id = 3;
 	}
 
 	message EventAck {
-		string topic = 1;
-		string event_id = 2;
+		string tenant_id = 1;
+		string topic = 2;
+		string event_id = 3;
 	}
 
 	message EventNotAck {
-		string topic = 1;
-		string event_id = 2;
-		string reason = 3;
+		string tenant_id = 1;
+		string topic = 2;
+		string event_id = 3;
+		string reason = 4;
 	}
 
 	oneof payload {

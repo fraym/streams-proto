@@ -60,8 +60,9 @@ message Response {
 	}
 
 	message SubscribedEvent {
-		string topic = 1;
-		Event event = 2;
+		string tenant_id = 1;
+		string topic = 2;
+		Event event = 3;
 	}
 
 	oneof data {
