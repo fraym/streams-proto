@@ -1,15 +1,10 @@
 syntax = "proto3";
 
-message Data {
-	message GdprMetadata {
-		string default = 3;
-	}
-
-	oneof metadata {
-		GdprMetadata gdpr = 4;
-	}
-
-	string value = 1;
+message EventEnvelope {
+	string tenant_id = 1;
+	string topic = 2;
+	bool broadcast = 3;
+	Event event = 4;
 }
 
 message Event {
@@ -22,4 +17,16 @@ message Event {
 	string raised_at = 7;
 	map<string, Data> payload = 8;
 	string reason = 9;
+}
+
+message Data {
+	message GdprMetadata {
+		string default = 3;
+	}
+
+	oneof metadata {
+		GdprMetadata gdpr = 4;
+	}
+
+	string value = 1;
 }

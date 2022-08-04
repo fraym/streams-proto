@@ -9,18 +9,15 @@ message Request {
 	}
 
 	message PublishAction {
-		string tenant_id = 1;
-		string topic = 2;
-		bool broadcast = 3;
-		Event event = 4;
+		repeated EventEnvelope event = 1;
 	}
 
 	message SubscribeAction {
-		string topic = 1;
+		repeated string topic = 1;
 	}
 
 	message UnsubscribeAction {
-		string topic = 1;
+		repeated string topic = 1;
 	}
 
 	message SnapshotAction {

@@ -19,20 +19,16 @@ message Response {
 	}
 
 	message SubscribeAck {
-		string topic = 1;
 	}
 
 	message SubscribeNotAck {
-		string topic = 1;
 		string reason = 2;
 	}
 
 	message UnsubscribeAck {
-		string topic = 1;
 	}
 
 	message UnsubscribeNotAck {
-		string topic = 1;
 		string reason = 2;
 	}
 
@@ -49,24 +45,20 @@ message Response {
 	}
 
 	message InvalidateGdprAck {
-		string topic = 1;
-		string gdpr_id = 2;
+		string tenant_id = 1;
+		string topic = 2;
+		string gdpr_id = 3;
 	}
 
 	message InvalidateGdprNotAck {
-		string topic = 1;
-		string gdpr_id = 2;
-		string reason = 3;
-	}
-
-	message SubscribedEvent {
 		string tenant_id = 1;
 		string topic = 2;
-		Event event = 3;
+		string gdpr_id = 3;
+		string reason = 4;
 	}
 
 	oneof data {
-		SubscribedEvent event = 1;
+		EventEnvelope event = 1;
 
 		InitAck init_ack = 2;
 		InitNotAck init_not_ack = 3;
