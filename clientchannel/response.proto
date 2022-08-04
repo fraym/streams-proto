@@ -10,11 +10,11 @@ message Response {
 	}
 
 	message PublishAck {
-		string event_id = 1;
+		string publish_action_id = 1;
 	}
 
 	message PublishNotAck {
-		string event_id = 1;
+		string publish_action_id = 1;
 		string reason = 2;
 	}
 
@@ -22,13 +22,6 @@ message Response {
 	}
 
 	message SubscribeNotAck {
-		string reason = 2;
-	}
-
-	message UnsubscribeAck {
-	}
-
-	message UnsubscribeNotAck {
 		string reason = 2;
 	}
 
@@ -41,7 +34,7 @@ message Response {
 
 	message SnapshotNotAck {
 		string topic = 1;
-		string reason = 3;
+		string reason = 2;
 	}
 
 	message InvalidateGdprAck {
@@ -66,11 +59,9 @@ message Response {
 		PublishNotAck publish_not_ack = 5;
 		SubscribeAck subscribe_ack = 6;
 		SubscribeNotAck subscribe_not_ack = 7;
-		UnsubscribeAck unsubscribe_ack = 8;
-		UnsubscribeNotAck unsubscribe_not_ack = 9;
-		SnapshotAck snapshot_ack = 10;
-		SnapshotNotAck snapshot_not_ack = 11;
-		InvalidateGdprAck invalidate_gdpr_ack = 12;
-		InvalidateGdprNotAck invalidate_gdpr_not_ack = 13;
+		SnapshotAck snapshot_ack = 8;
+		SnapshotNotAck snapshot_not_ack = 9;
+		InvalidateGdprAck invalidate_gdpr_ack = 10;
+		InvalidateGdprNotAck invalidate_gdpr_not_ack = 11;
 	}
 }

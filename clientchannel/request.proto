@@ -9,15 +9,14 @@ message Request {
 	}
 
 	message PublishAction {
-		repeated EventEnvelope event = 1;
+		string topic = 1;
+		string publish_action_id = 2;
+		repeated EventEnvelope event = 3;
 	}
 
 	message SubscribeAction {
-		repeated string topic = 1;
-	}
-
-	message UnsubscribeAction {
-		repeated string topic = 1;
+		repeated string included_topics = 1;
+		repeated string excluded_topics = 2;
 	}
 
 	message SnapshotAction {
@@ -48,7 +47,6 @@ message Request {
 		InitAction init = 1;
 		PublishAction publish = 2;
 		SubscribeAction subscribe = 3;
-		UnsubscribeAction unsubscribe = 4;
 		InvalidateGdprAction invalidate_gdpr = 5;
 		SnapshotAction snapshot = 6;
 		

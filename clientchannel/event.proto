@@ -2,9 +2,8 @@ syntax = "proto3";
 
 message EventEnvelope {
 	string tenant_id = 1;
-	string topic = 2;
-	bool broadcast = 3;
-	Event event = 4;
+	bool broadcast = 2;
+	Event event = 3;
 }
 
 message Event {
