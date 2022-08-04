@@ -26,3 +26,9 @@ Contains all proto files for internal comunication of the streams service.
 ### clientchannel
 
 Contains all proto files for client comunication of the streams service.
+
+## Explanations
+
+- You can also leave the tenant_id empty. Apps should consider empty tenant_ids as global events
+- In a DDD context: topic = app identifier: You can listen to events of multiple apps, but you do not have to listen to all (performance)
+- In a DDD context: aggregate_id + aggregate_type = stream
