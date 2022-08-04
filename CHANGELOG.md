@@ -1,3 +1,8 @@
+# v3.0.0
+
+- (bc) Transactional publishing of multiple events
+- (bc) Multitenancy
+
 # v2.1.0
 
 - (feature) Add `SnapshotAction` with corresponding ack messages to clientchannel
