@@ -2,9 +2,10 @@ syntax = "proto3";
 package backchannel;
 
 message HandledRequest {
-	string topic = 1;
-	string group_id = 2;
-	string event_id = 3;
+	string tenant_id = 1;
+	string topic = 2;
+	string group_id = 3;
+	string event_id = 4;
 }
 
 message HandledResponse {}

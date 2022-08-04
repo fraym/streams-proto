@@ -2,9 +2,10 @@ syntax = "proto3";
 package backchannel;
 
 message UnlockRequest {
-	string topic = 1;
-	string group_id = 2;
-	string owner = 3;
+	string tenant_id = 1;
+	string topic = 2;
+	string group_id = 3;
+	string owner = 4;
 }
 
 message UnlockResponse {

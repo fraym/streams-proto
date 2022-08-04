@@ -3,9 +3,10 @@ package backchannel;
 import "clientchannel/event.proto";
 
 message BroadcastRequest {
-	string topic = 1;
-	bool broadcast = 2;
-	Event event = 3;
+	string tenant_id = 1;
+	string topic = 2;
+	bool broadcast = 3;
+	Event event = 4;
 } 
 
 message BroadcastResponse {
