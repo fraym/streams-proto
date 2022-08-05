@@ -1,6 +1,7 @@
 # v3.0.1
 
 - (bug) Fix `clientchannel.Response`: add `PublishEventEnvelope`
+- (bug) Fix typo in `clientchannel.PublishAction`
 
 # v3.0.0
 

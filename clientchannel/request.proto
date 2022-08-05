@@ -11,7 +11,7 @@ message Request {
 	message PublishAction {
 		string topic = 1;
 		string publish_action_id = 2;
-		repeated EventEnvelope event = 3;
+		repeated EventEnvelope events = 3;
 	}
 
 	message SubscribeAction {
