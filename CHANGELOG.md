@@ -1,3 +1,7 @@
+# v3.0.1
+
+- (bug) Fix `clientchannel.Response`: add `PublishEventEnvelope`
+
 # v3.0.0
 
 - (bc) Transactional publishing of multiple events

@@ -50,8 +50,14 @@ message Response {
 		string reason = 4;
 	}
 
+	message PublishEventEnvelope {
+		string tenant_id = 1;
+		string topic = 2;
+		Event event = 3;
+	}
+
 	oneof data {
-		EventEnvelope event = 1;
+		PublishEventEnvelope event = 1;
 
 		InitAck init_ack = 2;
 		InitNotAck init_not_ack = 3;
