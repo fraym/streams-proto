@@ -2,7 +2,10 @@ syntax = "proto3";
 package clientchannel;
 import "clientchannel/request.proto";
 import "clientchannel/response.proto";
+import "clientchannel/getEventsFromStart.proto";
+import "clientchannel/event.proto";
  
 service Service {
 	rpc Connect(stream Request) returns (stream Response);
+	rpc GetEventsFromStart(GetEventsFromStartRequest) returns (stream PublishEventEnvelope);
 }

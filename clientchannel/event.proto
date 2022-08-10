@@ -1,5 +1,11 @@
 syntax = "proto3";
 
+message PublishEventEnvelope {
+	string tenant_id = 1;
+	string topic = 2;
+	Event event = 3;
+}
+
 message EventEnvelope {
 	string tenant_id = 1;
 	bool broadcast = 2;

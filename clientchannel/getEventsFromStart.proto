@@ -1,0 +1,7 @@
+syntax = "proto3";
+package clientchannel;
+
+message GetEventsFromStartRequest {
+	repeated string included_topics = 1;
+	repeated string excluded_topics = 2;
+}

@@ -1,3 +1,7 @@
+# v3.1.0
+
+- (feature) Add `GetEventsFromStart` rpc to clientchannel
+
 # v3.0.1
 
 - (bug) Fix `clientchannel.Response`: add `PublishEventEnvelope`

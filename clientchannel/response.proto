@@ -50,12 +50,6 @@ message Response {
 		string reason = 4;
 	}
 
-	message PublishEventEnvelope {
-		string tenant_id = 1;
-		string topic = 2;
-		Event event = 3;
-	}
-
 	oneof data {
 		PublishEventEnvelope event = 1;
 
