@@ -1,3 +1,7 @@
+# v4.0.0
+
+- (bc) Remove locking
+
 # v3.1.0
 
 - (feature) Add `GetEventsFromStart` rpc to clientchannel
