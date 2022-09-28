@@ -15,13 +15,12 @@ message EventEnvelope {
 message Event {
 	string id = 1;
 	string type = 2;
-	string aggregate_id = 3;
-	string aggregate_type = 4;
-	string correlation_id = 5;
-	string causation_id = 6;
-	string raised_at = 7;
-	map<string, Data> payload = 8;
-	string reason = 9;
+	string stream = 3;
+	string correlation_id = 4; 
+	string causation_id = 5;
+	string raised_at = 6;
+	map<string, Data> payload = 7;
+	string reason = 8;
 }
 
 message Data {

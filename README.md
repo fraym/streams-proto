@@ -7,7 +7,7 @@ This repository contains all protocol buffers for the gRPC api of the streams se
 1. git clone this project:
 
 ```shell
-git clone git@github.com:Becklyn-Studios/streams-proto.git ./.pb
+git clone git@github.com:fraym-work/streams-proto.git ./.pb
 ```
 
 2. generate code from the cloned files

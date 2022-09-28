@@ -1,3 +1,10 @@
+# v5.0.0
+
+- (bc) Remove `aggregat_type` field from `Event`
+- (bc) Remove `aggregat_id` field from `Event`
+- (feature) Add `stream` field to `Event`
+- (feature) Add `GetStream` service rpc call
+
 # v4.0.0
 
 - (bc) Remove locking

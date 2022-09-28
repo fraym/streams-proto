@@ -1,0 +1,7 @@
+syntax = "proto3";
+package clientchannel;
+
+message GetStreamRequest {
+	string tenant_id = 1;
+	string stream = 2;
+}
