@@ -1,7 +1,12 @@
 syntax = "proto3";
 package clientchannel;
+import "clientchannel/event.proto";
 
 message GetStreamRequest {
 	string tenant_id = 1;
 	string stream = 2;
+}
+
+message GetStreamResponse {
+	repeated PublishEventEnvelope events = 1;
 }

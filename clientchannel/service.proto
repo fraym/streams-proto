@@ -9,5 +9,5 @@ import "clientchannel/event.proto";
 service Service {
 	rpc Connect(stream Request) returns (stream Response);
 	rpc GetEventsFromStart(GetEventsFromStartRequest) returns (stream PublishEventEnvelope);
-	rpc GetStream(GetStreamRequest) returns (stream PublishEventEnvelope);
+	rpc GetStream(GetStreamRequest) returns (GetStreamResponse);
 }

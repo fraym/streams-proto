@@ -1,3 +1,7 @@
+# v5.0.1
+
+- (bug) Do not use a gRPC stream to return the events of a stream
+
 # v5.0.0
 
 - (bc) Remove `aggregat_type` field from `Event`
