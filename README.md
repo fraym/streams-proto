@@ -2,28 +2,26 @@
 
 This repository contains all protocol buffers for the gRPC api of the streams service.
 
-## usage
+## Usage
 
-1. git clone this project:
+### Install go package
 
-```shell
-git clone git@github.com:fraym-work/streams-proto.git ./.pb
+```bash
+go get -u github.com/fraym-work/streams-proto/go
 ```
 
-2. generate code from the cloned files
-3. remove cloned data again to keep your project clean:
+## Development
 
-```shell
-rm -rf ./.pb
-```
+1. change .proto files
+2. run `make proto`
 
-## components
+## Components
 
-### backchannel
+### Backchannel
 
 Contains all proto files for internal comunication of the streams service.
 
-### clientchannel
+### Clientchannel
 
 Contains all proto files for client comunication of the streams service.
 

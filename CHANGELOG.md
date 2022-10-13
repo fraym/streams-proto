@@ -1,3 +1,7 @@
+# v5.1.0
+
+- (feature) Move generated go code directly to this repository
+
 # v5.0.1
 
 - (bug) Do not use a gRPC stream to return the events of a stream
