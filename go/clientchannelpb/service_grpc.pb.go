@@ -4,7 +4,7 @@
 // - protoc             v3.21.5
 // source: clientchannel/service.proto
 
-package clientchannel
+package clientchannelpb
 
 import (
 	context "context"

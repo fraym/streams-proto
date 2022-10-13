@@ -4,10 +4,10 @@
 // 	protoc        v3.21.5
 // source: backchannel/broadcast.proto
 
-package backchannel
+package backchannelpb
 
 import (
-	clientchannel "github.com/fraym-work/streams-proto/go/v5/clientchannel"
+	clientchannelpb "github.com/fraym-work/streams-proto/go/v5/clientchannelpb"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	reflect "reflect"
@@ -26,10 +26,10 @@ type BroadcastRequest struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	TenantId  string               `protobuf:"bytes,1,opt,name=tenant_id,json=tenantId,proto3" json:"tenant_id,omitempty"`
-	Topic     string               `protobuf:"bytes,2,opt,name=topic,proto3" json:"topic,omitempty"`
-	Broadcast bool                 `protobuf:"varint,3,opt,name=broadcast,proto3" json:"broadcast,omitempty"`
-	Event     *clientchannel.Event `protobuf:"bytes,4,opt,name=event,proto3" json:"event,omitempty"`
+	TenantId  string                 `protobuf:"bytes,1,opt,name=tenant_id,json=tenantId,proto3" json:"tenant_id,omitempty"`
+	Topic     string                 `protobuf:"bytes,2,opt,name=topic,proto3" json:"topic,omitempty"`
+	Broadcast bool                   `protobuf:"varint,3,opt,name=broadcast,proto3" json:"broadcast,omitempty"`
+	Event     *clientchannelpb.Event `protobuf:"bytes,4,opt,name=event,proto3" json:"event,omitempty"`
 }
 
 func (x *BroadcastRequest) Reset() {
@@ -85,7 +85,7 @@ func (x *BroadcastRequest) GetBroadcast() bool {
 	return false
 }
 
-func (x *BroadcastRequest) GetEvent() *clientchannel.Event {
+func (x *BroadcastRequest) GetEvent() *clientchannelpb.Event {
 	if x != nil {
 		return x.Event
 	}
@@ -311,7 +311,7 @@ var file_backchannel_broadcast_proto_goTypes = []interface{}{
 	(*BroadcastResponse)(nil),                  // 1: backchannel.BroadcastResponse
 	(*BroadcastResponse_Broadcast_Ack)(nil),    // 2: backchannel.BroadcastResponse.Broadcast_Ack
 	(*BroadcastResponse_Broadcast_NotAck)(nil), // 3: backchannel.BroadcastResponse.Broadcast_NotAck
-	(*clientchannel.Event)(nil),                // 4: Event
+	(*clientchannelpb.Event)(nil),              // 4: Event
 }
 var file_backchannel_broadcast_proto_depIdxs = []int32{
 	4, // 0: backchannel.BroadcastRequest.event:type_name -> Event

@@ -4,7 +4,7 @@
 // 	protoc        v3.21.5
 // source: clientchannel/get_stream.proto
 
-package clientchannel
+package clientchannelpb
 
 import (
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"

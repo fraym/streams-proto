@@ -4,7 +4,7 @@
 // 	protoc        v3.21.5
 // source: backchannel/handled.proto
 
-package backchannel
+package backchannelpb
 
 import (
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"

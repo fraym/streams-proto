@@ -1,3 +1,7 @@
+# v5.1.1
+
+- (bug) Fix generated code packages
+
 # v5.1.0
 
 - (feature) Move generated go code directly to this repository
