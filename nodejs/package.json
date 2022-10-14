@@ -1,6 +1,6 @@
 {
     "name": "@fraym/streams-proto",
-    "version": "0.0.0",
+    "version": "5.1.0",
     "license": "UNLICENSED",
     "homepage": "https://github.com/fraym-work/streams-proto",
     "repository": {
@@ -15,7 +15,7 @@
         "proto": "./proto.sh"
     },
     "files": [
-        "clientchannel/*"
+        "nodejs/clientchannel/*"
     ],
     "main": "clientchannel/service_grpc_pb.js",
     "types": "clientchannel/service_grpc_pb.d.ts",
