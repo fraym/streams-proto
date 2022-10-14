@@ -5,3 +5,8 @@ help: ## Show this help.
 .PHONY: proto
 proto: ## Generates the code from .proto files
 	./proto.sh
+	cd ./nodejs && npm install && npm run proto
+
+.PHONY: publish-nodejs
+publish-nodejs: ## Publishes the nodejs code to the npm registry
+	cd ./nodejs && npm run np:publish

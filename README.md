@@ -10,10 +10,18 @@ This repository contains all protocol buffers for the gRPC api of the streams se
 go get -u github.com/fraym-work/streams-proto/go/v5
 ```
 
+### Install nodejs package
+
+```bash
+npm i @fraym/streams-proto
+```
+
 ## Development
 
 1. change .proto files
 2. run `make proto`
+3. release go code by creating a new git release with a tag in the form of `go/v1.0.0` (the prefix `go/` is important)
+4. release nodejs code by executing `make publish-nodejs`
 
 ## Components
 
