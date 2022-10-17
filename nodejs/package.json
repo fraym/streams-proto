@@ -1,6 +1,6 @@
 {
     "name": "@fraym/streams-proto",
-    "version": "5.1.1-2",
+    "version": "5.1.1-3",
     "license": "UNLICENSED",
     "homepage": "https://github.com/fraym-work/streams-proto",
     "repository": {
@@ -17,6 +17,7 @@
         "proto": "./proto.sh"
     },
     "dependencies": {
+        "@grpc/grpc-js": "^1.7.2",
         "ts-proto": "^1.129.0"
     },
     "devDependencies": {
