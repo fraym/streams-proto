@@ -3,11 +3,12 @@ rm -rf ./src
 
 cd ..
 
-grpc_tools_node_protoc \
-	--plugin=protoc-gen-ts=./nodejs/node_modules/.bin/protoc-gen-ts \
-	--ts_out=grpc_js:./nodejs \
-	--js_out=import_style=commonjs,binary:./nodejs \
-	--grpc_out=grpc_js:./nodejs \
+protoc \
+	--plugin=./nodejs/node_modules/.bin/protoc-gen-ts_proto \
+	--ts_proto_out=./nodejs \
+	--ts_proto_opt=esModuleInterop=true \
+	--ts_proto_opt=env=node \
+	--ts_proto_opt=oneof=unions \
 	clientchannel/*.proto
 
 cd nodejs
