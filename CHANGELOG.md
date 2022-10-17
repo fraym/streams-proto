@@ -1,3 +1,8 @@
+# v5.2.0
+
+- (feature) Release as npm package
+- (feature) Release as go module
+
 # v5.1.1
 
 - (bug) Fix generated code packages
