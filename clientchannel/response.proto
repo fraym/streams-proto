@@ -50,6 +50,21 @@ message Response {
 		string reason = 4;
 	}
 
+	message IntroduceGdprOnFieldAck {
+		string tenant_id = 1;
+		string topic = 2;
+		string event_type = 3;
+		string field_name = 4;
+	}
+
+	message IntroduceGdprOnFieldNotAck {
+		string tenant_id = 1;
+		string topic = 2;
+		string event_type = 3;
+		string field_name = 4;
+		string reason = 5;
+	}
+
 	oneof data {
 		PublishEventEnvelope event = 1;
 
@@ -63,5 +78,7 @@ message Response {
 		SnapshotNotAck snapshot_not_ack = 9;
 		InvalidateGdprAck invalidate_gdpr_ack = 10;
 		InvalidateGdprNotAck invalidate_gdpr_not_ack = 11;
+		IntroduceGdprOnFieldAck introduce_gdpr_on_field_ack = 12;
+		IntroduceGdprOnFieldNotAck introduce_gdpr_on_field_not_ack = 13;
 	}
 }

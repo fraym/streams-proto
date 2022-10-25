@@ -29,6 +29,14 @@ message Request {
 		string topic = 2;
 		string gdpr_id = 3;
 	}
+	
+	message IntroduceGdprOnFieldAction {
+		string tenant_id = 1;
+		string topic = 2;
+		string event_type = 3;
+		string field_name = 4;
+		string default_value = 5;
+	}
 
 	message EventAck {
 		string tenant_id = 1;
@@ -48,9 +56,10 @@ message Request {
 		PublishAction publish = 2;
 		SubscribeAction subscribe = 3;
 		InvalidateGdprAction invalidate_gdpr = 5;
-		SnapshotAction snapshot = 6;
+		IntroduceGdprOnFieldAction introduce_gdpr_on_field = 6;
+		SnapshotAction snapshot = 7;
 		
-		EventAck event_ack = 7;
-		EventNotAck event_not_ack = 8;
+		EventAck event_ack = 8;
+		EventNotAck event_not_ack = 9;
 	}
 }

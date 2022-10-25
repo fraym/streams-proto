@@ -10,6 +10,7 @@ export interface Request {
     | { $case: "publish"; publish: Request_PublishAction }
     | { $case: "subscribe"; subscribe: Request_SubscribeAction }
     | { $case: "invalidateGdpr"; invalidateGdpr: Request_InvalidateGdprAction }
+    | { $case: "introduceGdprOnField"; introduceGdprOnField: Request_IntroduceGdprOnFieldAction }
     | { $case: "snapshot"; snapshot: Request_SnapshotAction }
     | { $case: "eventAck"; eventAck: Request_EventAck }
     | { $case: "eventNotAck"; eventNotAck: Request_EventNotAck };
@@ -40,6 +41,14 @@ export interface Request_InvalidateGdprAction {
   tenantId: string;
   topic: string;
   gdprId: string;
+}
+
+export interface Request_IntroduceGdprOnFieldAction {
+  tenantId: string;
+  topic: string;
+  eventType: string;
+  fieldName: string;
+  defaultValue: string;
 }
 
 export interface Request_EventAck {
@@ -73,14 +82,18 @@ export const Request = {
     if (message.payload?.$case === "invalidateGdpr") {
       Request_InvalidateGdprAction.encode(message.payload.invalidateGdpr, writer.uint32(42).fork()).ldelim();
     }
+    if (message.payload?.$case === "introduceGdprOnField") {
+      Request_IntroduceGdprOnFieldAction.encode(message.payload.introduceGdprOnField, writer.uint32(50).fork())
+        .ldelim();
+    }
     if (message.payload?.$case === "snapshot") {
-      Request_SnapshotAction.encode(message.payload.snapshot, writer.uint32(50).fork()).ldelim();
+      Request_SnapshotAction.encode(message.payload.snapshot, writer.uint32(58).fork()).ldelim();
     }
     if (message.payload?.$case === "eventAck") {
-      Request_EventAck.encode(message.payload.eventAck, writer.uint32(58).fork()).ldelim();
+      Request_EventAck.encode(message.payload.eventAck, writer.uint32(66).fork()).ldelim();
     }
     if (message.payload?.$case === "eventNotAck") {
-      Request_EventNotAck.encode(message.payload.eventNotAck, writer.uint32(66).fork()).ldelim();
+      Request_EventNotAck.encode(message.payload.eventNotAck, writer.uint32(74).fork()).ldelim();
     }
     return writer;
   },
@@ -108,12 +121,18 @@ export const Request = {
           };
           break;
         case 6:
-          message.payload = { $case: "snapshot", snapshot: Request_SnapshotAction.decode(reader, reader.uint32()) };
+          message.payload = {
+            $case: "introduceGdprOnField",
+            introduceGdprOnField: Request_IntroduceGdprOnFieldAction.decode(reader, reader.uint32()),
+          };
           break;
         case 7:
-          message.payload = { $case: "eventAck", eventAck: Request_EventAck.decode(reader, reader.uint32()) };
+          message.payload = { $case: "snapshot", snapshot: Request_SnapshotAction.decode(reader, reader.uint32()) };
           break;
         case 8:
+          message.payload = { $case: "eventAck", eventAck: Request_EventAck.decode(reader, reader.uint32()) };
+          break;
+        case 9:
           message.payload = { $case: "eventNotAck", eventNotAck: Request_EventNotAck.decode(reader, reader.uint32()) };
           break;
         default:
@@ -134,6 +153,11 @@ export const Request = {
         ? { $case: "subscribe", subscribe: Request_SubscribeAction.fromJSON(object.subscribe) }
         : isSet(object.invalidateGdpr)
         ? { $case: "invalidateGdpr", invalidateGdpr: Request_InvalidateGdprAction.fromJSON(object.invalidateGdpr) }
+        : isSet(object.introduceGdprOnField)
+        ? {
+          $case: "introduceGdprOnField",
+          introduceGdprOnField: Request_IntroduceGdprOnFieldAction.fromJSON(object.introduceGdprOnField),
+        }
         : isSet(object.snapshot)
         ? { $case: "snapshot", snapshot: Request_SnapshotAction.fromJSON(object.snapshot) }
         : isSet(object.eventAck)
@@ -156,6 +180,10 @@ export const Request = {
     message.payload?.$case === "invalidateGdpr" && (obj.invalidateGdpr = message.payload?.invalidateGdpr
       ? Request_InvalidateGdprAction.toJSON(message.payload?.invalidateGdpr)
       : undefined);
+    message.payload?.$case === "introduceGdprOnField" &&
+      (obj.introduceGdprOnField = message.payload?.introduceGdprOnField
+        ? Request_IntroduceGdprOnFieldAction.toJSON(message.payload?.introduceGdprOnField)
+        : undefined);
     message.payload?.$case === "snapshot" &&
       (obj.snapshot = message.payload?.snapshot ? Request_SnapshotAction.toJSON(message.payload?.snapshot) : undefined);
     message.payload?.$case === "eventAck" &&
@@ -194,6 +222,16 @@ export const Request = {
       message.payload = {
         $case: "invalidateGdpr",
         invalidateGdpr: Request_InvalidateGdprAction.fromPartial(object.payload.invalidateGdpr),
+      };
+    }
+    if (
+      object.payload?.$case === "introduceGdprOnField" &&
+      object.payload?.introduceGdprOnField !== undefined &&
+      object.payload?.introduceGdprOnField !== null
+    ) {
+      message.payload = {
+        $case: "introduceGdprOnField",
+        introduceGdprOnField: Request_IntroduceGdprOnFieldAction.fromPartial(object.payload.introduceGdprOnField),
       };
     }
     if (
@@ -540,6 +578,93 @@ export const Request_InvalidateGdprAction = {
     message.tenantId = object.tenantId ?? "";
     message.topic = object.topic ?? "";
     message.gdprId = object.gdprId ?? "";
+    return message;
+  },
+};
+
+function createBaseRequest_IntroduceGdprOnFieldAction(): Request_IntroduceGdprOnFieldAction {
+  return { tenantId: "", topic: "", eventType: "", fieldName: "", defaultValue: "" };
+}
+
+export const Request_IntroduceGdprOnFieldAction = {
+  encode(message: Request_IntroduceGdprOnFieldAction, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+    if (message.tenantId !== "") {
+      writer.uint32(10).string(message.tenantId);
+    }
+    if (message.topic !== "") {
+      writer.uint32(18).string(message.topic);
+    }
+    if (message.eventType !== "") {
+      writer.uint32(26).string(message.eventType);
+    }
+    if (message.fieldName !== "") {
+      writer.uint32(34).string(message.fieldName);
+    }
+    if (message.defaultValue !== "") {
+      writer.uint32(42).string(message.defaultValue);
+    }
+    return writer;
+  },
+
+  decode(input: _m0.Reader | Uint8Array, length?: number): Request_IntroduceGdprOnFieldAction {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseRequest_IntroduceGdprOnFieldAction();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.tenantId = reader.string();
+          break;
+        case 2:
+          message.topic = reader.string();
+          break;
+        case 3:
+          message.eventType = reader.string();
+          break;
+        case 4:
+          message.fieldName = reader.string();
+          break;
+        case 5:
+          message.defaultValue = reader.string();
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(object: any): Request_IntroduceGdprOnFieldAction {
+    return {
+      tenantId: isSet(object.tenantId) ? String(object.tenantId) : "",
+      topic: isSet(object.topic) ? String(object.topic) : "",
+      eventType: isSet(object.eventType) ? String(object.eventType) : "",
+      fieldName: isSet(object.fieldName) ? String(object.fieldName) : "",
+      defaultValue: isSet(object.defaultValue) ? String(object.defaultValue) : "",
+    };
+  },
+
+  toJSON(message: Request_IntroduceGdprOnFieldAction): unknown {
+    const obj: any = {};
+    message.tenantId !== undefined && (obj.tenantId = message.tenantId);
+    message.topic !== undefined && (obj.topic = message.topic);
+    message.eventType !== undefined && (obj.eventType = message.eventType);
+    message.fieldName !== undefined && (obj.fieldName = message.fieldName);
+    message.defaultValue !== undefined && (obj.defaultValue = message.defaultValue);
+    return obj;
+  },
+
+  fromPartial<I extends Exact<DeepPartial<Request_IntroduceGdprOnFieldAction>, I>>(
+    object: I,
+  ): Request_IntroduceGdprOnFieldAction {
+    const message = createBaseRequest_IntroduceGdprOnFieldAction();
+    message.tenantId = object.tenantId ?? "";
+    message.topic = object.topic ?? "";
+    message.eventType = object.eventType ?? "";
+    message.fieldName = object.fieldName ?? "";
+    message.defaultValue = object.defaultValue ?? "";
     return message;
   },
 };

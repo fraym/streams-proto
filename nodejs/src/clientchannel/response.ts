@@ -16,7 +16,9 @@ export interface Response {
     | { $case: "snapshotAck"; snapshotAck: Response_SnapshotAck }
     | { $case: "snapshotNotAck"; snapshotNotAck: Response_SnapshotNotAck }
     | { $case: "invalidateGdprAck"; invalidateGdprAck: Response_InvalidateGdprAck }
-    | { $case: "invalidateGdprNotAck"; invalidateGdprNotAck: Response_InvalidateGdprNotAck };
+    | { $case: "invalidateGdprNotAck"; invalidateGdprNotAck: Response_InvalidateGdprNotAck }
+    | { $case: "introduceGdprOnFieldAck"; introduceGdprOnFieldAck: Response_IntroduceGdprOnFieldAck }
+    | { $case: "introduceGdprOnFieldNotAck"; introduceGdprOnFieldNotAck: Response_IntroduceGdprOnFieldNotAck };
 }
 
 export interface Response_InitAck {
@@ -67,6 +69,21 @@ export interface Response_InvalidateGdprNotAck {
   reason: string;
 }
 
+export interface Response_IntroduceGdprOnFieldAck {
+  tenantId: string;
+  topic: string;
+  eventType: string;
+  fieldName: string;
+}
+
+export interface Response_IntroduceGdprOnFieldNotAck {
+  tenantId: string;
+  topic: string;
+  eventType: string;
+  fieldName: string;
+  reason: string;
+}
+
 function createBaseResponse(): Response {
   return { data: undefined };
 }
@@ -105,6 +122,13 @@ export const Response = {
     }
     if (message.data?.$case === "invalidateGdprNotAck") {
       Response_InvalidateGdprNotAck.encode(message.data.invalidateGdprNotAck, writer.uint32(90).fork()).ldelim();
+    }
+    if (message.data?.$case === "introduceGdprOnFieldAck") {
+      Response_IntroduceGdprOnFieldAck.encode(message.data.introduceGdprOnFieldAck, writer.uint32(98).fork()).ldelim();
+    }
+    if (message.data?.$case === "introduceGdprOnFieldNotAck") {
+      Response_IntroduceGdprOnFieldNotAck.encode(message.data.introduceGdprOnFieldNotAck, writer.uint32(106).fork())
+        .ldelim();
     }
     return writer;
   },
@@ -164,6 +188,18 @@ export const Response = {
             invalidateGdprNotAck: Response_InvalidateGdprNotAck.decode(reader, reader.uint32()),
           };
           break;
+        case 12:
+          message.data = {
+            $case: "introduceGdprOnFieldAck",
+            introduceGdprOnFieldAck: Response_IntroduceGdprOnFieldAck.decode(reader, reader.uint32()),
+          };
+          break;
+        case 13:
+          message.data = {
+            $case: "introduceGdprOnFieldNotAck",
+            introduceGdprOnFieldNotAck: Response_IntroduceGdprOnFieldNotAck.decode(reader, reader.uint32()),
+          };
+          break;
         default:
           reader.skipType(tag & 7);
           break;
@@ -202,6 +238,16 @@ export const Response = {
           $case: "invalidateGdprNotAck",
           invalidateGdprNotAck: Response_InvalidateGdprNotAck.fromJSON(object.invalidateGdprNotAck),
         }
+        : isSet(object.introduceGdprOnFieldAck)
+        ? {
+          $case: "introduceGdprOnFieldAck",
+          introduceGdprOnFieldAck: Response_IntroduceGdprOnFieldAck.fromJSON(object.introduceGdprOnFieldAck),
+        }
+        : isSet(object.introduceGdprOnFieldNotAck)
+        ? {
+          $case: "introduceGdprOnFieldNotAck",
+          introduceGdprOnFieldNotAck: Response_IntroduceGdprOnFieldNotAck.fromJSON(object.introduceGdprOnFieldNotAck),
+        }
         : undefined,
     };
   },
@@ -238,6 +284,14 @@ export const Response = {
     message.data?.$case === "invalidateGdprNotAck" && (obj.invalidateGdprNotAck = message.data?.invalidateGdprNotAck
       ? Response_InvalidateGdprNotAck.toJSON(message.data?.invalidateGdprNotAck)
       : undefined);
+    message.data?.$case === "introduceGdprOnFieldAck" &&
+      (obj.introduceGdprOnFieldAck = message.data?.introduceGdprOnFieldAck
+        ? Response_IntroduceGdprOnFieldAck.toJSON(message.data?.introduceGdprOnFieldAck)
+        : undefined);
+    message.data?.$case === "introduceGdprOnFieldNotAck" &&
+      (obj.introduceGdprOnFieldNotAck = message.data?.introduceGdprOnFieldNotAck
+        ? Response_IntroduceGdprOnFieldNotAck.toJSON(message.data?.introduceGdprOnFieldNotAck)
+        : undefined);
     return obj;
   },
 
@@ -324,6 +378,28 @@ export const Response = {
       message.data = {
         $case: "invalidateGdprNotAck",
         invalidateGdprNotAck: Response_InvalidateGdprNotAck.fromPartial(object.data.invalidateGdprNotAck),
+      };
+    }
+    if (
+      object.data?.$case === "introduceGdprOnFieldAck" &&
+      object.data?.introduceGdprOnFieldAck !== undefined &&
+      object.data?.introduceGdprOnFieldAck !== null
+    ) {
+      message.data = {
+        $case: "introduceGdprOnFieldAck",
+        introduceGdprOnFieldAck: Response_IntroduceGdprOnFieldAck.fromPartial(object.data.introduceGdprOnFieldAck),
+      };
+    }
+    if (
+      object.data?.$case === "introduceGdprOnFieldNotAck" &&
+      object.data?.introduceGdprOnFieldNotAck !== undefined &&
+      object.data?.introduceGdprOnFieldNotAck !== null
+    ) {
+      message.data = {
+        $case: "introduceGdprOnFieldNotAck",
+        introduceGdprOnFieldNotAck: Response_IntroduceGdprOnFieldNotAck.fromPartial(
+          object.data.introduceGdprOnFieldNotAck,
+        ),
       };
     }
     return message;
@@ -881,6 +957,171 @@ export const Response_InvalidateGdprNotAck = {
     message.tenantId = object.tenantId ?? "";
     message.topic = object.topic ?? "";
     message.gdprId = object.gdprId ?? "";
+    message.reason = object.reason ?? "";
+    return message;
+  },
+};
+
+function createBaseResponse_IntroduceGdprOnFieldAck(): Response_IntroduceGdprOnFieldAck {
+  return { tenantId: "", topic: "", eventType: "", fieldName: "" };
+}
+
+export const Response_IntroduceGdprOnFieldAck = {
+  encode(message: Response_IntroduceGdprOnFieldAck, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+    if (message.tenantId !== "") {
+      writer.uint32(10).string(message.tenantId);
+    }
+    if (message.topic !== "") {
+      writer.uint32(18).string(message.topic);
+    }
+    if (message.eventType !== "") {
+      writer.uint32(26).string(message.eventType);
+    }
+    if (message.fieldName !== "") {
+      writer.uint32(34).string(message.fieldName);
+    }
+    return writer;
+  },
+
+  decode(input: _m0.Reader | Uint8Array, length?: number): Response_IntroduceGdprOnFieldAck {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseResponse_IntroduceGdprOnFieldAck();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.tenantId = reader.string();
+          break;
+        case 2:
+          message.topic = reader.string();
+          break;
+        case 3:
+          message.eventType = reader.string();
+          break;
+        case 4:
+          message.fieldName = reader.string();
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(object: any): Response_IntroduceGdprOnFieldAck {
+    return {
+      tenantId: isSet(object.tenantId) ? String(object.tenantId) : "",
+      topic: isSet(object.topic) ? String(object.topic) : "",
+      eventType: isSet(object.eventType) ? String(object.eventType) : "",
+      fieldName: isSet(object.fieldName) ? String(object.fieldName) : "",
+    };
+  },
+
+  toJSON(message: Response_IntroduceGdprOnFieldAck): unknown {
+    const obj: any = {};
+    message.tenantId !== undefined && (obj.tenantId = message.tenantId);
+    message.topic !== undefined && (obj.topic = message.topic);
+    message.eventType !== undefined && (obj.eventType = message.eventType);
+    message.fieldName !== undefined && (obj.fieldName = message.fieldName);
+    return obj;
+  },
+
+  fromPartial<I extends Exact<DeepPartial<Response_IntroduceGdprOnFieldAck>, I>>(
+    object: I,
+  ): Response_IntroduceGdprOnFieldAck {
+    const message = createBaseResponse_IntroduceGdprOnFieldAck();
+    message.tenantId = object.tenantId ?? "";
+    message.topic = object.topic ?? "";
+    message.eventType = object.eventType ?? "";
+    message.fieldName = object.fieldName ?? "";
+    return message;
+  },
+};
+
+function createBaseResponse_IntroduceGdprOnFieldNotAck(): Response_IntroduceGdprOnFieldNotAck {
+  return { tenantId: "", topic: "", eventType: "", fieldName: "", reason: "" };
+}
+
+export const Response_IntroduceGdprOnFieldNotAck = {
+  encode(message: Response_IntroduceGdprOnFieldNotAck, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+    if (message.tenantId !== "") {
+      writer.uint32(10).string(message.tenantId);
+    }
+    if (message.topic !== "") {
+      writer.uint32(18).string(message.topic);
+    }
+    if (message.eventType !== "") {
+      writer.uint32(26).string(message.eventType);
+    }
+    if (message.fieldName !== "") {
+      writer.uint32(34).string(message.fieldName);
+    }
+    if (message.reason !== "") {
+      writer.uint32(42).string(message.reason);
+    }
+    return writer;
+  },
+
+  decode(input: _m0.Reader | Uint8Array, length?: number): Response_IntroduceGdprOnFieldNotAck {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseResponse_IntroduceGdprOnFieldNotAck();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.tenantId = reader.string();
+          break;
+        case 2:
+          message.topic = reader.string();
+          break;
+        case 3:
+          message.eventType = reader.string();
+          break;
+        case 4:
+          message.fieldName = reader.string();
+          break;
+        case 5:
+          message.reason = reader.string();
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(object: any): Response_IntroduceGdprOnFieldNotAck {
+    return {
+      tenantId: isSet(object.tenantId) ? String(object.tenantId) : "",
+      topic: isSet(object.topic) ? String(object.topic) : "",
+      eventType: isSet(object.eventType) ? String(object.eventType) : "",
+      fieldName: isSet(object.fieldName) ? String(object.fieldName) : "",
+      reason: isSet(object.reason) ? String(object.reason) : "",
+    };
+  },
+
+  toJSON(message: Response_IntroduceGdprOnFieldNotAck): unknown {
+    const obj: any = {};
+    message.tenantId !== undefined && (obj.tenantId = message.tenantId);
+    message.topic !== undefined && (obj.topic = message.topic);
+    message.eventType !== undefined && (obj.eventType = message.eventType);
+    message.fieldName !== undefined && (obj.fieldName = message.fieldName);
+    message.reason !== undefined && (obj.reason = message.reason);
+    return obj;
+  },
+
+  fromPartial<I extends Exact<DeepPartial<Response_IntroduceGdprOnFieldNotAck>, I>>(
+    object: I,
+  ): Response_IntroduceGdprOnFieldNotAck {
+    const message = createBaseResponse_IntroduceGdprOnFieldNotAck();
+    message.tenantId = object.tenantId ?? "";
+    message.topic = object.topic ?? "";
+    message.eventType = object.eventType ?? "";
+    message.fieldName = object.fieldName ?? "";
     message.reason = object.reason ?? "";
     return message;
   },
