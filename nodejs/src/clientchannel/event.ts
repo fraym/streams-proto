@@ -32,12 +32,13 @@ export interface Event_PayloadEntry {
 }
 
 export interface Data {
-  metadata?: { $case: "gdpr"; gdpr: Data_GdprMetadata };
   value: string;
+  metadata?: { $case: "gdpr"; gdpr: Data_GdprMetadata };
 }
 
 export interface Data_GdprMetadata {
   default: string;
+  id: string;
 }
 
 function createBasePublishEventEnvelope(): PublishEventEnvelope {
@@ -363,16 +364,16 @@ export const Event_PayloadEntry = {
 };
 
 function createBaseData(): Data {
-  return { metadata: undefined, value: "" };
+  return { value: "", metadata: undefined };
 }
 
 export const Data = {
   encode(message: Data, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
-    if (message.metadata?.$case === "gdpr") {
-      Data_GdprMetadata.encode(message.metadata.gdpr, writer.uint32(34).fork()).ldelim();
-    }
     if (message.value !== "") {
       writer.uint32(10).string(message.value);
+    }
+    if (message.metadata?.$case === "gdpr") {
+      Data_GdprMetadata.encode(message.metadata.gdpr, writer.uint32(18).fork()).ldelim();
     }
     return writer;
   },
@@ -384,11 +385,11 @@ export const Data = {
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
-        case 4:
-          message.metadata = { $case: "gdpr", gdpr: Data_GdprMetadata.decode(reader, reader.uint32()) };
-          break;
         case 1:
           message.value = reader.string();
+          break;
+        case 2:
+          message.metadata = { $case: "gdpr", gdpr: Data_GdprMetadata.decode(reader, reader.uint32()) };
           break;
         default:
           reader.skipType(tag & 7);
@@ -400,37 +401,40 @@ export const Data = {
 
   fromJSON(object: any): Data {
     return {
-      metadata: isSet(object.gdpr) ? { $case: "gdpr", gdpr: Data_GdprMetadata.fromJSON(object.gdpr) } : undefined,
       value: isSet(object.value) ? String(object.value) : "",
+      metadata: isSet(object.gdpr) ? { $case: "gdpr", gdpr: Data_GdprMetadata.fromJSON(object.gdpr) } : undefined,
     };
   },
 
   toJSON(message: Data): unknown {
     const obj: any = {};
+    message.value !== undefined && (obj.value = message.value);
     message.metadata?.$case === "gdpr" &&
       (obj.gdpr = message.metadata?.gdpr ? Data_GdprMetadata.toJSON(message.metadata?.gdpr) : undefined);
-    message.value !== undefined && (obj.value = message.value);
     return obj;
   },
 
   fromPartial<I extends Exact<DeepPartial<Data>, I>>(object: I): Data {
     const message = createBaseData();
+    message.value = object.value ?? "";
     if (object.metadata?.$case === "gdpr" && object.metadata?.gdpr !== undefined && object.metadata?.gdpr !== null) {
       message.metadata = { $case: "gdpr", gdpr: Data_GdprMetadata.fromPartial(object.metadata.gdpr) };
     }
-    message.value = object.value ?? "";
     return message;
   },
 };
 
 function createBaseData_GdprMetadata(): Data_GdprMetadata {
-  return { default: "" };
+  return { default: "", id: "" };
 }
 
 export const Data_GdprMetadata = {
   encode(message: Data_GdprMetadata, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.default !== "") {
-      writer.uint32(26).string(message.default);
+      writer.uint32(10).string(message.default);
+    }
+    if (message.id !== "") {
+      writer.uint32(18).string(message.id);
     }
     return writer;
   },
@@ -442,8 +446,11 @@ export const Data_GdprMetadata = {
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
-        case 3:
+        case 1:
           message.default = reader.string();
+          break;
+        case 2:
+          message.id = reader.string();
           break;
         default:
           reader.skipType(tag & 7);
@@ -454,18 +461,23 @@ export const Data_GdprMetadata = {
   },
 
   fromJSON(object: any): Data_GdprMetadata {
-    return { default: isSet(object.default) ? String(object.default) : "" };
+    return {
+      default: isSet(object.default) ? String(object.default) : "",
+      id: isSet(object.id) ? String(object.id) : "",
+    };
   },
 
   toJSON(message: Data_GdprMetadata): unknown {
     const obj: any = {};
     message.default !== undefined && (obj.default = message.default);
+    message.id !== undefined && (obj.id = message.id);
     return obj;
   },
 
   fromPartial<I extends Exact<DeepPartial<Data_GdprMetadata>, I>>(object: I): Data_GdprMetadata {
     const message = createBaseData_GdprMetadata();
     message.default = object.default ?? "";
+    message.id = object.id ?? "";
     return message;
   },
 };

@@ -14,13 +14,13 @@
         "noUnusedLocals": true,
         "noUnusedParameters": true,
         "outDir": "./dist",
-        "baseUrl": "clientchannel",
-        "rootDir": "clientchannel",
+        "baseUrl": "src",
+        "rootDir": "src",
         "strict": true,
         "esModuleInterop": true,
         "moduleResolution": "node",
         "lib": ["es2017"]
     },
-    "include": ["clientchannel/**/*"],
+    "include": ["src/**/*"],
     "exclude": ["node_modules", "dist"]
 }

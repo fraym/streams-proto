@@ -1,3 +1,9 @@
+# v5.3.0
+
+- (internal) Improve export structure for nodejs
+- (feature) Send gdpr id along with published events
+- (internal) Improve export structure
+
 # v5.2.0
 
 - (feature) Release as npm package

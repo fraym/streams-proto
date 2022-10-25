@@ -25,12 +25,12 @@ message Event {
 
 message Data {
 	message GdprMetadata {
-		string default = 3;
-	}
-
-	oneof metadata {
-		GdprMetadata gdpr = 4;
+		string default = 1;
+		string id = 2;
 	}
 
 	string value = 1;
+	oneof metadata {
+		GdprMetadata gdpr = 2;
+	}
 }

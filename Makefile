@@ -7,6 +7,10 @@ proto: ## Generates the code from .proto files
 	./proto.sh
 	cd ./nodejs && npm install && npm run proto
 
+.PHONY: build
+build: ## Builds the nodejs code
+	cd ./nodejs && npm install && npm run build
+
 .PHONY: publish-nodejs
 publish-nodejs: ## Publishes the nodejs code to the npm registry
 	cd ./nodejs && npm run np:publish
