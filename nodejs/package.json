@@ -19,8 +19,8 @@
     "files": [
         "dist/**/*"
     ],
-    "main": "dist/service.js",
-    "types": "dist/service.d.ts",
+    "main": "dist/index.js",
+    "types": "dist/index.d.ts",
     "dependencies": {
         "@grpc/grpc-js": "^1.7.2",
         "ts-proto": "^1.129.0"

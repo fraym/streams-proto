@@ -1,3 +1,7 @@
+# v5.3.1
+
+- (bug) Fix nodejs release
+
 # v5.3.0
 
 - (internal) Improve export structure for nodejs
