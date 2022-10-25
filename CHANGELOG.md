@@ -1,3 +1,7 @@
+# v5.4.0-alpha.1
+
+- (feature) Adds actions for GDPR data migration
+
 # v5.3.1
 
 - (bug) Fix nodejs release
