@@ -1,3 +1,7 @@
+# v6.0.0-alpha.2
+
+- (bug) Remove `tenant_id` from gdpr introduction messages
+
 # v6.0.0-alpha.1
 
 - (bc) Restructured ack handling for `PublishEventEnvelope` message to client

@@ -63,33 +63,29 @@ message Response {
 	}
 
 	message IntroduceGdprOnFieldStarted {
-		string tenant_id = 1;
-		string topic = 2;
-		string event_type = 3;
-		string field_name = 4;
+		string topic = 1;
+		string event_type = 2;
+		string field_name = 3;
 	}
 
 	message IntroduceGdprOnFieldNotStarted {
-		string tenant_id = 1;
-		string topic = 2;
-		string event_type = 3;
-		string field_name = 4;
-		string reason = 5;
+		string topic = 1;
+		string event_type = 2;
+		string field_name = 3;
+		string reason = 4;
 	}
 
 	message IntroduceGdprOnFieldFinished {
-		string tenant_id = 1;
-		string topic = 2;
-		string event_type = 3;
-		string field_name = 4;
+		string topic = 1;
+		string event_type = 2;
+		string field_name = 3;
 	}
 
 	message IntroduceGdprOnFieldNotFinished {
-		string tenant_id = 1;
-		string topic = 2;
-		string event_type = 3;
-		string field_name = 4;
-		string reason = 5;
+		string topic = 1;
+		string event_type = 2;
+		string field_name = 3;
+		string reason = 4;
 	}
 
 	oneof data {

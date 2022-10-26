@@ -46,7 +46,6 @@ export interface Request_InvalidateGdprAction {
 }
 
 export interface Request_IntroduceGdprOnFieldAction {
-  tenantId: string;
   topic: string;
   eventType: string;
   fieldName: string;
@@ -656,25 +655,22 @@ export const Request_InvalidateGdprAction = {
 };
 
 function createBaseRequest_IntroduceGdprOnFieldAction(): Request_IntroduceGdprOnFieldAction {
-  return { tenantId: "", topic: "", eventType: "", fieldName: "", defaultValue: "" };
+  return { topic: "", eventType: "", fieldName: "", defaultValue: "" };
 }
 
 export const Request_IntroduceGdprOnFieldAction = {
   encode(message: Request_IntroduceGdprOnFieldAction, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
-    if (message.tenantId !== "") {
-      writer.uint32(10).string(message.tenantId);
-    }
     if (message.topic !== "") {
-      writer.uint32(18).string(message.topic);
+      writer.uint32(10).string(message.topic);
     }
     if (message.eventType !== "") {
-      writer.uint32(26).string(message.eventType);
+      writer.uint32(18).string(message.eventType);
     }
     if (message.fieldName !== "") {
-      writer.uint32(34).string(message.fieldName);
+      writer.uint32(26).string(message.fieldName);
     }
     if (message.defaultValue !== "") {
-      writer.uint32(42).string(message.defaultValue);
+      writer.uint32(34).string(message.defaultValue);
     }
     return writer;
   },
@@ -687,18 +683,15 @@ export const Request_IntroduceGdprOnFieldAction = {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1:
-          message.tenantId = reader.string();
-          break;
-        case 2:
           message.topic = reader.string();
           break;
-        case 3:
+        case 2:
           message.eventType = reader.string();
           break;
-        case 4:
+        case 3:
           message.fieldName = reader.string();
           break;
-        case 5:
+        case 4:
           message.defaultValue = reader.string();
           break;
         default:
@@ -711,7 +704,6 @@ export const Request_IntroduceGdprOnFieldAction = {
 
   fromJSON(object: any): Request_IntroduceGdprOnFieldAction {
     return {
-      tenantId: isSet(object.tenantId) ? String(object.tenantId) : "",
       topic: isSet(object.topic) ? String(object.topic) : "",
       eventType: isSet(object.eventType) ? String(object.eventType) : "",
       fieldName: isSet(object.fieldName) ? String(object.fieldName) : "",
@@ -721,7 +713,6 @@ export const Request_IntroduceGdprOnFieldAction = {
 
   toJSON(message: Request_IntroduceGdprOnFieldAction): unknown {
     const obj: any = {};
-    message.tenantId !== undefined && (obj.tenantId = message.tenantId);
     message.topic !== undefined && (obj.topic = message.topic);
     message.eventType !== undefined && (obj.eventType = message.eventType);
     message.fieldName !== undefined && (obj.fieldName = message.fieldName);
@@ -733,7 +724,6 @@ export const Request_IntroduceGdprOnFieldAction = {
     object: I,
   ): Request_IntroduceGdprOnFieldAction {
     const message = createBaseRequest_IntroduceGdprOnFieldAction();
-    message.tenantId = object.tenantId ?? "";
     message.topic = object.topic ?? "";
     message.eventType = object.eventType ?? "";
     message.fieldName = object.fieldName ?? "";
