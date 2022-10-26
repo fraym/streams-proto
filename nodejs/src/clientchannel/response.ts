@@ -93,28 +93,18 @@ export interface Response_InvalidateGdprNotAck {
 
 export interface Response_IntroduceGdprOnFieldStarted {
   topic: string;
-  eventType: string;
-  fieldName: string;
 }
 
 export interface Response_IntroduceGdprOnFieldNotStarted {
   topic: string;
-  eventType: string;
-  fieldName: string;
-  reason: string;
 }
 
 export interface Response_IntroduceGdprOnFieldFinished {
   topic: string;
-  eventType: string;
-  fieldName: string;
 }
 
 export interface Response_IntroduceGdprOnFieldNotFinished {
   topic: string;
-  eventType: string;
-  fieldName: string;
-  reason: string;
 }
 
 function createBaseResponse(): Response {
@@ -1266,19 +1256,13 @@ export const Response_InvalidateGdprNotAck = {
 };
 
 function createBaseResponse_IntroduceGdprOnFieldStarted(): Response_IntroduceGdprOnFieldStarted {
-  return { topic: "", eventType: "", fieldName: "" };
+  return { topic: "" };
 }
 
 export const Response_IntroduceGdprOnFieldStarted = {
   encode(message: Response_IntroduceGdprOnFieldStarted, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.topic !== "") {
       writer.uint32(10).string(message.topic);
-    }
-    if (message.eventType !== "") {
-      writer.uint32(18).string(message.eventType);
-    }
-    if (message.fieldName !== "") {
-      writer.uint32(26).string(message.fieldName);
     }
     return writer;
   },
@@ -1293,12 +1277,6 @@ export const Response_IntroduceGdprOnFieldStarted = {
         case 1:
           message.topic = reader.string();
           break;
-        case 2:
-          message.eventType = reader.string();
-          break;
-        case 3:
-          message.fieldName = reader.string();
-          break;
         default:
           reader.skipType(tag & 7);
           break;
@@ -1308,18 +1286,12 @@ export const Response_IntroduceGdprOnFieldStarted = {
   },
 
   fromJSON(object: any): Response_IntroduceGdprOnFieldStarted {
-    return {
-      topic: isSet(object.topic) ? String(object.topic) : "",
-      eventType: isSet(object.eventType) ? String(object.eventType) : "",
-      fieldName: isSet(object.fieldName) ? String(object.fieldName) : "",
-    };
+    return { topic: isSet(object.topic) ? String(object.topic) : "" };
   },
 
   toJSON(message: Response_IntroduceGdprOnFieldStarted): unknown {
     const obj: any = {};
     message.topic !== undefined && (obj.topic = message.topic);
-    message.eventType !== undefined && (obj.eventType = message.eventType);
-    message.fieldName !== undefined && (obj.fieldName = message.fieldName);
     return obj;
   },
 
@@ -1328,29 +1300,18 @@ export const Response_IntroduceGdprOnFieldStarted = {
   ): Response_IntroduceGdprOnFieldStarted {
     const message = createBaseResponse_IntroduceGdprOnFieldStarted();
     message.topic = object.topic ?? "";
-    message.eventType = object.eventType ?? "";
-    message.fieldName = object.fieldName ?? "";
     return message;
   },
 };
 
 function createBaseResponse_IntroduceGdprOnFieldNotStarted(): Response_IntroduceGdprOnFieldNotStarted {
-  return { topic: "", eventType: "", fieldName: "", reason: "" };
+  return { topic: "" };
 }
 
 export const Response_IntroduceGdprOnFieldNotStarted = {
   encode(message: Response_IntroduceGdprOnFieldNotStarted, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.topic !== "") {
       writer.uint32(10).string(message.topic);
-    }
-    if (message.eventType !== "") {
-      writer.uint32(18).string(message.eventType);
-    }
-    if (message.fieldName !== "") {
-      writer.uint32(26).string(message.fieldName);
-    }
-    if (message.reason !== "") {
-      writer.uint32(34).string(message.reason);
     }
     return writer;
   },
@@ -1365,15 +1326,6 @@ export const Response_IntroduceGdprOnFieldNotStarted = {
         case 1:
           message.topic = reader.string();
           break;
-        case 2:
-          message.eventType = reader.string();
-          break;
-        case 3:
-          message.fieldName = reader.string();
-          break;
-        case 4:
-          message.reason = reader.string();
-          break;
         default:
           reader.skipType(tag & 7);
           break;
@@ -1383,20 +1335,12 @@ export const Response_IntroduceGdprOnFieldNotStarted = {
   },
 
   fromJSON(object: any): Response_IntroduceGdprOnFieldNotStarted {
-    return {
-      topic: isSet(object.topic) ? String(object.topic) : "",
-      eventType: isSet(object.eventType) ? String(object.eventType) : "",
-      fieldName: isSet(object.fieldName) ? String(object.fieldName) : "",
-      reason: isSet(object.reason) ? String(object.reason) : "",
-    };
+    return { topic: isSet(object.topic) ? String(object.topic) : "" };
   },
 
   toJSON(message: Response_IntroduceGdprOnFieldNotStarted): unknown {
     const obj: any = {};
     message.topic !== undefined && (obj.topic = message.topic);
-    message.eventType !== undefined && (obj.eventType = message.eventType);
-    message.fieldName !== undefined && (obj.fieldName = message.fieldName);
-    message.reason !== undefined && (obj.reason = message.reason);
     return obj;
   },
 
@@ -1405,27 +1349,18 @@ export const Response_IntroduceGdprOnFieldNotStarted = {
   ): Response_IntroduceGdprOnFieldNotStarted {
     const message = createBaseResponse_IntroduceGdprOnFieldNotStarted();
     message.topic = object.topic ?? "";
-    message.eventType = object.eventType ?? "";
-    message.fieldName = object.fieldName ?? "";
-    message.reason = object.reason ?? "";
     return message;
   },
 };
 
 function createBaseResponse_IntroduceGdprOnFieldFinished(): Response_IntroduceGdprOnFieldFinished {
-  return { topic: "", eventType: "", fieldName: "" };
+  return { topic: "" };
 }
 
 export const Response_IntroduceGdprOnFieldFinished = {
   encode(message: Response_IntroduceGdprOnFieldFinished, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.topic !== "") {
       writer.uint32(10).string(message.topic);
-    }
-    if (message.eventType !== "") {
-      writer.uint32(18).string(message.eventType);
-    }
-    if (message.fieldName !== "") {
-      writer.uint32(26).string(message.fieldName);
     }
     return writer;
   },
@@ -1440,12 +1375,6 @@ export const Response_IntroduceGdprOnFieldFinished = {
         case 1:
           message.topic = reader.string();
           break;
-        case 2:
-          message.eventType = reader.string();
-          break;
-        case 3:
-          message.fieldName = reader.string();
-          break;
         default:
           reader.skipType(tag & 7);
           break;
@@ -1455,18 +1384,12 @@ export const Response_IntroduceGdprOnFieldFinished = {
   },
 
   fromJSON(object: any): Response_IntroduceGdprOnFieldFinished {
-    return {
-      topic: isSet(object.topic) ? String(object.topic) : "",
-      eventType: isSet(object.eventType) ? String(object.eventType) : "",
-      fieldName: isSet(object.fieldName) ? String(object.fieldName) : "",
-    };
+    return { topic: isSet(object.topic) ? String(object.topic) : "" };
   },
 
   toJSON(message: Response_IntroduceGdprOnFieldFinished): unknown {
     const obj: any = {};
     message.topic !== undefined && (obj.topic = message.topic);
-    message.eventType !== undefined && (obj.eventType = message.eventType);
-    message.fieldName !== undefined && (obj.fieldName = message.fieldName);
     return obj;
   },
 
@@ -1475,29 +1398,18 @@ export const Response_IntroduceGdprOnFieldFinished = {
   ): Response_IntroduceGdprOnFieldFinished {
     const message = createBaseResponse_IntroduceGdprOnFieldFinished();
     message.topic = object.topic ?? "";
-    message.eventType = object.eventType ?? "";
-    message.fieldName = object.fieldName ?? "";
     return message;
   },
 };
 
 function createBaseResponse_IntroduceGdprOnFieldNotFinished(): Response_IntroduceGdprOnFieldNotFinished {
-  return { topic: "", eventType: "", fieldName: "", reason: "" };
+  return { topic: "" };
 }
 
 export const Response_IntroduceGdprOnFieldNotFinished = {
   encode(message: Response_IntroduceGdprOnFieldNotFinished, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.topic !== "") {
       writer.uint32(10).string(message.topic);
-    }
-    if (message.eventType !== "") {
-      writer.uint32(18).string(message.eventType);
-    }
-    if (message.fieldName !== "") {
-      writer.uint32(26).string(message.fieldName);
-    }
-    if (message.reason !== "") {
-      writer.uint32(34).string(message.reason);
     }
     return writer;
   },
@@ -1512,15 +1424,6 @@ export const Response_IntroduceGdprOnFieldNotFinished = {
         case 1:
           message.topic = reader.string();
           break;
-        case 2:
-          message.eventType = reader.string();
-          break;
-        case 3:
-          message.fieldName = reader.string();
-          break;
-        case 4:
-          message.reason = reader.string();
-          break;
         default:
           reader.skipType(tag & 7);
           break;
@@ -1530,20 +1433,12 @@ export const Response_IntroduceGdprOnFieldNotFinished = {
   },
 
   fromJSON(object: any): Response_IntroduceGdprOnFieldNotFinished {
-    return {
-      topic: isSet(object.topic) ? String(object.topic) : "",
-      eventType: isSet(object.eventType) ? String(object.eventType) : "",
-      fieldName: isSet(object.fieldName) ? String(object.fieldName) : "",
-      reason: isSet(object.reason) ? String(object.reason) : "",
-    };
+    return { topic: isSet(object.topic) ? String(object.topic) : "" };
   },
 
   toJSON(message: Response_IntroduceGdprOnFieldNotFinished): unknown {
     const obj: any = {};
     message.topic !== undefined && (obj.topic = message.topic);
-    message.eventType !== undefined && (obj.eventType = message.eventType);
-    message.fieldName !== undefined && (obj.fieldName = message.fieldName);
-    message.reason !== undefined && (obj.reason = message.reason);
     return obj;
   },
 
@@ -1552,9 +1447,6 @@ export const Response_IntroduceGdprOnFieldNotFinished = {
   ): Response_IntroduceGdprOnFieldNotFinished {
     const message = createBaseResponse_IntroduceGdprOnFieldNotFinished();
     message.topic = object.topic ?? "";
-    message.eventType = object.eventType ?? "";
-    message.fieldName = object.fieldName ?? "";
-    message.reason = object.reason ?? "";
     return message;
   },
 };

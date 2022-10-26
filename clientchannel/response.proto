@@ -64,28 +64,18 @@ message Response {
 
 	message IntroduceGdprOnFieldStarted {
 		string topic = 1;
-		string event_type = 2;
-		string field_name = 3;
 	}
 
 	message IntroduceGdprOnFieldNotStarted {
 		string topic = 1;
-		string event_type = 2;
-		string field_name = 3;
-		string reason = 4;
 	}
 
 	message IntroduceGdprOnFieldFinished {
 		string topic = 1;
-		string event_type = 2;
-		string field_name = 3;
 	}
 
 	message IntroduceGdprOnFieldNotFinished {
 		string topic = 1;
-		string event_type = 2;
-		string field_name = 3;
-		string reason = 4;
 	}
 
 	oneof data {
