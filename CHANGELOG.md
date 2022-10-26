@@ -1,3 +1,9 @@
+# v6.0.0-alpha.1
+
+- (bc) Restructured ack handling for `PublishEventEnvelope` message to client
+- (bc) Restructured ack handling for `IntroduceGdprOnFieldAction`
+- (bc) Restructured ack handling for `SnapshotAction`
+
 # v5.4.0-alpha.1
 
 - (feature) Adds actions for GDPR data migration

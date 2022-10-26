@@ -13,12 +13,22 @@ export interface Response {
     | { $case: "publishNotAck"; publishNotAck: Response_PublishNotAck }
     | { $case: "subscribeAck"; subscribeAck: Response_SubscribeAck }
     | { $case: "subscribeNotAck"; subscribeNotAck: Response_SubscribeNotAck }
-    | { $case: "snapshotAck"; snapshotAck: Response_SnapshotAck }
-    | { $case: "snapshotNotAck"; snapshotNotAck: Response_SnapshotNotAck }
+    | { $case: "snapshotStarted"; snapshotStarted: Response_SnapshotStarted }
+    | { $case: "snapshotNotStarted"; snapshotNotStarted: Response_SnapshotNotStarted }
+    | { $case: "snapshotFinished"; snapshotFinished: Response_SnapshotFinished }
+    | { $case: "snapshotNotFinished"; snapshotNotFinished: Response_SnapshotNotFinished }
     | { $case: "invalidateGdprAck"; invalidateGdprAck: Response_InvalidateGdprAck }
     | { $case: "invalidateGdprNotAck"; invalidateGdprNotAck: Response_InvalidateGdprNotAck }
-    | { $case: "introduceGdprOnFieldAck"; introduceGdprOnFieldAck: Response_IntroduceGdprOnFieldAck }
-    | { $case: "introduceGdprOnFieldNotAck"; introduceGdprOnFieldNotAck: Response_IntroduceGdprOnFieldNotAck };
+    | { $case: "introduceGdprOnFieldStarted"; introduceGdprOnFieldStarted: Response_IntroduceGdprOnFieldStarted }
+    | {
+      $case: "introduceGdprOnFieldNotStarted";
+      introduceGdprOnFieldNotStarted: Response_IntroduceGdprOnFieldNotStarted;
+    }
+    | { $case: "introduceGdprOnFieldFinished"; introduceGdprOnFieldFinished: Response_IntroduceGdprOnFieldFinished }
+    | {
+      $case: "introduceGdprOnFieldNotFinished";
+      introduceGdprOnFieldNotFinished: Response_IntroduceGdprOnFieldNotFinished;
+    };
 }
 
 export interface Response_InitAck {
@@ -44,14 +54,26 @@ export interface Response_SubscribeNotAck {
   reason: string;
 }
 
-export interface Response_SnapshotAck {
+export interface Response_SnapshotStarted {
   topic: string;
   snapshotId: string;
   fromTime: string;
   toTime: string;
 }
 
-export interface Response_SnapshotNotAck {
+export interface Response_SnapshotNotStarted {
+  topic: string;
+  reason: string;
+}
+
+export interface Response_SnapshotFinished {
+  topic: string;
+  snapshotId: string;
+  fromTime: string;
+  toTime: string;
+}
+
+export interface Response_SnapshotNotFinished {
   topic: string;
   reason: string;
 }
@@ -69,14 +91,29 @@ export interface Response_InvalidateGdprNotAck {
   reason: string;
 }
 
-export interface Response_IntroduceGdprOnFieldAck {
+export interface Response_IntroduceGdprOnFieldStarted {
   tenantId: string;
   topic: string;
   eventType: string;
   fieldName: string;
 }
 
-export interface Response_IntroduceGdprOnFieldNotAck {
+export interface Response_IntroduceGdprOnFieldNotStarted {
+  tenantId: string;
+  topic: string;
+  eventType: string;
+  fieldName: string;
+  reason: string;
+}
+
+export interface Response_IntroduceGdprOnFieldFinished {
+  tenantId: string;
+  topic: string;
+  eventType: string;
+  fieldName: string;
+}
+
+export interface Response_IntroduceGdprOnFieldNotFinished {
   tenantId: string;
   topic: string;
   eventType: string;
@@ -111,24 +148,43 @@ export const Response = {
     if (message.data?.$case === "subscribeNotAck") {
       Response_SubscribeNotAck.encode(message.data.subscribeNotAck, writer.uint32(58).fork()).ldelim();
     }
-    if (message.data?.$case === "snapshotAck") {
-      Response_SnapshotAck.encode(message.data.snapshotAck, writer.uint32(66).fork()).ldelim();
+    if (message.data?.$case === "snapshotStarted") {
+      Response_SnapshotStarted.encode(message.data.snapshotStarted, writer.uint32(66).fork()).ldelim();
     }
-    if (message.data?.$case === "snapshotNotAck") {
-      Response_SnapshotNotAck.encode(message.data.snapshotNotAck, writer.uint32(74).fork()).ldelim();
+    if (message.data?.$case === "snapshotNotStarted") {
+      Response_SnapshotNotStarted.encode(message.data.snapshotNotStarted, writer.uint32(74).fork()).ldelim();
+    }
+    if (message.data?.$case === "snapshotFinished") {
+      Response_SnapshotFinished.encode(message.data.snapshotFinished, writer.uint32(82).fork()).ldelim();
+    }
+    if (message.data?.$case === "snapshotNotFinished") {
+      Response_SnapshotNotFinished.encode(message.data.snapshotNotFinished, writer.uint32(90).fork()).ldelim();
     }
     if (message.data?.$case === "invalidateGdprAck") {
-      Response_InvalidateGdprAck.encode(message.data.invalidateGdprAck, writer.uint32(82).fork()).ldelim();
+      Response_InvalidateGdprAck.encode(message.data.invalidateGdprAck, writer.uint32(98).fork()).ldelim();
     }
     if (message.data?.$case === "invalidateGdprNotAck") {
-      Response_InvalidateGdprNotAck.encode(message.data.invalidateGdprNotAck, writer.uint32(90).fork()).ldelim();
+      Response_InvalidateGdprNotAck.encode(message.data.invalidateGdprNotAck, writer.uint32(106).fork()).ldelim();
     }
-    if (message.data?.$case === "introduceGdprOnFieldAck") {
-      Response_IntroduceGdprOnFieldAck.encode(message.data.introduceGdprOnFieldAck, writer.uint32(98).fork()).ldelim();
-    }
-    if (message.data?.$case === "introduceGdprOnFieldNotAck") {
-      Response_IntroduceGdprOnFieldNotAck.encode(message.data.introduceGdprOnFieldNotAck, writer.uint32(106).fork())
+    if (message.data?.$case === "introduceGdprOnFieldStarted") {
+      Response_IntroduceGdprOnFieldStarted.encode(message.data.introduceGdprOnFieldStarted, writer.uint32(114).fork())
         .ldelim();
+    }
+    if (message.data?.$case === "introduceGdprOnFieldNotStarted") {
+      Response_IntroduceGdprOnFieldNotStarted.encode(
+        message.data.introduceGdprOnFieldNotStarted,
+        writer.uint32(122).fork(),
+      ).ldelim();
+    }
+    if (message.data?.$case === "introduceGdprOnFieldFinished") {
+      Response_IntroduceGdprOnFieldFinished.encode(message.data.introduceGdprOnFieldFinished, writer.uint32(130).fork())
+        .ldelim();
+    }
+    if (message.data?.$case === "introduceGdprOnFieldNotFinished") {
+      Response_IntroduceGdprOnFieldNotFinished.encode(
+        message.data.introduceGdprOnFieldNotFinished,
+        writer.uint32(138).fork(),
+      ).ldelim();
     }
     return writer;
   },
@@ -168,36 +224,63 @@ export const Response = {
           };
           break;
         case 8:
-          message.data = { $case: "snapshotAck", snapshotAck: Response_SnapshotAck.decode(reader, reader.uint32()) };
+          message.data = {
+            $case: "snapshotStarted",
+            snapshotStarted: Response_SnapshotStarted.decode(reader, reader.uint32()),
+          };
           break;
         case 9:
           message.data = {
-            $case: "snapshotNotAck",
-            snapshotNotAck: Response_SnapshotNotAck.decode(reader, reader.uint32()),
+            $case: "snapshotNotStarted",
+            snapshotNotStarted: Response_SnapshotNotStarted.decode(reader, reader.uint32()),
           };
           break;
         case 10:
+          message.data = {
+            $case: "snapshotFinished",
+            snapshotFinished: Response_SnapshotFinished.decode(reader, reader.uint32()),
+          };
+          break;
+        case 11:
+          message.data = {
+            $case: "snapshotNotFinished",
+            snapshotNotFinished: Response_SnapshotNotFinished.decode(reader, reader.uint32()),
+          };
+          break;
+        case 12:
           message.data = {
             $case: "invalidateGdprAck",
             invalidateGdprAck: Response_InvalidateGdprAck.decode(reader, reader.uint32()),
           };
           break;
-        case 11:
+        case 13:
           message.data = {
             $case: "invalidateGdprNotAck",
             invalidateGdprNotAck: Response_InvalidateGdprNotAck.decode(reader, reader.uint32()),
           };
           break;
-        case 12:
+        case 14:
           message.data = {
-            $case: "introduceGdprOnFieldAck",
-            introduceGdprOnFieldAck: Response_IntroduceGdprOnFieldAck.decode(reader, reader.uint32()),
+            $case: "introduceGdprOnFieldStarted",
+            introduceGdprOnFieldStarted: Response_IntroduceGdprOnFieldStarted.decode(reader, reader.uint32()),
           };
           break;
-        case 13:
+        case 15:
           message.data = {
-            $case: "introduceGdprOnFieldNotAck",
-            introduceGdprOnFieldNotAck: Response_IntroduceGdprOnFieldNotAck.decode(reader, reader.uint32()),
+            $case: "introduceGdprOnFieldNotStarted",
+            introduceGdprOnFieldNotStarted: Response_IntroduceGdprOnFieldNotStarted.decode(reader, reader.uint32()),
+          };
+          break;
+        case 16:
+          message.data = {
+            $case: "introduceGdprOnFieldFinished",
+            introduceGdprOnFieldFinished: Response_IntroduceGdprOnFieldFinished.decode(reader, reader.uint32()),
+          };
+          break;
+        case 17:
+          message.data = {
+            $case: "introduceGdprOnFieldNotFinished",
+            introduceGdprOnFieldNotFinished: Response_IntroduceGdprOnFieldNotFinished.decode(reader, reader.uint32()),
           };
           break;
         default:
@@ -224,10 +307,20 @@ export const Response = {
         ? { $case: "subscribeAck", subscribeAck: Response_SubscribeAck.fromJSON(object.subscribeAck) }
         : isSet(object.subscribeNotAck)
         ? { $case: "subscribeNotAck", subscribeNotAck: Response_SubscribeNotAck.fromJSON(object.subscribeNotAck) }
-        : isSet(object.snapshotAck)
-        ? { $case: "snapshotAck", snapshotAck: Response_SnapshotAck.fromJSON(object.snapshotAck) }
-        : isSet(object.snapshotNotAck)
-        ? { $case: "snapshotNotAck", snapshotNotAck: Response_SnapshotNotAck.fromJSON(object.snapshotNotAck) }
+        : isSet(object.snapshotStarted)
+        ? { $case: "snapshotStarted", snapshotStarted: Response_SnapshotStarted.fromJSON(object.snapshotStarted) }
+        : isSet(object.snapshotNotStarted)
+        ? {
+          $case: "snapshotNotStarted",
+          snapshotNotStarted: Response_SnapshotNotStarted.fromJSON(object.snapshotNotStarted),
+        }
+        : isSet(object.snapshotFinished)
+        ? { $case: "snapshotFinished", snapshotFinished: Response_SnapshotFinished.fromJSON(object.snapshotFinished) }
+        : isSet(object.snapshotNotFinished)
+        ? {
+          $case: "snapshotNotFinished",
+          snapshotNotFinished: Response_SnapshotNotFinished.fromJSON(object.snapshotNotFinished),
+        }
         : isSet(object.invalidateGdprAck)
         ? {
           $case: "invalidateGdprAck",
@@ -238,15 +331,33 @@ export const Response = {
           $case: "invalidateGdprNotAck",
           invalidateGdprNotAck: Response_InvalidateGdprNotAck.fromJSON(object.invalidateGdprNotAck),
         }
-        : isSet(object.introduceGdprOnFieldAck)
+        : isSet(object.introduceGdprOnFieldStarted)
         ? {
-          $case: "introduceGdprOnFieldAck",
-          introduceGdprOnFieldAck: Response_IntroduceGdprOnFieldAck.fromJSON(object.introduceGdprOnFieldAck),
+          $case: "introduceGdprOnFieldStarted",
+          introduceGdprOnFieldStarted: Response_IntroduceGdprOnFieldStarted.fromJSON(
+            object.introduceGdprOnFieldStarted,
+          ),
         }
-        : isSet(object.introduceGdprOnFieldNotAck)
+        : isSet(object.introduceGdprOnFieldNotStarted)
         ? {
-          $case: "introduceGdprOnFieldNotAck",
-          introduceGdprOnFieldNotAck: Response_IntroduceGdprOnFieldNotAck.fromJSON(object.introduceGdprOnFieldNotAck),
+          $case: "introduceGdprOnFieldNotStarted",
+          introduceGdprOnFieldNotStarted: Response_IntroduceGdprOnFieldNotStarted.fromJSON(
+            object.introduceGdprOnFieldNotStarted,
+          ),
+        }
+        : isSet(object.introduceGdprOnFieldFinished)
+        ? {
+          $case: "introduceGdprOnFieldFinished",
+          introduceGdprOnFieldFinished: Response_IntroduceGdprOnFieldFinished.fromJSON(
+            object.introduceGdprOnFieldFinished,
+          ),
+        }
+        : isSet(object.introduceGdprOnFieldNotFinished)
+        ? {
+          $case: "introduceGdprOnFieldNotFinished",
+          introduceGdprOnFieldNotFinished: Response_IntroduceGdprOnFieldNotFinished.fromJSON(
+            object.introduceGdprOnFieldNotFinished,
+          ),
         }
         : undefined,
     };
@@ -271,12 +382,17 @@ export const Response = {
     message.data?.$case === "subscribeNotAck" && (obj.subscribeNotAck = message.data?.subscribeNotAck
       ? Response_SubscribeNotAck.toJSON(message.data?.subscribeNotAck)
       : undefined);
-    message.data?.$case === "snapshotAck" &&
-      (obj.snapshotAck = message.data?.snapshotAck
-        ? Response_SnapshotAck.toJSON(message.data?.snapshotAck)
-        : undefined);
-    message.data?.$case === "snapshotNotAck" && (obj.snapshotNotAck = message.data?.snapshotNotAck
-      ? Response_SnapshotNotAck.toJSON(message.data?.snapshotNotAck)
+    message.data?.$case === "snapshotStarted" && (obj.snapshotStarted = message.data?.snapshotStarted
+      ? Response_SnapshotStarted.toJSON(message.data?.snapshotStarted)
+      : undefined);
+    message.data?.$case === "snapshotNotStarted" && (obj.snapshotNotStarted = message.data?.snapshotNotStarted
+      ? Response_SnapshotNotStarted.toJSON(message.data?.snapshotNotStarted)
+      : undefined);
+    message.data?.$case === "snapshotFinished" && (obj.snapshotFinished = message.data?.snapshotFinished
+      ? Response_SnapshotFinished.toJSON(message.data?.snapshotFinished)
+      : undefined);
+    message.data?.$case === "snapshotNotFinished" && (obj.snapshotNotFinished = message.data?.snapshotNotFinished
+      ? Response_SnapshotNotFinished.toJSON(message.data?.snapshotNotFinished)
       : undefined);
     message.data?.$case === "invalidateGdprAck" && (obj.invalidateGdprAck = message.data?.invalidateGdprAck
       ? Response_InvalidateGdprAck.toJSON(message.data?.invalidateGdprAck)
@@ -284,13 +400,21 @@ export const Response = {
     message.data?.$case === "invalidateGdprNotAck" && (obj.invalidateGdprNotAck = message.data?.invalidateGdprNotAck
       ? Response_InvalidateGdprNotAck.toJSON(message.data?.invalidateGdprNotAck)
       : undefined);
-    message.data?.$case === "introduceGdprOnFieldAck" &&
-      (obj.introduceGdprOnFieldAck = message.data?.introduceGdprOnFieldAck
-        ? Response_IntroduceGdprOnFieldAck.toJSON(message.data?.introduceGdprOnFieldAck)
+    message.data?.$case === "introduceGdprOnFieldStarted" &&
+      (obj.introduceGdprOnFieldStarted = message.data?.introduceGdprOnFieldStarted
+        ? Response_IntroduceGdprOnFieldStarted.toJSON(message.data?.introduceGdprOnFieldStarted)
         : undefined);
-    message.data?.$case === "introduceGdprOnFieldNotAck" &&
-      (obj.introduceGdprOnFieldNotAck = message.data?.introduceGdprOnFieldNotAck
-        ? Response_IntroduceGdprOnFieldNotAck.toJSON(message.data?.introduceGdprOnFieldNotAck)
+    message.data?.$case === "introduceGdprOnFieldNotStarted" &&
+      (obj.introduceGdprOnFieldNotStarted = message.data?.introduceGdprOnFieldNotStarted
+        ? Response_IntroduceGdprOnFieldNotStarted.toJSON(message.data?.introduceGdprOnFieldNotStarted)
+        : undefined);
+    message.data?.$case === "introduceGdprOnFieldFinished" &&
+      (obj.introduceGdprOnFieldFinished = message.data?.introduceGdprOnFieldFinished
+        ? Response_IntroduceGdprOnFieldFinished.toJSON(message.data?.introduceGdprOnFieldFinished)
+        : undefined);
+    message.data?.$case === "introduceGdprOnFieldNotFinished" &&
+      (obj.introduceGdprOnFieldNotFinished = message.data?.introduceGdprOnFieldNotFinished
+        ? Response_IntroduceGdprOnFieldNotFinished.toJSON(message.data?.introduceGdprOnFieldNotFinished)
         : undefined);
     return obj;
   },
@@ -344,20 +468,43 @@ export const Response = {
       };
     }
     if (
-      object.data?.$case === "snapshotAck" &&
-      object.data?.snapshotAck !== undefined &&
-      object.data?.snapshotAck !== null
-    ) {
-      message.data = { $case: "snapshotAck", snapshotAck: Response_SnapshotAck.fromPartial(object.data.snapshotAck) };
-    }
-    if (
-      object.data?.$case === "snapshotNotAck" &&
-      object.data?.snapshotNotAck !== undefined &&
-      object.data?.snapshotNotAck !== null
+      object.data?.$case === "snapshotStarted" &&
+      object.data?.snapshotStarted !== undefined &&
+      object.data?.snapshotStarted !== null
     ) {
       message.data = {
-        $case: "snapshotNotAck",
-        snapshotNotAck: Response_SnapshotNotAck.fromPartial(object.data.snapshotNotAck),
+        $case: "snapshotStarted",
+        snapshotStarted: Response_SnapshotStarted.fromPartial(object.data.snapshotStarted),
+      };
+    }
+    if (
+      object.data?.$case === "snapshotNotStarted" &&
+      object.data?.snapshotNotStarted !== undefined &&
+      object.data?.snapshotNotStarted !== null
+    ) {
+      message.data = {
+        $case: "snapshotNotStarted",
+        snapshotNotStarted: Response_SnapshotNotStarted.fromPartial(object.data.snapshotNotStarted),
+      };
+    }
+    if (
+      object.data?.$case === "snapshotFinished" &&
+      object.data?.snapshotFinished !== undefined &&
+      object.data?.snapshotFinished !== null
+    ) {
+      message.data = {
+        $case: "snapshotFinished",
+        snapshotFinished: Response_SnapshotFinished.fromPartial(object.data.snapshotFinished),
+      };
+    }
+    if (
+      object.data?.$case === "snapshotNotFinished" &&
+      object.data?.snapshotNotFinished !== undefined &&
+      object.data?.snapshotNotFinished !== null
+    ) {
+      message.data = {
+        $case: "snapshotNotFinished",
+        snapshotNotFinished: Response_SnapshotNotFinished.fromPartial(object.data.snapshotNotFinished),
       };
     }
     if (
@@ -381,24 +528,50 @@ export const Response = {
       };
     }
     if (
-      object.data?.$case === "introduceGdprOnFieldAck" &&
-      object.data?.introduceGdprOnFieldAck !== undefined &&
-      object.data?.introduceGdprOnFieldAck !== null
+      object.data?.$case === "introduceGdprOnFieldStarted" &&
+      object.data?.introduceGdprOnFieldStarted !== undefined &&
+      object.data?.introduceGdprOnFieldStarted !== null
     ) {
       message.data = {
-        $case: "introduceGdprOnFieldAck",
-        introduceGdprOnFieldAck: Response_IntroduceGdprOnFieldAck.fromPartial(object.data.introduceGdprOnFieldAck),
+        $case: "introduceGdprOnFieldStarted",
+        introduceGdprOnFieldStarted: Response_IntroduceGdprOnFieldStarted.fromPartial(
+          object.data.introduceGdprOnFieldStarted,
+        ),
       };
     }
     if (
-      object.data?.$case === "introduceGdprOnFieldNotAck" &&
-      object.data?.introduceGdprOnFieldNotAck !== undefined &&
-      object.data?.introduceGdprOnFieldNotAck !== null
+      object.data?.$case === "introduceGdprOnFieldNotStarted" &&
+      object.data?.introduceGdprOnFieldNotStarted !== undefined &&
+      object.data?.introduceGdprOnFieldNotStarted !== null
     ) {
       message.data = {
-        $case: "introduceGdprOnFieldNotAck",
-        introduceGdprOnFieldNotAck: Response_IntroduceGdprOnFieldNotAck.fromPartial(
-          object.data.introduceGdprOnFieldNotAck,
+        $case: "introduceGdprOnFieldNotStarted",
+        introduceGdprOnFieldNotStarted: Response_IntroduceGdprOnFieldNotStarted.fromPartial(
+          object.data.introduceGdprOnFieldNotStarted,
+        ),
+      };
+    }
+    if (
+      object.data?.$case === "introduceGdprOnFieldFinished" &&
+      object.data?.introduceGdprOnFieldFinished !== undefined &&
+      object.data?.introduceGdprOnFieldFinished !== null
+    ) {
+      message.data = {
+        $case: "introduceGdprOnFieldFinished",
+        introduceGdprOnFieldFinished: Response_IntroduceGdprOnFieldFinished.fromPartial(
+          object.data.introduceGdprOnFieldFinished,
+        ),
+      };
+    }
+    if (
+      object.data?.$case === "introduceGdprOnFieldNotFinished" &&
+      object.data?.introduceGdprOnFieldNotFinished !== undefined &&
+      object.data?.introduceGdprOnFieldNotFinished !== null
+    ) {
+      message.data = {
+        $case: "introduceGdprOnFieldNotFinished",
+        introduceGdprOnFieldNotFinished: Response_IntroduceGdprOnFieldNotFinished.fromPartial(
+          object.data.introduceGdprOnFieldNotFinished,
         ),
       };
     }
@@ -683,12 +856,12 @@ export const Response_SubscribeNotAck = {
   },
 };
 
-function createBaseResponse_SnapshotAck(): Response_SnapshotAck {
+function createBaseResponse_SnapshotStarted(): Response_SnapshotStarted {
   return { topic: "", snapshotId: "", fromTime: "", toTime: "" };
 }
 
-export const Response_SnapshotAck = {
-  encode(message: Response_SnapshotAck, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+export const Response_SnapshotStarted = {
+  encode(message: Response_SnapshotStarted, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.topic !== "") {
       writer.uint32(10).string(message.topic);
     }
@@ -704,10 +877,10 @@ export const Response_SnapshotAck = {
     return writer;
   },
 
-  decode(input: _m0.Reader | Uint8Array, length?: number): Response_SnapshotAck {
+  decode(input: _m0.Reader | Uint8Array, length?: number): Response_SnapshotStarted {
     const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
-    const message = createBaseResponse_SnapshotAck();
+    const message = createBaseResponse_SnapshotStarted();
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
@@ -731,7 +904,7 @@ export const Response_SnapshotAck = {
     return message;
   },
 
-  fromJSON(object: any): Response_SnapshotAck {
+  fromJSON(object: any): Response_SnapshotStarted {
     return {
       topic: isSet(object.topic) ? String(object.topic) : "",
       snapshotId: isSet(object.snapshotId) ? String(object.snapshotId) : "",
@@ -740,7 +913,7 @@ export const Response_SnapshotAck = {
     };
   },
 
-  toJSON(message: Response_SnapshotAck): unknown {
+  toJSON(message: Response_SnapshotStarted): unknown {
     const obj: any = {};
     message.topic !== undefined && (obj.topic = message.topic);
     message.snapshotId !== undefined && (obj.snapshotId = message.snapshotId);
@@ -749,8 +922,8 @@ export const Response_SnapshotAck = {
     return obj;
   },
 
-  fromPartial<I extends Exact<DeepPartial<Response_SnapshotAck>, I>>(object: I): Response_SnapshotAck {
-    const message = createBaseResponse_SnapshotAck();
+  fromPartial<I extends Exact<DeepPartial<Response_SnapshotStarted>, I>>(object: I): Response_SnapshotStarted {
+    const message = createBaseResponse_SnapshotStarted();
     message.topic = object.topic ?? "";
     message.snapshotId = object.snapshotId ?? "";
     message.fromTime = object.fromTime ?? "";
@@ -759,12 +932,12 @@ export const Response_SnapshotAck = {
   },
 };
 
-function createBaseResponse_SnapshotNotAck(): Response_SnapshotNotAck {
+function createBaseResponse_SnapshotNotStarted(): Response_SnapshotNotStarted {
   return { topic: "", reason: "" };
 }
 
-export const Response_SnapshotNotAck = {
-  encode(message: Response_SnapshotNotAck, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+export const Response_SnapshotNotStarted = {
+  encode(message: Response_SnapshotNotStarted, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.topic !== "") {
       writer.uint32(10).string(message.topic);
     }
@@ -774,10 +947,10 @@ export const Response_SnapshotNotAck = {
     return writer;
   },
 
-  decode(input: _m0.Reader | Uint8Array, length?: number): Response_SnapshotNotAck {
+  decode(input: _m0.Reader | Uint8Array, length?: number): Response_SnapshotNotStarted {
     const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
-    const message = createBaseResponse_SnapshotNotAck();
+    const message = createBaseResponse_SnapshotNotStarted();
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
@@ -795,22 +968,156 @@ export const Response_SnapshotNotAck = {
     return message;
   },
 
-  fromJSON(object: any): Response_SnapshotNotAck {
+  fromJSON(object: any): Response_SnapshotNotStarted {
     return {
       topic: isSet(object.topic) ? String(object.topic) : "",
       reason: isSet(object.reason) ? String(object.reason) : "",
     };
   },
 
-  toJSON(message: Response_SnapshotNotAck): unknown {
+  toJSON(message: Response_SnapshotNotStarted): unknown {
     const obj: any = {};
     message.topic !== undefined && (obj.topic = message.topic);
     message.reason !== undefined && (obj.reason = message.reason);
     return obj;
   },
 
-  fromPartial<I extends Exact<DeepPartial<Response_SnapshotNotAck>, I>>(object: I): Response_SnapshotNotAck {
-    const message = createBaseResponse_SnapshotNotAck();
+  fromPartial<I extends Exact<DeepPartial<Response_SnapshotNotStarted>, I>>(object: I): Response_SnapshotNotStarted {
+    const message = createBaseResponse_SnapshotNotStarted();
+    message.topic = object.topic ?? "";
+    message.reason = object.reason ?? "";
+    return message;
+  },
+};
+
+function createBaseResponse_SnapshotFinished(): Response_SnapshotFinished {
+  return { topic: "", snapshotId: "", fromTime: "", toTime: "" };
+}
+
+export const Response_SnapshotFinished = {
+  encode(message: Response_SnapshotFinished, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+    if (message.topic !== "") {
+      writer.uint32(10).string(message.topic);
+    }
+    if (message.snapshotId !== "") {
+      writer.uint32(18).string(message.snapshotId);
+    }
+    if (message.fromTime !== "") {
+      writer.uint32(26).string(message.fromTime);
+    }
+    if (message.toTime !== "") {
+      writer.uint32(34).string(message.toTime);
+    }
+    return writer;
+  },
+
+  decode(input: _m0.Reader | Uint8Array, length?: number): Response_SnapshotFinished {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseResponse_SnapshotFinished();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.topic = reader.string();
+          break;
+        case 2:
+          message.snapshotId = reader.string();
+          break;
+        case 3:
+          message.fromTime = reader.string();
+          break;
+        case 4:
+          message.toTime = reader.string();
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(object: any): Response_SnapshotFinished {
+    return {
+      topic: isSet(object.topic) ? String(object.topic) : "",
+      snapshotId: isSet(object.snapshotId) ? String(object.snapshotId) : "",
+      fromTime: isSet(object.fromTime) ? String(object.fromTime) : "",
+      toTime: isSet(object.toTime) ? String(object.toTime) : "",
+    };
+  },
+
+  toJSON(message: Response_SnapshotFinished): unknown {
+    const obj: any = {};
+    message.topic !== undefined && (obj.topic = message.topic);
+    message.snapshotId !== undefined && (obj.snapshotId = message.snapshotId);
+    message.fromTime !== undefined && (obj.fromTime = message.fromTime);
+    message.toTime !== undefined && (obj.toTime = message.toTime);
+    return obj;
+  },
+
+  fromPartial<I extends Exact<DeepPartial<Response_SnapshotFinished>, I>>(object: I): Response_SnapshotFinished {
+    const message = createBaseResponse_SnapshotFinished();
+    message.topic = object.topic ?? "";
+    message.snapshotId = object.snapshotId ?? "";
+    message.fromTime = object.fromTime ?? "";
+    message.toTime = object.toTime ?? "";
+    return message;
+  },
+};
+
+function createBaseResponse_SnapshotNotFinished(): Response_SnapshotNotFinished {
+  return { topic: "", reason: "" };
+}
+
+export const Response_SnapshotNotFinished = {
+  encode(message: Response_SnapshotNotFinished, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+    if (message.topic !== "") {
+      writer.uint32(10).string(message.topic);
+    }
+    if (message.reason !== "") {
+      writer.uint32(18).string(message.reason);
+    }
+    return writer;
+  },
+
+  decode(input: _m0.Reader | Uint8Array, length?: number): Response_SnapshotNotFinished {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseResponse_SnapshotNotFinished();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.topic = reader.string();
+          break;
+        case 2:
+          message.reason = reader.string();
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(object: any): Response_SnapshotNotFinished {
+    return {
+      topic: isSet(object.topic) ? String(object.topic) : "",
+      reason: isSet(object.reason) ? String(object.reason) : "",
+    };
+  },
+
+  toJSON(message: Response_SnapshotNotFinished): unknown {
+    const obj: any = {};
+    message.topic !== undefined && (obj.topic = message.topic);
+    message.reason !== undefined && (obj.reason = message.reason);
+    return obj;
+  },
+
+  fromPartial<I extends Exact<DeepPartial<Response_SnapshotNotFinished>, I>>(object: I): Response_SnapshotNotFinished {
+    const message = createBaseResponse_SnapshotNotFinished();
     message.topic = object.topic ?? "";
     message.reason = object.reason ?? "";
     return message;
@@ -962,12 +1269,12 @@ export const Response_InvalidateGdprNotAck = {
   },
 };
 
-function createBaseResponse_IntroduceGdprOnFieldAck(): Response_IntroduceGdprOnFieldAck {
+function createBaseResponse_IntroduceGdprOnFieldStarted(): Response_IntroduceGdprOnFieldStarted {
   return { tenantId: "", topic: "", eventType: "", fieldName: "" };
 }
 
-export const Response_IntroduceGdprOnFieldAck = {
-  encode(message: Response_IntroduceGdprOnFieldAck, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+export const Response_IntroduceGdprOnFieldStarted = {
+  encode(message: Response_IntroduceGdprOnFieldStarted, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.tenantId !== "") {
       writer.uint32(10).string(message.tenantId);
     }
@@ -983,10 +1290,10 @@ export const Response_IntroduceGdprOnFieldAck = {
     return writer;
   },
 
-  decode(input: _m0.Reader | Uint8Array, length?: number): Response_IntroduceGdprOnFieldAck {
+  decode(input: _m0.Reader | Uint8Array, length?: number): Response_IntroduceGdprOnFieldStarted {
     const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
-    const message = createBaseResponse_IntroduceGdprOnFieldAck();
+    const message = createBaseResponse_IntroduceGdprOnFieldStarted();
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
@@ -1010,7 +1317,7 @@ export const Response_IntroduceGdprOnFieldAck = {
     return message;
   },
 
-  fromJSON(object: any): Response_IntroduceGdprOnFieldAck {
+  fromJSON(object: any): Response_IntroduceGdprOnFieldStarted {
     return {
       tenantId: isSet(object.tenantId) ? String(object.tenantId) : "",
       topic: isSet(object.topic) ? String(object.topic) : "",
@@ -1019,7 +1326,7 @@ export const Response_IntroduceGdprOnFieldAck = {
     };
   },
 
-  toJSON(message: Response_IntroduceGdprOnFieldAck): unknown {
+  toJSON(message: Response_IntroduceGdprOnFieldStarted): unknown {
     const obj: any = {};
     message.tenantId !== undefined && (obj.tenantId = message.tenantId);
     message.topic !== undefined && (obj.topic = message.topic);
@@ -1028,10 +1335,10 @@ export const Response_IntroduceGdprOnFieldAck = {
     return obj;
   },
 
-  fromPartial<I extends Exact<DeepPartial<Response_IntroduceGdprOnFieldAck>, I>>(
+  fromPartial<I extends Exact<DeepPartial<Response_IntroduceGdprOnFieldStarted>, I>>(
     object: I,
-  ): Response_IntroduceGdprOnFieldAck {
-    const message = createBaseResponse_IntroduceGdprOnFieldAck();
+  ): Response_IntroduceGdprOnFieldStarted {
+    const message = createBaseResponse_IntroduceGdprOnFieldStarted();
     message.tenantId = object.tenantId ?? "";
     message.topic = object.topic ?? "";
     message.eventType = object.eventType ?? "";
@@ -1040,12 +1347,12 @@ export const Response_IntroduceGdprOnFieldAck = {
   },
 };
 
-function createBaseResponse_IntroduceGdprOnFieldNotAck(): Response_IntroduceGdprOnFieldNotAck {
+function createBaseResponse_IntroduceGdprOnFieldNotStarted(): Response_IntroduceGdprOnFieldNotStarted {
   return { tenantId: "", topic: "", eventType: "", fieldName: "", reason: "" };
 }
 
-export const Response_IntroduceGdprOnFieldNotAck = {
-  encode(message: Response_IntroduceGdprOnFieldNotAck, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+export const Response_IntroduceGdprOnFieldNotStarted = {
+  encode(message: Response_IntroduceGdprOnFieldNotStarted, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.tenantId !== "") {
       writer.uint32(10).string(message.tenantId);
     }
@@ -1064,10 +1371,10 @@ export const Response_IntroduceGdprOnFieldNotAck = {
     return writer;
   },
 
-  decode(input: _m0.Reader | Uint8Array, length?: number): Response_IntroduceGdprOnFieldNotAck {
+  decode(input: _m0.Reader | Uint8Array, length?: number): Response_IntroduceGdprOnFieldNotStarted {
     const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
-    const message = createBaseResponse_IntroduceGdprOnFieldNotAck();
+    const message = createBaseResponse_IntroduceGdprOnFieldNotStarted();
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
@@ -1094,7 +1401,7 @@ export const Response_IntroduceGdprOnFieldNotAck = {
     return message;
   },
 
-  fromJSON(object: any): Response_IntroduceGdprOnFieldNotAck {
+  fromJSON(object: any): Response_IntroduceGdprOnFieldNotStarted {
     return {
       tenantId: isSet(object.tenantId) ? String(object.tenantId) : "",
       topic: isSet(object.topic) ? String(object.topic) : "",
@@ -1104,7 +1411,7 @@ export const Response_IntroduceGdprOnFieldNotAck = {
     };
   },
 
-  toJSON(message: Response_IntroduceGdprOnFieldNotAck): unknown {
+  toJSON(message: Response_IntroduceGdprOnFieldNotStarted): unknown {
     const obj: any = {};
     message.tenantId !== undefined && (obj.tenantId = message.tenantId);
     message.topic !== undefined && (obj.topic = message.topic);
@@ -1114,10 +1421,175 @@ export const Response_IntroduceGdprOnFieldNotAck = {
     return obj;
   },
 
-  fromPartial<I extends Exact<DeepPartial<Response_IntroduceGdprOnFieldNotAck>, I>>(
+  fromPartial<I extends Exact<DeepPartial<Response_IntroduceGdprOnFieldNotStarted>, I>>(
     object: I,
-  ): Response_IntroduceGdprOnFieldNotAck {
-    const message = createBaseResponse_IntroduceGdprOnFieldNotAck();
+  ): Response_IntroduceGdprOnFieldNotStarted {
+    const message = createBaseResponse_IntroduceGdprOnFieldNotStarted();
+    message.tenantId = object.tenantId ?? "";
+    message.topic = object.topic ?? "";
+    message.eventType = object.eventType ?? "";
+    message.fieldName = object.fieldName ?? "";
+    message.reason = object.reason ?? "";
+    return message;
+  },
+};
+
+function createBaseResponse_IntroduceGdprOnFieldFinished(): Response_IntroduceGdprOnFieldFinished {
+  return { tenantId: "", topic: "", eventType: "", fieldName: "" };
+}
+
+export const Response_IntroduceGdprOnFieldFinished = {
+  encode(message: Response_IntroduceGdprOnFieldFinished, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+    if (message.tenantId !== "") {
+      writer.uint32(10).string(message.tenantId);
+    }
+    if (message.topic !== "") {
+      writer.uint32(18).string(message.topic);
+    }
+    if (message.eventType !== "") {
+      writer.uint32(26).string(message.eventType);
+    }
+    if (message.fieldName !== "") {
+      writer.uint32(34).string(message.fieldName);
+    }
+    return writer;
+  },
+
+  decode(input: _m0.Reader | Uint8Array, length?: number): Response_IntroduceGdprOnFieldFinished {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseResponse_IntroduceGdprOnFieldFinished();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.tenantId = reader.string();
+          break;
+        case 2:
+          message.topic = reader.string();
+          break;
+        case 3:
+          message.eventType = reader.string();
+          break;
+        case 4:
+          message.fieldName = reader.string();
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(object: any): Response_IntroduceGdprOnFieldFinished {
+    return {
+      tenantId: isSet(object.tenantId) ? String(object.tenantId) : "",
+      topic: isSet(object.topic) ? String(object.topic) : "",
+      eventType: isSet(object.eventType) ? String(object.eventType) : "",
+      fieldName: isSet(object.fieldName) ? String(object.fieldName) : "",
+    };
+  },
+
+  toJSON(message: Response_IntroduceGdprOnFieldFinished): unknown {
+    const obj: any = {};
+    message.tenantId !== undefined && (obj.tenantId = message.tenantId);
+    message.topic !== undefined && (obj.topic = message.topic);
+    message.eventType !== undefined && (obj.eventType = message.eventType);
+    message.fieldName !== undefined && (obj.fieldName = message.fieldName);
+    return obj;
+  },
+
+  fromPartial<I extends Exact<DeepPartial<Response_IntroduceGdprOnFieldFinished>, I>>(
+    object: I,
+  ): Response_IntroduceGdprOnFieldFinished {
+    const message = createBaseResponse_IntroduceGdprOnFieldFinished();
+    message.tenantId = object.tenantId ?? "";
+    message.topic = object.topic ?? "";
+    message.eventType = object.eventType ?? "";
+    message.fieldName = object.fieldName ?? "";
+    return message;
+  },
+};
+
+function createBaseResponse_IntroduceGdprOnFieldNotFinished(): Response_IntroduceGdprOnFieldNotFinished {
+  return { tenantId: "", topic: "", eventType: "", fieldName: "", reason: "" };
+}
+
+export const Response_IntroduceGdprOnFieldNotFinished = {
+  encode(message: Response_IntroduceGdprOnFieldNotFinished, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+    if (message.tenantId !== "") {
+      writer.uint32(10).string(message.tenantId);
+    }
+    if (message.topic !== "") {
+      writer.uint32(18).string(message.topic);
+    }
+    if (message.eventType !== "") {
+      writer.uint32(26).string(message.eventType);
+    }
+    if (message.fieldName !== "") {
+      writer.uint32(34).string(message.fieldName);
+    }
+    if (message.reason !== "") {
+      writer.uint32(42).string(message.reason);
+    }
+    return writer;
+  },
+
+  decode(input: _m0.Reader | Uint8Array, length?: number): Response_IntroduceGdprOnFieldNotFinished {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseResponse_IntroduceGdprOnFieldNotFinished();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.tenantId = reader.string();
+          break;
+        case 2:
+          message.topic = reader.string();
+          break;
+        case 3:
+          message.eventType = reader.string();
+          break;
+        case 4:
+          message.fieldName = reader.string();
+          break;
+        case 5:
+          message.reason = reader.string();
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(object: any): Response_IntroduceGdprOnFieldNotFinished {
+    return {
+      tenantId: isSet(object.tenantId) ? String(object.tenantId) : "",
+      topic: isSet(object.topic) ? String(object.topic) : "",
+      eventType: isSet(object.eventType) ? String(object.eventType) : "",
+      fieldName: isSet(object.fieldName) ? String(object.fieldName) : "",
+      reason: isSet(object.reason) ? String(object.reason) : "",
+    };
+  },
+
+  toJSON(message: Response_IntroduceGdprOnFieldNotFinished): unknown {
+    const obj: any = {};
+    message.tenantId !== undefined && (obj.tenantId = message.tenantId);
+    message.topic !== undefined && (obj.topic = message.topic);
+    message.eventType !== undefined && (obj.eventType = message.eventType);
+    message.fieldName !== undefined && (obj.fieldName = message.fieldName);
+    message.reason !== undefined && (obj.reason = message.reason);
+    return obj;
+  },
+
+  fromPartial<I extends Exact<DeepPartial<Response_IntroduceGdprOnFieldNotFinished>, I>>(
+    object: I,
+  ): Response_IntroduceGdprOnFieldNotFinished {
+    const message = createBaseResponse_IntroduceGdprOnFieldNotFinished();
     message.tenantId = object.tenantId ?? "";
     message.topic = object.topic ?? "";
     message.eventType = object.eventType ?? "";

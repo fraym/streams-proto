@@ -38,13 +38,26 @@ message Request {
 		string default_value = 5;
 	}
 
-	message EventAck {
+	message EventReceived {
 		string tenant_id = 1;
 		string topic = 2;
 		string event_id = 3;
 	}
 
-	message EventNotAck {
+	message EventNotReceived {
+		string tenant_id = 1;
+		string topic = 2;
+		string event_id = 3;
+		string reason = 4;
+	}
+
+	message EventHandled {
+		string tenant_id = 1;
+		string topic = 2;
+		string event_id = 3;
+	}
+
+	message EventNotHandled {
 		string tenant_id = 1;
 		string topic = 2;
 		string event_id = 3;
@@ -59,7 +72,9 @@ message Request {
 		IntroduceGdprOnFieldAction introduce_gdpr_on_field = 6;
 		SnapshotAction snapshot = 7;
 		
-		EventAck event_ack = 8;
-		EventNotAck event_not_ack = 9;
+		EventReceived event_received = 8;
+		EventNotReceived event_not_received = 9;
+		EventHandled event_handled = 10;
+		EventNotHandled event_not_handled = 11;
 	}
 }

@@ -12,8 +12,10 @@ export interface Request {
     | { $case: "invalidateGdpr"; invalidateGdpr: Request_InvalidateGdprAction }
     | { $case: "introduceGdprOnField"; introduceGdprOnField: Request_IntroduceGdprOnFieldAction }
     | { $case: "snapshot"; snapshot: Request_SnapshotAction }
-    | { $case: "eventAck"; eventAck: Request_EventAck }
-    | { $case: "eventNotAck"; eventNotAck: Request_EventNotAck };
+    | { $case: "eventReceived"; eventReceived: Request_EventReceived }
+    | { $case: "eventNotReceived"; eventNotReceived: Request_EventNotReceived }
+    | { $case: "eventHandled"; eventHandled: Request_EventHandled }
+    | { $case: "eventNotHandled"; eventNotHandled: Request_EventNotHandled };
 }
 
 export interface Request_InitAction {
@@ -51,13 +53,26 @@ export interface Request_IntroduceGdprOnFieldAction {
   defaultValue: string;
 }
 
-export interface Request_EventAck {
+export interface Request_EventReceived {
   tenantId: string;
   topic: string;
   eventId: string;
 }
 
-export interface Request_EventNotAck {
+export interface Request_EventNotReceived {
+  tenantId: string;
+  topic: string;
+  eventId: string;
+  reason: string;
+}
+
+export interface Request_EventHandled {
+  tenantId: string;
+  topic: string;
+  eventId: string;
+}
+
+export interface Request_EventNotHandled {
   tenantId: string;
   topic: string;
   eventId: string;
@@ -89,11 +104,17 @@ export const Request = {
     if (message.payload?.$case === "snapshot") {
       Request_SnapshotAction.encode(message.payload.snapshot, writer.uint32(58).fork()).ldelim();
     }
-    if (message.payload?.$case === "eventAck") {
-      Request_EventAck.encode(message.payload.eventAck, writer.uint32(66).fork()).ldelim();
+    if (message.payload?.$case === "eventReceived") {
+      Request_EventReceived.encode(message.payload.eventReceived, writer.uint32(66).fork()).ldelim();
     }
-    if (message.payload?.$case === "eventNotAck") {
-      Request_EventNotAck.encode(message.payload.eventNotAck, writer.uint32(74).fork()).ldelim();
+    if (message.payload?.$case === "eventNotReceived") {
+      Request_EventNotReceived.encode(message.payload.eventNotReceived, writer.uint32(74).fork()).ldelim();
+    }
+    if (message.payload?.$case === "eventHandled") {
+      Request_EventHandled.encode(message.payload.eventHandled, writer.uint32(82).fork()).ldelim();
+    }
+    if (message.payload?.$case === "eventNotHandled") {
+      Request_EventNotHandled.encode(message.payload.eventNotHandled, writer.uint32(90).fork()).ldelim();
     }
     return writer;
   },
@@ -130,10 +151,28 @@ export const Request = {
           message.payload = { $case: "snapshot", snapshot: Request_SnapshotAction.decode(reader, reader.uint32()) };
           break;
         case 8:
-          message.payload = { $case: "eventAck", eventAck: Request_EventAck.decode(reader, reader.uint32()) };
+          message.payload = {
+            $case: "eventReceived",
+            eventReceived: Request_EventReceived.decode(reader, reader.uint32()),
+          };
           break;
         case 9:
-          message.payload = { $case: "eventNotAck", eventNotAck: Request_EventNotAck.decode(reader, reader.uint32()) };
+          message.payload = {
+            $case: "eventNotReceived",
+            eventNotReceived: Request_EventNotReceived.decode(reader, reader.uint32()),
+          };
+          break;
+        case 10:
+          message.payload = {
+            $case: "eventHandled",
+            eventHandled: Request_EventHandled.decode(reader, reader.uint32()),
+          };
+          break;
+        case 11:
+          message.payload = {
+            $case: "eventNotHandled",
+            eventNotHandled: Request_EventNotHandled.decode(reader, reader.uint32()),
+          };
           break;
         default:
           reader.skipType(tag & 7);
@@ -160,10 +199,14 @@ export const Request = {
         }
         : isSet(object.snapshot)
         ? { $case: "snapshot", snapshot: Request_SnapshotAction.fromJSON(object.snapshot) }
-        : isSet(object.eventAck)
-        ? { $case: "eventAck", eventAck: Request_EventAck.fromJSON(object.eventAck) }
-        : isSet(object.eventNotAck)
-        ? { $case: "eventNotAck", eventNotAck: Request_EventNotAck.fromJSON(object.eventNotAck) }
+        : isSet(object.eventReceived)
+        ? { $case: "eventReceived", eventReceived: Request_EventReceived.fromJSON(object.eventReceived) }
+        : isSet(object.eventNotReceived)
+        ? { $case: "eventNotReceived", eventNotReceived: Request_EventNotReceived.fromJSON(object.eventNotReceived) }
+        : isSet(object.eventHandled)
+        ? { $case: "eventHandled", eventHandled: Request_EventHandled.fromJSON(object.eventHandled) }
+        : isSet(object.eventNotHandled)
+        ? { $case: "eventNotHandled", eventNotHandled: Request_EventNotHandled.fromJSON(object.eventNotHandled) }
         : undefined,
     };
   },
@@ -186,10 +229,17 @@ export const Request = {
         : undefined);
     message.payload?.$case === "snapshot" &&
       (obj.snapshot = message.payload?.snapshot ? Request_SnapshotAction.toJSON(message.payload?.snapshot) : undefined);
-    message.payload?.$case === "eventAck" &&
-      (obj.eventAck = message.payload?.eventAck ? Request_EventAck.toJSON(message.payload?.eventAck) : undefined);
-    message.payload?.$case === "eventNotAck" && (obj.eventNotAck = message.payload?.eventNotAck
-      ? Request_EventNotAck.toJSON(message.payload?.eventNotAck)
+    message.payload?.$case === "eventReceived" && (obj.eventReceived = message.payload?.eventReceived
+      ? Request_EventReceived.toJSON(message.payload?.eventReceived)
+      : undefined);
+    message.payload?.$case === "eventNotReceived" && (obj.eventNotReceived = message.payload?.eventNotReceived
+      ? Request_EventNotReceived.toJSON(message.payload?.eventNotReceived)
+      : undefined);
+    message.payload?.$case === "eventHandled" && (obj.eventHandled = message.payload?.eventHandled
+      ? Request_EventHandled.toJSON(message.payload?.eventHandled)
+      : undefined);
+    message.payload?.$case === "eventNotHandled" && (obj.eventNotHandled = message.payload?.eventNotHandled
+      ? Request_EventNotHandled.toJSON(message.payload?.eventNotHandled)
       : undefined);
     return obj;
   },
@@ -242,20 +292,43 @@ export const Request = {
       message.payload = { $case: "snapshot", snapshot: Request_SnapshotAction.fromPartial(object.payload.snapshot) };
     }
     if (
-      object.payload?.$case === "eventAck" &&
-      object.payload?.eventAck !== undefined &&
-      object.payload?.eventAck !== null
-    ) {
-      message.payload = { $case: "eventAck", eventAck: Request_EventAck.fromPartial(object.payload.eventAck) };
-    }
-    if (
-      object.payload?.$case === "eventNotAck" &&
-      object.payload?.eventNotAck !== undefined &&
-      object.payload?.eventNotAck !== null
+      object.payload?.$case === "eventReceived" &&
+      object.payload?.eventReceived !== undefined &&
+      object.payload?.eventReceived !== null
     ) {
       message.payload = {
-        $case: "eventNotAck",
-        eventNotAck: Request_EventNotAck.fromPartial(object.payload.eventNotAck),
+        $case: "eventReceived",
+        eventReceived: Request_EventReceived.fromPartial(object.payload.eventReceived),
+      };
+    }
+    if (
+      object.payload?.$case === "eventNotReceived" &&
+      object.payload?.eventNotReceived !== undefined &&
+      object.payload?.eventNotReceived !== null
+    ) {
+      message.payload = {
+        $case: "eventNotReceived",
+        eventNotReceived: Request_EventNotReceived.fromPartial(object.payload.eventNotReceived),
+      };
+    }
+    if (
+      object.payload?.$case === "eventHandled" &&
+      object.payload?.eventHandled !== undefined &&
+      object.payload?.eventHandled !== null
+    ) {
+      message.payload = {
+        $case: "eventHandled",
+        eventHandled: Request_EventHandled.fromPartial(object.payload.eventHandled),
+      };
+    }
+    if (
+      object.payload?.$case === "eventNotHandled" &&
+      object.payload?.eventNotHandled !== undefined &&
+      object.payload?.eventNotHandled !== null
+    ) {
+      message.payload = {
+        $case: "eventNotHandled",
+        eventNotHandled: Request_EventNotHandled.fromPartial(object.payload.eventNotHandled),
       };
     }
     return message;
@@ -669,12 +742,12 @@ export const Request_IntroduceGdprOnFieldAction = {
   },
 };
 
-function createBaseRequest_EventAck(): Request_EventAck {
+function createBaseRequest_EventReceived(): Request_EventReceived {
   return { tenantId: "", topic: "", eventId: "" };
 }
 
-export const Request_EventAck = {
-  encode(message: Request_EventAck, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+export const Request_EventReceived = {
+  encode(message: Request_EventReceived, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.tenantId !== "") {
       writer.uint32(10).string(message.tenantId);
     }
@@ -687,10 +760,10 @@ export const Request_EventAck = {
     return writer;
   },
 
-  decode(input: _m0.Reader | Uint8Array, length?: number): Request_EventAck {
+  decode(input: _m0.Reader | Uint8Array, length?: number): Request_EventReceived {
     const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
-    const message = createBaseRequest_EventAck();
+    const message = createBaseRequest_EventReceived();
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
@@ -711,7 +784,7 @@ export const Request_EventAck = {
     return message;
   },
 
-  fromJSON(object: any): Request_EventAck {
+  fromJSON(object: any): Request_EventReceived {
     return {
       tenantId: isSet(object.tenantId) ? String(object.tenantId) : "",
       topic: isSet(object.topic) ? String(object.topic) : "",
@@ -719,7 +792,7 @@ export const Request_EventAck = {
     };
   },
 
-  toJSON(message: Request_EventAck): unknown {
+  toJSON(message: Request_EventReceived): unknown {
     const obj: any = {};
     message.tenantId !== undefined && (obj.tenantId = message.tenantId);
     message.topic !== undefined && (obj.topic = message.topic);
@@ -727,8 +800,8 @@ export const Request_EventAck = {
     return obj;
   },
 
-  fromPartial<I extends Exact<DeepPartial<Request_EventAck>, I>>(object: I): Request_EventAck {
-    const message = createBaseRequest_EventAck();
+  fromPartial<I extends Exact<DeepPartial<Request_EventReceived>, I>>(object: I): Request_EventReceived {
+    const message = createBaseRequest_EventReceived();
     message.tenantId = object.tenantId ?? "";
     message.topic = object.topic ?? "";
     message.eventId = object.eventId ?? "";
@@ -736,12 +809,12 @@ export const Request_EventAck = {
   },
 };
 
-function createBaseRequest_EventNotAck(): Request_EventNotAck {
+function createBaseRequest_EventNotReceived(): Request_EventNotReceived {
   return { tenantId: "", topic: "", eventId: "", reason: "" };
 }
 
-export const Request_EventNotAck = {
-  encode(message: Request_EventNotAck, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+export const Request_EventNotReceived = {
+  encode(message: Request_EventNotReceived, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.tenantId !== "") {
       writer.uint32(10).string(message.tenantId);
     }
@@ -757,10 +830,10 @@ export const Request_EventNotAck = {
     return writer;
   },
 
-  decode(input: _m0.Reader | Uint8Array, length?: number): Request_EventNotAck {
+  decode(input: _m0.Reader | Uint8Array, length?: number): Request_EventNotReceived {
     const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
-    const message = createBaseRequest_EventNotAck();
+    const message = createBaseRequest_EventNotReceived();
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
@@ -784,7 +857,7 @@ export const Request_EventNotAck = {
     return message;
   },
 
-  fromJSON(object: any): Request_EventNotAck {
+  fromJSON(object: any): Request_EventNotReceived {
     return {
       tenantId: isSet(object.tenantId) ? String(object.tenantId) : "",
       topic: isSet(object.topic) ? String(object.topic) : "",
@@ -793,7 +866,7 @@ export const Request_EventNotAck = {
     };
   },
 
-  toJSON(message: Request_EventNotAck): unknown {
+  toJSON(message: Request_EventNotReceived): unknown {
     const obj: any = {};
     message.tenantId !== undefined && (obj.tenantId = message.tenantId);
     message.topic !== undefined && (obj.topic = message.topic);
@@ -802,8 +875,151 @@ export const Request_EventNotAck = {
     return obj;
   },
 
-  fromPartial<I extends Exact<DeepPartial<Request_EventNotAck>, I>>(object: I): Request_EventNotAck {
-    const message = createBaseRequest_EventNotAck();
+  fromPartial<I extends Exact<DeepPartial<Request_EventNotReceived>, I>>(object: I): Request_EventNotReceived {
+    const message = createBaseRequest_EventNotReceived();
+    message.tenantId = object.tenantId ?? "";
+    message.topic = object.topic ?? "";
+    message.eventId = object.eventId ?? "";
+    message.reason = object.reason ?? "";
+    return message;
+  },
+};
+
+function createBaseRequest_EventHandled(): Request_EventHandled {
+  return { tenantId: "", topic: "", eventId: "" };
+}
+
+export const Request_EventHandled = {
+  encode(message: Request_EventHandled, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+    if (message.tenantId !== "") {
+      writer.uint32(10).string(message.tenantId);
+    }
+    if (message.topic !== "") {
+      writer.uint32(18).string(message.topic);
+    }
+    if (message.eventId !== "") {
+      writer.uint32(26).string(message.eventId);
+    }
+    return writer;
+  },
+
+  decode(input: _m0.Reader | Uint8Array, length?: number): Request_EventHandled {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseRequest_EventHandled();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.tenantId = reader.string();
+          break;
+        case 2:
+          message.topic = reader.string();
+          break;
+        case 3:
+          message.eventId = reader.string();
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(object: any): Request_EventHandled {
+    return {
+      tenantId: isSet(object.tenantId) ? String(object.tenantId) : "",
+      topic: isSet(object.topic) ? String(object.topic) : "",
+      eventId: isSet(object.eventId) ? String(object.eventId) : "",
+    };
+  },
+
+  toJSON(message: Request_EventHandled): unknown {
+    const obj: any = {};
+    message.tenantId !== undefined && (obj.tenantId = message.tenantId);
+    message.topic !== undefined && (obj.topic = message.topic);
+    message.eventId !== undefined && (obj.eventId = message.eventId);
+    return obj;
+  },
+
+  fromPartial<I extends Exact<DeepPartial<Request_EventHandled>, I>>(object: I): Request_EventHandled {
+    const message = createBaseRequest_EventHandled();
+    message.tenantId = object.tenantId ?? "";
+    message.topic = object.topic ?? "";
+    message.eventId = object.eventId ?? "";
+    return message;
+  },
+};
+
+function createBaseRequest_EventNotHandled(): Request_EventNotHandled {
+  return { tenantId: "", topic: "", eventId: "", reason: "" };
+}
+
+export const Request_EventNotHandled = {
+  encode(message: Request_EventNotHandled, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+    if (message.tenantId !== "") {
+      writer.uint32(10).string(message.tenantId);
+    }
+    if (message.topic !== "") {
+      writer.uint32(18).string(message.topic);
+    }
+    if (message.eventId !== "") {
+      writer.uint32(26).string(message.eventId);
+    }
+    if (message.reason !== "") {
+      writer.uint32(34).string(message.reason);
+    }
+    return writer;
+  },
+
+  decode(input: _m0.Reader | Uint8Array, length?: number): Request_EventNotHandled {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseRequest_EventNotHandled();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.tenantId = reader.string();
+          break;
+        case 2:
+          message.topic = reader.string();
+          break;
+        case 3:
+          message.eventId = reader.string();
+          break;
+        case 4:
+          message.reason = reader.string();
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(object: any): Request_EventNotHandled {
+    return {
+      tenantId: isSet(object.tenantId) ? String(object.tenantId) : "",
+      topic: isSet(object.topic) ? String(object.topic) : "",
+      eventId: isSet(object.eventId) ? String(object.eventId) : "",
+      reason: isSet(object.reason) ? String(object.reason) : "",
+    };
+  },
+
+  toJSON(message: Request_EventNotHandled): unknown {
+    const obj: any = {};
+    message.tenantId !== undefined && (obj.tenantId = message.tenantId);
+    message.topic !== undefined && (obj.topic = message.topic);
+    message.eventId !== undefined && (obj.eventId = message.eventId);
+    message.reason !== undefined && (obj.reason = message.reason);
+    return obj;
+  },
+
+  fromPartial<I extends Exact<DeepPartial<Request_EventNotHandled>, I>>(object: I): Request_EventNotHandled {
+    const message = createBaseRequest_EventNotHandled();
     message.tenantId = object.tenantId ?? "";
     message.topic = object.topic ?? "";
     message.eventId = object.eventId ?? "";

@@ -25,14 +25,26 @@ message Response {
 		string reason = 2;
 	}
 
-	message SnapshotAck {
+	message SnapshotStarted {
 		string topic = 1;
 		string snapshot_id = 2;
 		string from_time = 3;
 		string to_time = 4;
 	}
 
-	message SnapshotNotAck {
+	message SnapshotNotStarted {
+		string topic = 1;
+		string reason = 2;
+	}
+
+	message SnapshotFinished {
+		string topic = 1;
+		string snapshot_id = 2;
+		string from_time = 3;
+		string to_time = 4;
+	}
+
+	message SnapshotNotFinished {
 		string topic = 1;
 		string reason = 2;
 	}
@@ -50,14 +62,29 @@ message Response {
 		string reason = 4;
 	}
 
-	message IntroduceGdprOnFieldAck {
+	message IntroduceGdprOnFieldStarted {
 		string tenant_id = 1;
 		string topic = 2;
 		string event_type = 3;
 		string field_name = 4;
 	}
 
-	message IntroduceGdprOnFieldNotAck {
+	message IntroduceGdprOnFieldNotStarted {
+		string tenant_id = 1;
+		string topic = 2;
+		string event_type = 3;
+		string field_name = 4;
+		string reason = 5;
+	}
+
+	message IntroduceGdprOnFieldFinished {
+		string tenant_id = 1;
+		string topic = 2;
+		string event_type = 3;
+		string field_name = 4;
+	}
+
+	message IntroduceGdprOnFieldNotFinished {
 		string tenant_id = 1;
 		string topic = 2;
 		string event_type = 3;
@@ -74,11 +101,15 @@ message Response {
 		PublishNotAck publish_not_ack = 5;
 		SubscribeAck subscribe_ack = 6;
 		SubscribeNotAck subscribe_not_ack = 7;
-		SnapshotAck snapshot_ack = 8;
-		SnapshotNotAck snapshot_not_ack = 9;
-		InvalidateGdprAck invalidate_gdpr_ack = 10;
-		InvalidateGdprNotAck invalidate_gdpr_not_ack = 11;
-		IntroduceGdprOnFieldAck introduce_gdpr_on_field_ack = 12;
-		IntroduceGdprOnFieldNotAck introduce_gdpr_on_field_not_ack = 13;
+		SnapshotStarted snapshot_started = 8;
+		SnapshotNotStarted snapshot_not_started = 9;
+		SnapshotFinished snapshot_finished = 10;
+		SnapshotNotFinished snapshot_not_finished = 11;
+		InvalidateGdprAck invalidate_gdpr_ack = 12;
+		InvalidateGdprNotAck invalidate_gdpr_not_ack = 13;
+		IntroduceGdprOnFieldStarted introduce_gdpr_on_field_started = 14;
+		IntroduceGdprOnFieldNotStarted introduce_gdpr_on_field_not_started = 15;
+		IntroduceGdprOnFieldFinished introduce_gdpr_on_field_finished = 16;
+		IntroduceGdprOnFieldNotFinished introduce_gdpr_on_field_not_finished = 17;
 	}
 }
