@@ -1,3 +1,7 @@
+# v6.0.0-alpha.4
+
+- (bug) Add `reason` to negative gdpr introduction messages
+
 # v6.0.0-alpha.3
 
 - (bug) Only return `topic` in gdpr introduction messages

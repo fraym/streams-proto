@@ -97,6 +97,7 @@ export interface Response_IntroduceGdprOnFieldStarted {
 
 export interface Response_IntroduceGdprOnFieldNotStarted {
   topic: string;
+  reason: string;
 }
 
 export interface Response_IntroduceGdprOnFieldFinished {
@@ -105,6 +106,7 @@ export interface Response_IntroduceGdprOnFieldFinished {
 
 export interface Response_IntroduceGdprOnFieldNotFinished {
   topic: string;
+  reason: string;
 }
 
 function createBaseResponse(): Response {
@@ -1305,13 +1307,16 @@ export const Response_IntroduceGdprOnFieldStarted = {
 };
 
 function createBaseResponse_IntroduceGdprOnFieldNotStarted(): Response_IntroduceGdprOnFieldNotStarted {
-  return { topic: "" };
+  return { topic: "", reason: "" };
 }
 
 export const Response_IntroduceGdprOnFieldNotStarted = {
   encode(message: Response_IntroduceGdprOnFieldNotStarted, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.topic !== "") {
       writer.uint32(10).string(message.topic);
+    }
+    if (message.reason !== "") {
+      writer.uint32(18).string(message.reason);
     }
     return writer;
   },
@@ -1326,6 +1331,9 @@ export const Response_IntroduceGdprOnFieldNotStarted = {
         case 1:
           message.topic = reader.string();
           break;
+        case 2:
+          message.reason = reader.string();
+          break;
         default:
           reader.skipType(tag & 7);
           break;
@@ -1335,12 +1343,16 @@ export const Response_IntroduceGdprOnFieldNotStarted = {
   },
 
   fromJSON(object: any): Response_IntroduceGdprOnFieldNotStarted {
-    return { topic: isSet(object.topic) ? String(object.topic) : "" };
+    return {
+      topic: isSet(object.topic) ? String(object.topic) : "",
+      reason: isSet(object.reason) ? String(object.reason) : "",
+    };
   },
 
   toJSON(message: Response_IntroduceGdprOnFieldNotStarted): unknown {
     const obj: any = {};
     message.topic !== undefined && (obj.topic = message.topic);
+    message.reason !== undefined && (obj.reason = message.reason);
     return obj;
   },
 
@@ -1349,6 +1361,7 @@ export const Response_IntroduceGdprOnFieldNotStarted = {
   ): Response_IntroduceGdprOnFieldNotStarted {
     const message = createBaseResponse_IntroduceGdprOnFieldNotStarted();
     message.topic = object.topic ?? "";
+    message.reason = object.reason ?? "";
     return message;
   },
 };
@@ -1403,13 +1416,16 @@ export const Response_IntroduceGdprOnFieldFinished = {
 };
 
 function createBaseResponse_IntroduceGdprOnFieldNotFinished(): Response_IntroduceGdprOnFieldNotFinished {
-  return { topic: "" };
+  return { topic: "", reason: "" };
 }
 
 export const Response_IntroduceGdprOnFieldNotFinished = {
   encode(message: Response_IntroduceGdprOnFieldNotFinished, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.topic !== "") {
       writer.uint32(10).string(message.topic);
+    }
+    if (message.reason !== "") {
+      writer.uint32(18).string(message.reason);
     }
     return writer;
   },
@@ -1424,6 +1440,9 @@ export const Response_IntroduceGdprOnFieldNotFinished = {
         case 1:
           message.topic = reader.string();
           break;
+        case 2:
+          message.reason = reader.string();
+          break;
         default:
           reader.skipType(tag & 7);
           break;
@@ -1433,12 +1452,16 @@ export const Response_IntroduceGdprOnFieldNotFinished = {
   },
 
   fromJSON(object: any): Response_IntroduceGdprOnFieldNotFinished {
-    return { topic: isSet(object.topic) ? String(object.topic) : "" };
+    return {
+      topic: isSet(object.topic) ? String(object.topic) : "",
+      reason: isSet(object.reason) ? String(object.reason) : "",
+    };
   },
 
   toJSON(message: Response_IntroduceGdprOnFieldNotFinished): unknown {
     const obj: any = {};
     message.topic !== undefined && (obj.topic = message.topic);
+    message.reason !== undefined && (obj.reason = message.reason);
     return obj;
   },
 
@@ -1447,6 +1470,7 @@ export const Response_IntroduceGdprOnFieldNotFinished = {
   ): Response_IntroduceGdprOnFieldNotFinished {
     const message = createBaseResponse_IntroduceGdprOnFieldNotFinished();
     message.topic = object.topic ?? "";
+    message.reason = object.reason ?? "";
     return message;
   },
 };
