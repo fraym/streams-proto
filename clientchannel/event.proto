@@ -18,7 +18,7 @@ message Event {
 	string stream = 3;
 	string correlation_id = 4; 
 	string causation_id = 5;
-	string raised_at = 6;
+	int64 raised_at = 6;
 	map<string, Data> payload = 7;
 	string reason = 8;
 }

@@ -1,3 +1,7 @@
+# v6.0.0-alpha.7
+
+- (bc) Send `raised_at` field on `Event` message as int64
+
 # v6.0.0-alpha.6
 
 - (bug) Remove unused fields from `SnapshotStarted` message

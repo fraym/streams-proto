@@ -1,4 +1,5 @@
 /* eslint-disable */
+import Long from "long";
 import _m0 from "protobufjs/minimal";
 
 export const protobufPackage = "";
@@ -21,7 +22,7 @@ export interface Event {
   stream: string;
   correlationId: string;
   causationId: string;
-  raisedAt: string;
+  raisedAt: number;
   payload: { [key: string]: Data };
   reason: string;
 }
@@ -176,7 +177,7 @@ export const EventEnvelope = {
 };
 
 function createBaseEvent(): Event {
-  return { id: "", type: "", stream: "", correlationId: "", causationId: "", raisedAt: "", payload: {}, reason: "" };
+  return { id: "", type: "", stream: "", correlationId: "", causationId: "", raisedAt: 0, payload: {}, reason: "" };
 }
 
 export const Event = {
@@ -196,8 +197,8 @@ export const Event = {
     if (message.causationId !== "") {
       writer.uint32(42).string(message.causationId);
     }
-    if (message.raisedAt !== "") {
-      writer.uint32(50).string(message.raisedAt);
+    if (message.raisedAt !== 0) {
+      writer.uint32(48).int64(message.raisedAt);
     }
     Object.entries(message.payload).forEach(([key, value]) => {
       Event_PayloadEntry.encode({ key: key as any, value }, writer.uint32(58).fork()).ldelim();
@@ -231,7 +232,7 @@ export const Event = {
           message.causationId = reader.string();
           break;
         case 6:
-          message.raisedAt = reader.string();
+          message.raisedAt = longToNumber(reader.int64() as Long);
           break;
         case 7:
           const entry7 = Event_PayloadEntry.decode(reader, reader.uint32());
@@ -257,7 +258,7 @@ export const Event = {
       stream: isSet(object.stream) ? String(object.stream) : "",
       correlationId: isSet(object.correlationId) ? String(object.correlationId) : "",
       causationId: isSet(object.causationId) ? String(object.causationId) : "",
-      raisedAt: isSet(object.raisedAt) ? String(object.raisedAt) : "",
+      raisedAt: isSet(object.raisedAt) ? Number(object.raisedAt) : 0,
       payload: isObject(object.payload)
         ? Object.entries(object.payload).reduce<{ [key: string]: Data }>((acc, [key, value]) => {
           acc[key] = Data.fromJSON(value);
@@ -275,7 +276,7 @@ export const Event = {
     message.stream !== undefined && (obj.stream = message.stream);
     message.correlationId !== undefined && (obj.correlationId = message.correlationId);
     message.causationId !== undefined && (obj.causationId = message.causationId);
-    message.raisedAt !== undefined && (obj.raisedAt = message.raisedAt);
+    message.raisedAt !== undefined && (obj.raisedAt = Math.round(message.raisedAt));
     obj.payload = {};
     if (message.payload) {
       Object.entries(message.payload).forEach(([k, v]) => {
@@ -293,7 +294,7 @@ export const Event = {
     message.stream = object.stream ?? "";
     message.correlationId = object.correlationId ?? "";
     message.causationId = object.causationId ?? "";
-    message.raisedAt = object.raisedAt ?? "";
+    message.raisedAt = object.raisedAt ?? 0;
     message.payload = Object.entries(object.payload ?? {}).reduce<{ [key: string]: Data }>((acc, [key, value]) => {
       if (value !== undefined) {
         acc[key] = Data.fromPartial(value);
@@ -482,6 +483,25 @@ export const Data_GdprMetadata = {
   },
 };
 
+declare var self: any | undefined;
+declare var window: any | undefined;
+declare var global: any | undefined;
+var globalThis: any = (() => {
+  if (typeof globalThis !== "undefined") {
+    return globalThis;
+  }
+  if (typeof self !== "undefined") {
+    return self;
+  }
+  if (typeof window !== "undefined") {
+    return window;
+  }
+  if (typeof global !== "undefined") {
+    return global;
+  }
+  throw "Unable to locate global object";
+})();
+
 type Builtin = Date | Function | Uint8Array | string | number | boolean | undefined;
 
 export type DeepPartial<T> = T extends Builtin ? T
@@ -493,6 +513,18 @@ export type DeepPartial<T> = T extends Builtin ? T
 type KeysOfUnion<T> = T extends T ? keyof T : never;
 export type Exact<P, I extends P> = P extends Builtin ? P
   : P & { [K in keyof P]: Exact<P[K], I[K]> } & { [K in Exclude<keyof I, KeysOfUnion<P>>]: never };
+
+function longToNumber(long: Long): number {
+  if (long.gt(Number.MAX_SAFE_INTEGER)) {
+    throw new globalThis.Error("Value is larger than Number.MAX_SAFE_INTEGER");
+  }
+  return long.toNumber();
+}
+
+if (_m0.util.Long !== Long) {
+  _m0.util.Long = Long as any;
+  _m0.configure();
+}
 
 function isObject(value: any): boolean {
   return typeof value === "object" && value !== null;
