@@ -1,4 +1,4 @@
-module github.com/fraym-work/streams-proto/go/v6
+module github.com/fraym/streams-proto/go/v6
 
 go 1.18
 

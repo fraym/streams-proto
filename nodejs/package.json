@@ -2,10 +2,10 @@
     "name": "@fraym/streams-proto",
     "version": "6.0.0-alpha.4",
     "license": "UNLICENSED",
-    "homepage": "https://github.com/fraym-work/streams-proto",
+    "homepage": "https://github.com/fraym/streams-proto",
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/fraym-work/streams-proto.git"
+        "url": "git+https://github.com/fraym/streams-proto.git"
     },
     "description": "nodejs generated protobuf code for our streaming service",
     "scripts": {

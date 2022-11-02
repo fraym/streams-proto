@@ -7,7 +7,7 @@
 package backchannelpb
 
 import (
-	clientchannelpb "github.com/fraym-work/streams-proto/go/v6/clientchannelpb"
+	clientchannelpb "github.com/fraym/streams-proto/go/v6/clientchannelpb"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	reflect "reflect"

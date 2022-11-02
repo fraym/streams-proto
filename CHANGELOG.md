@@ -1,3 +1,7 @@
+# v6.0.0-alpha.5
+
+- (bc) Update org name
+
 # v6.0.0-alpha.4
 
 - (bug) Add `reason` to negative gdpr introduction messages
