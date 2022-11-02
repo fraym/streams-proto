@@ -27,9 +27,6 @@ message Response {
 
 	message SnapshotStarted {
 		string topic = 1;
-		string snapshot_id = 2;
-		string from_time = 3;
-		string to_time = 4;
 	}
 
 	message SnapshotNotStarted {

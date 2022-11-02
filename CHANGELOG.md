@@ -1,3 +1,7 @@
+# v6.0.0-alpha.6
+
+- (bug) Remove unused fields from `SnapshotStarted` message
+
 # v6.0.0-alpha.5
 
 - (bc) Update org name

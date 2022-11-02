@@ -56,9 +56,6 @@ export interface Response_SubscribeNotAck {
 
 export interface Response_SnapshotStarted {
   topic: string;
-  snapshotId: string;
-  fromTime: string;
-  toTime: string;
 }
 
 export interface Response_SnapshotNotStarted {
@@ -845,22 +842,13 @@ export const Response_SubscribeNotAck = {
 };
 
 function createBaseResponse_SnapshotStarted(): Response_SnapshotStarted {
-  return { topic: "", snapshotId: "", fromTime: "", toTime: "" };
+  return { topic: "" };
 }
 
 export const Response_SnapshotStarted = {
   encode(message: Response_SnapshotStarted, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.topic !== "") {
       writer.uint32(10).string(message.topic);
-    }
-    if (message.snapshotId !== "") {
-      writer.uint32(18).string(message.snapshotId);
-    }
-    if (message.fromTime !== "") {
-      writer.uint32(26).string(message.fromTime);
-    }
-    if (message.toTime !== "") {
-      writer.uint32(34).string(message.toTime);
     }
     return writer;
   },
@@ -875,15 +863,6 @@ export const Response_SnapshotStarted = {
         case 1:
           message.topic = reader.string();
           break;
-        case 2:
-          message.snapshotId = reader.string();
-          break;
-        case 3:
-          message.fromTime = reader.string();
-          break;
-        case 4:
-          message.toTime = reader.string();
-          break;
         default:
           reader.skipType(tag & 7);
           break;
@@ -893,29 +872,18 @@ export const Response_SnapshotStarted = {
   },
 
   fromJSON(object: any): Response_SnapshotStarted {
-    return {
-      topic: isSet(object.topic) ? String(object.topic) : "",
-      snapshotId: isSet(object.snapshotId) ? String(object.snapshotId) : "",
-      fromTime: isSet(object.fromTime) ? String(object.fromTime) : "",
-      toTime: isSet(object.toTime) ? String(object.toTime) : "",
-    };
+    return { topic: isSet(object.topic) ? String(object.topic) : "" };
   },
 
   toJSON(message: Response_SnapshotStarted): unknown {
     const obj: any = {};
     message.topic !== undefined && (obj.topic = message.topic);
-    message.snapshotId !== undefined && (obj.snapshotId = message.snapshotId);
-    message.fromTime !== undefined && (obj.fromTime = message.fromTime);
-    message.toTime !== undefined && (obj.toTime = message.toTime);
     return obj;
   },
 
   fromPartial<I extends Exact<DeepPartial<Response_SnapshotStarted>, I>>(object: I): Response_SnapshotStarted {
     const message = createBaseResponse_SnapshotStarted();
     message.topic = object.topic ?? "";
-    message.snapshotId = object.snapshotId ?? "";
-    message.fromTime = object.fromTime ?? "";
-    message.toTime = object.toTime ?? "";
     return message;
   },
 };
