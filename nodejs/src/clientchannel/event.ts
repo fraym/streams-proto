@@ -8,6 +8,7 @@ export interface PublishEventEnvelope {
   tenantId: string;
   topic: string;
   event: Event | undefined;
+  broadcast: boolean;
 }
 
 export interface EventEnvelope {
@@ -43,7 +44,7 @@ export interface Data_GdprMetadata {
 }
 
 function createBasePublishEventEnvelope(): PublishEventEnvelope {
-  return { tenantId: "", topic: "", event: undefined };
+  return { tenantId: "", topic: "", event: undefined, broadcast: false };
 }
 
 export const PublishEventEnvelope = {
@@ -56,6 +57,9 @@ export const PublishEventEnvelope = {
     }
     if (message.event !== undefined) {
       Event.encode(message.event, writer.uint32(26).fork()).ldelim();
+    }
+    if (message.broadcast === true) {
+      writer.uint32(32).bool(message.broadcast);
     }
     return writer;
   },
@@ -76,6 +80,9 @@ export const PublishEventEnvelope = {
         case 3:
           message.event = Event.decode(reader, reader.uint32());
           break;
+        case 4:
+          message.broadcast = reader.bool();
+          break;
         default:
           reader.skipType(tag & 7);
           break;
@@ -89,6 +96,7 @@ export const PublishEventEnvelope = {
       tenantId: isSet(object.tenantId) ? String(object.tenantId) : "",
       topic: isSet(object.topic) ? String(object.topic) : "",
       event: isSet(object.event) ? Event.fromJSON(object.event) : undefined,
+      broadcast: isSet(object.broadcast) ? Boolean(object.broadcast) : false,
     };
   },
 
@@ -97,6 +105,7 @@ export const PublishEventEnvelope = {
     message.tenantId !== undefined && (obj.tenantId = message.tenantId);
     message.topic !== undefined && (obj.topic = message.topic);
     message.event !== undefined && (obj.event = message.event ? Event.toJSON(message.event) : undefined);
+    message.broadcast !== undefined && (obj.broadcast = message.broadcast);
     return obj;
   },
 
@@ -105,6 +114,7 @@ export const PublishEventEnvelope = {
     message.tenantId = object.tenantId ?? "";
     message.topic = object.topic ?? "";
     message.event = (object.event !== undefined && object.event !== null) ? Event.fromPartial(object.event) : undefined;
+    message.broadcast = object.broadcast ?? false;
     return message;
   },
 };

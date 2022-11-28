@@ -4,6 +4,7 @@ message PublishEventEnvelope {
 	string tenant_id = 1;
 	string topic = 2;
 	Event event = 3;
+	bool broadcast = 4;
 }
 
 message EventEnvelope {
