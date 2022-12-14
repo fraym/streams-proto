@@ -1,3 +1,7 @@
+# v6.0.0-alpha.9
+
+- (bug) Fix `raisedAt` parsing in `Event`
+
 # v6.0.0-alpha.8
 
 - (feature) Add `broadcast` flag to `PublishEventEnvelope`

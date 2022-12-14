@@ -10,6 +10,7 @@ protoc \
 	--ts_proto_opt=env=node \
 	--ts_proto_opt=oneof=unions \
 	--ts_proto_opt=outputServices=grpc-js \
+	--ts_proto_opt=forceLong=string \
 	clientchannel/*.proto
 
 cd nodejs
