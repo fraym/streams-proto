@@ -1,3 +1,7 @@
+# v6.0.0-alpha.10
+
+- (bug) Fix version of @grpc/grpc-js
+
 # v6.0.0-alpha.9
 
 - (bug) Fix `raisedAt` parsing in `Event`
