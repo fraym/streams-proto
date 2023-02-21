@@ -7,7 +7,7 @@ This repository contains all protocol buffers for the gRPC api of the streams se
 ### Install go package
 
 ```bash
-go get -u github.com/fraym/streams-proto/go/v6
+go get -u github.com/fraym/streams-proto/go/v7
 ```
 
 ### Install nodejs package
