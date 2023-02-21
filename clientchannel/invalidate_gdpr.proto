@@ -1,0 +1,10 @@
+syntax = "proto3";
+package clientchannel;
+
+message InvalidateGdprRequest {
+	string tenant_id = 1;
+	string topic = 2;
+	string gdpr_id = 3;
+}
+
+message InvalidateGdprResponse {}

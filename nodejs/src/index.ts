@@ -2,45 +2,6 @@ export { ServiceClient, ServiceServer, ServiceService } from "./clientchannel/se
 
 export {
     DeepPartial,
-    Exact,
-    Response,
-    Response_InitAck,
-    Response_InitNotAck,
-    Response_InvalidateGdprAck,
-    Response_InvalidateGdprNotAck,
-    Response_PublishAck,
-    Response_PublishNotAck,
-    Response_SnapshotFinished,
-    Response_SnapshotNotFinished,
-    Response_SnapshotStarted,
-    Response_SnapshotNotStarted,
-    Response_SubscribeAck,
-    Response_SubscribeNotAck,
-    Response_IntroduceGdprOnFieldFinished,
-    Response_IntroduceGdprOnFieldNotFinished,
-    Response_IntroduceGdprOnFieldNotStarted,
-    Response_IntroduceGdprOnFieldStarted,
-} from "./clientchannel/response";
-
-export {
-    Request,
-    Request_EventHandled,
-    Request_EventNotHandled,
-    Request_EventNotReceived,
-    Request_EventReceived,
-    Request_IntroduceGdprOnFieldAction,
-    Request_InitAction,
-    Request_InvalidateGdprAction,
-    Request_PublishAction,
-    Request_SnapshotAction,
-    Request_SubscribeAction,
-} from "./clientchannel/request";
-
-export { GetStreamRequest, GetStreamResponse } from "./clientchannel/get_stream";
-
-export { GetEventsFromStartRequest } from "./clientchannel/get_events_from_start";
-
-export {
     Data,
     Data_GdprMetadata,
     Event,
@@ -48,3 +9,33 @@ export {
     Event_PayloadEntry,
     PublishEventEnvelope,
 } from "./clientchannel/event";
+
+export { GetEventsFromStartRequest } from "./clientchannel/get_events_from_start";
+
+export { GetStreamRequest, GetStreamResponse } from "./clientchannel/get_stream";
+
+export {
+    IntroduceGdprOnFieldRequest,
+    IntroduceGdprOnFieldResponse,
+} from "./clientchannel/introduce_gdpr_on_field";
+
+export { InvalidateGdprRequest, InvalidateGdprResponse } from "./clientchannel/invalidate_gdpr";
+
+export { PublishRequest, PublishResponse } from "./clientchannel/publish";
+
+export { SnapshotRequest, SnapshotResponse } from "./clientchannel/snapshot";
+
+export {
+    SubscribeRequest,
+    SubscribeRequest_EventHandled,
+    SubscribeRequest_EventNotHandled,
+    SubscribeRequest_EventNotReceived,
+    SubscribeRequest_EventReceived,
+    SubscribeRequest_InitAction,
+    SubscribeRequest_SubscribeAction,
+    SubscribeResponse,
+    SubscribeResponse_InitAck,
+    SubscribeResponse_InitNotAck,
+    SubscribeResponse_SubscribeAck,
+    SubscribeResponse_SubscribeNotAck,
+} from "./clientchannel/subscribe";

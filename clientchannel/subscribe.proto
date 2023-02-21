@@ -1,0 +1,72 @@
+syntax = "proto3";
+package clientchannel;
+import "clientchannel/event.proto";
+ 
+message SubscribeRequest {
+	message InitAction {
+		string group_id = 1;
+		string subscriber_id = 2; 
+	}
+
+	message SubscribeAction {
+		repeated string included_topics = 1;
+		repeated string excluded_topics = 2;
+	}
+
+	message EventReceived {
+		string tenant_id = 1;
+		string topic = 2;
+		string event_id = 3;
+	}
+
+	message EventNotReceived {
+		string tenant_id = 1;
+		string topic = 2;
+		string event_id = 3;
+		string reason = 4;
+	}
+
+	message EventHandled {
+		string tenant_id = 1;
+		string topic = 2;
+		string event_id = 3;
+	}
+
+	message EventNotHandled {
+		string tenant_id = 1;
+		string topic = 2;
+		string event_id = 3;
+		string reason = 4;
+	}
+
+	oneof payload {
+		InitAction init = 1;
+		SubscribeAction subscribe = 2;
+		EventReceived event_received = 3;
+		EventNotReceived event_not_received = 4;
+		EventHandled event_handled = 5;
+		EventNotHandled event_not_handled = 6;
+	}
+}
+
+message SubscribeResponse {
+	message InitAck {}
+
+	message InitNotAck {
+		string reason = 1;
+	}
+
+	message SubscribeAck {}
+
+	message SubscribeNotAck {
+		string reason = 2;
+	}
+
+	oneof data {
+		PublishEventEnvelope event = 1;
+		InitAck init_ack = 2;
+		InitNotAck init_not_ack = 3;
+		SubscribeAck subscribe_ack = 4;
+		SubscribeNotAck subscribe_not_ack = 5;
+	}
+}

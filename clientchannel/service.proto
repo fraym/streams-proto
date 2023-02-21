@@ -1,13 +1,20 @@
 syntax = "proto3";
 package clientchannel;
-import "clientchannel/request.proto";
-import "clientchannel/response.proto";
 import "clientchannel/get_events_from_start.proto";
 import "clientchannel/get_stream.proto";
 import "clientchannel/event.proto";
+import "clientchannel/publish.proto";
+import "clientchannel/subscribe.proto";
+import "clientchannel/snapshot.proto";
+import "clientchannel/introduce_gdpr_on_field.proto";
+import "clientchannel/invalidate_gdpr.proto";
  
 service Service {
-	rpc Connect(stream Request) returns (stream Response);
-	rpc GetEventsFromStart(GetEventsFromStartRequest) returns (stream PublishEventEnvelope);
+	rpc Subscribe(stream SubscribeRequest) returns (stream SubscribeResponse);
+	rpc Publish(PublishRequest) returns (PublishResponse);
 	rpc GetStream(GetStreamRequest) returns (GetStreamResponse);
+	rpc GetEventsFromStart(GetEventsFromStartRequest) returns (stream PublishEventEnvelope);
+	rpc IntroduceGdprOnField(IntroduceGdprOnFieldRequest) returns (IntroduceGdprOnFieldResponse);
+	rpc InvalidateGdpr(InvalidateGdprRequest) returns (InvalidateGdprResponse);
+	rpc Snapshot(SnapshotRequest) returns (SnapshotResponse);
 }

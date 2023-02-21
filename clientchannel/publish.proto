@@ -1,0 +1,10 @@
+syntax = "proto3";
+package clientchannel;
+import "clientchannel/event.proto";
+
+message PublishRequest {
+	string topic = 1;
+	repeated EventEnvelope events = 3;
+}
+
+message PublishResponse {}

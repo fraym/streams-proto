@@ -1,3 +1,7 @@
+# v7.0.0-alpha.1
+
+- (bc) Do less logic in streaming rpcs therefore introduce that logic in rpc calls
+
 # v6.0.0-alpha.10
 
 - (bug) Fix version of @grpc/grpc-js

@@ -18,21 +18,42 @@ import {
 import { PublishEventEnvelope } from "./event";
 import { GetEventsFromStartRequest } from "./get_events_from_start";
 import { GetStreamRequest, GetStreamResponse } from "./get_stream";
-import { Request } from "./request";
-import { Response } from "./response";
+import { IntroduceGdprOnFieldRequest, IntroduceGdprOnFieldResponse } from "./introduce_gdpr_on_field";
+import { InvalidateGdprRequest, InvalidateGdprResponse } from "./invalidate_gdpr";
+import { PublishRequest, PublishResponse } from "./publish";
+import { SnapshotRequest, SnapshotResponse } from "./snapshot";
+import { SubscribeRequest, SubscribeResponse } from "./subscribe";
 
 export const protobufPackage = "clientchannel";
 
 export type ServiceService = typeof ServiceService;
 export const ServiceService = {
-  connect: {
-    path: "/clientchannel.Service/Connect",
+  subscribe: {
+    path: "/clientchannel.Service/Subscribe",
     requestStream: true,
     responseStream: true,
-    requestSerialize: (value: Request) => Buffer.from(Request.encode(value).finish()),
-    requestDeserialize: (value: Buffer) => Request.decode(value),
-    responseSerialize: (value: Response) => Buffer.from(Response.encode(value).finish()),
-    responseDeserialize: (value: Buffer) => Response.decode(value),
+    requestSerialize: (value: SubscribeRequest) => Buffer.from(SubscribeRequest.encode(value).finish()),
+    requestDeserialize: (value: Buffer) => SubscribeRequest.decode(value),
+    responseSerialize: (value: SubscribeResponse) => Buffer.from(SubscribeResponse.encode(value).finish()),
+    responseDeserialize: (value: Buffer) => SubscribeResponse.decode(value),
+  },
+  publish: {
+    path: "/clientchannel.Service/Publish",
+    requestStream: false,
+    responseStream: false,
+    requestSerialize: (value: PublishRequest) => Buffer.from(PublishRequest.encode(value).finish()),
+    requestDeserialize: (value: Buffer) => PublishRequest.decode(value),
+    responseSerialize: (value: PublishResponse) => Buffer.from(PublishResponse.encode(value).finish()),
+    responseDeserialize: (value: Buffer) => PublishResponse.decode(value),
+  },
+  getStream: {
+    path: "/clientchannel.Service/GetStream",
+    requestStream: false,
+    responseStream: false,
+    requestSerialize: (value: GetStreamRequest) => Buffer.from(GetStreamRequest.encode(value).finish()),
+    requestDeserialize: (value: Buffer) => GetStreamRequest.decode(value),
+    responseSerialize: (value: GetStreamResponse) => Buffer.from(GetStreamResponse.encode(value).finish()),
+    responseDeserialize: (value: Buffer) => GetStreamResponse.decode(value),
   },
   getEventsFromStart: {
     path: "/clientchannel.Service/GetEventsFromStart",
@@ -44,36 +65,69 @@ export const ServiceService = {
     responseSerialize: (value: PublishEventEnvelope) => Buffer.from(PublishEventEnvelope.encode(value).finish()),
     responseDeserialize: (value: Buffer) => PublishEventEnvelope.decode(value),
   },
-  getStream: {
-    path: "/clientchannel.Service/GetStream",
+  introduceGdprOnField: {
+    path: "/clientchannel.Service/IntroduceGdprOnField",
     requestStream: false,
     responseStream: false,
-    requestSerialize: (value: GetStreamRequest) => Buffer.from(GetStreamRequest.encode(value).finish()),
-    requestDeserialize: (value: Buffer) => GetStreamRequest.decode(value),
-    responseSerialize: (value: GetStreamResponse) => Buffer.from(GetStreamResponse.encode(value).finish()),
-    responseDeserialize: (value: Buffer) => GetStreamResponse.decode(value),
+    requestSerialize: (value: IntroduceGdprOnFieldRequest) =>
+      Buffer.from(IntroduceGdprOnFieldRequest.encode(value).finish()),
+    requestDeserialize: (value: Buffer) => IntroduceGdprOnFieldRequest.decode(value),
+    responseSerialize: (value: IntroduceGdprOnFieldResponse) =>
+      Buffer.from(IntroduceGdprOnFieldResponse.encode(value).finish()),
+    responseDeserialize: (value: Buffer) => IntroduceGdprOnFieldResponse.decode(value),
+  },
+  invalidateGdpr: {
+    path: "/clientchannel.Service/InvalidateGdpr",
+    requestStream: false,
+    responseStream: false,
+    requestSerialize: (value: InvalidateGdprRequest) => Buffer.from(InvalidateGdprRequest.encode(value).finish()),
+    requestDeserialize: (value: Buffer) => InvalidateGdprRequest.decode(value),
+    responseSerialize: (value: InvalidateGdprResponse) => Buffer.from(InvalidateGdprResponse.encode(value).finish()),
+    responseDeserialize: (value: Buffer) => InvalidateGdprResponse.decode(value),
+  },
+  snapshot: {
+    path: "/clientchannel.Service/Snapshot",
+    requestStream: false,
+    responseStream: false,
+    requestSerialize: (value: SnapshotRequest) => Buffer.from(SnapshotRequest.encode(value).finish()),
+    requestDeserialize: (value: Buffer) => SnapshotRequest.decode(value),
+    responseSerialize: (value: SnapshotResponse) => Buffer.from(SnapshotResponse.encode(value).finish()),
+    responseDeserialize: (value: Buffer) => SnapshotResponse.decode(value),
   },
 } as const;
 
 export interface ServiceServer extends UntypedServiceImplementation {
-  connect: handleBidiStreamingCall<Request, Response>;
-  getEventsFromStart: handleServerStreamingCall<GetEventsFromStartRequest, PublishEventEnvelope>;
+  subscribe: handleBidiStreamingCall<SubscribeRequest, SubscribeResponse>;
+  publish: handleUnaryCall<PublishRequest, PublishResponse>;
   getStream: handleUnaryCall<GetStreamRequest, GetStreamResponse>;
+  getEventsFromStart: handleServerStreamingCall<GetEventsFromStartRequest, PublishEventEnvelope>;
+  introduceGdprOnField: handleUnaryCall<IntroduceGdprOnFieldRequest, IntroduceGdprOnFieldResponse>;
+  invalidateGdpr: handleUnaryCall<InvalidateGdprRequest, InvalidateGdprResponse>;
+  snapshot: handleUnaryCall<SnapshotRequest, SnapshotResponse>;
 }
 
 export interface ServiceClient extends Client {
-  connect(): ClientDuplexStream<Request, Response>;
-  connect(options: Partial<CallOptions>): ClientDuplexStream<Request, Response>;
-  connect(metadata: Metadata, options?: Partial<CallOptions>): ClientDuplexStream<Request, Response>;
-  getEventsFromStart(
-    request: GetEventsFromStartRequest,
+  subscribe(): ClientDuplexStream<SubscribeRequest, SubscribeResponse>;
+  subscribe(options: Partial<CallOptions>): ClientDuplexStream<SubscribeRequest, SubscribeResponse>;
+  subscribe(
+    metadata: Metadata,
     options?: Partial<CallOptions>,
-  ): ClientReadableStream<PublishEventEnvelope>;
-  getEventsFromStart(
-    request: GetEventsFromStartRequest,
-    metadata?: Metadata,
-    options?: Partial<CallOptions>,
-  ): ClientReadableStream<PublishEventEnvelope>;
+  ): ClientDuplexStream<SubscribeRequest, SubscribeResponse>;
+  publish(
+    request: PublishRequest,
+    callback: (error: ServiceError | null, response: PublishResponse) => void,
+  ): ClientUnaryCall;
+  publish(
+    request: PublishRequest,
+    metadata: Metadata,
+    callback: (error: ServiceError | null, response: PublishResponse) => void,
+  ): ClientUnaryCall;
+  publish(
+    request: PublishRequest,
+    metadata: Metadata,
+    options: Partial<CallOptions>,
+    callback: (error: ServiceError | null, response: PublishResponse) => void,
+  ): ClientUnaryCall;
   getStream(
     request: GetStreamRequest,
     callback: (error: ServiceError | null, response: GetStreamResponse) => void,
@@ -88,6 +142,60 @@ export interface ServiceClient extends Client {
     metadata: Metadata,
     options: Partial<CallOptions>,
     callback: (error: ServiceError | null, response: GetStreamResponse) => void,
+  ): ClientUnaryCall;
+  getEventsFromStart(
+    request: GetEventsFromStartRequest,
+    options?: Partial<CallOptions>,
+  ): ClientReadableStream<PublishEventEnvelope>;
+  getEventsFromStart(
+    request: GetEventsFromStartRequest,
+    metadata?: Metadata,
+    options?: Partial<CallOptions>,
+  ): ClientReadableStream<PublishEventEnvelope>;
+  introduceGdprOnField(
+    request: IntroduceGdprOnFieldRequest,
+    callback: (error: ServiceError | null, response: IntroduceGdprOnFieldResponse) => void,
+  ): ClientUnaryCall;
+  introduceGdprOnField(
+    request: IntroduceGdprOnFieldRequest,
+    metadata: Metadata,
+    callback: (error: ServiceError | null, response: IntroduceGdprOnFieldResponse) => void,
+  ): ClientUnaryCall;
+  introduceGdprOnField(
+    request: IntroduceGdprOnFieldRequest,
+    metadata: Metadata,
+    options: Partial<CallOptions>,
+    callback: (error: ServiceError | null, response: IntroduceGdprOnFieldResponse) => void,
+  ): ClientUnaryCall;
+  invalidateGdpr(
+    request: InvalidateGdprRequest,
+    callback: (error: ServiceError | null, response: InvalidateGdprResponse) => void,
+  ): ClientUnaryCall;
+  invalidateGdpr(
+    request: InvalidateGdprRequest,
+    metadata: Metadata,
+    callback: (error: ServiceError | null, response: InvalidateGdprResponse) => void,
+  ): ClientUnaryCall;
+  invalidateGdpr(
+    request: InvalidateGdprRequest,
+    metadata: Metadata,
+    options: Partial<CallOptions>,
+    callback: (error: ServiceError | null, response: InvalidateGdprResponse) => void,
+  ): ClientUnaryCall;
+  snapshot(
+    request: SnapshotRequest,
+    callback: (error: ServiceError | null, response: SnapshotResponse) => void,
+  ): ClientUnaryCall;
+  snapshot(
+    request: SnapshotRequest,
+    metadata: Metadata,
+    callback: (error: ServiceError | null, response: SnapshotResponse) => void,
+  ): ClientUnaryCall;
+  snapshot(
+    request: SnapshotRequest,
+    metadata: Metadata,
+    options: Partial<CallOptions>,
+    callback: (error: ServiceError | null, response: SnapshotResponse) => void,
   ): ClientUnaryCall;
 }
 
