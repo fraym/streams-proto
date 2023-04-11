@@ -8,6 +8,7 @@ import "clientchannel/subscribe.proto";
 import "clientchannel/snapshot.proto";
 import "clientchannel/introduce_gdpr_on_field.proto";
 import "clientchannel/invalidate_gdpr.proto";
+import "clientchannel/log.proto";
  
 service Service {
 	rpc Subscribe(stream SubscribeRequest) returns (stream SubscribeResponse);
@@ -17,4 +18,5 @@ service Service {
 	rpc IntroduceGdprOnField(IntroduceGdprOnFieldRequest) returns (IntroduceGdprOnFieldResponse);
 	rpc InvalidateGdpr(InvalidateGdprRequest) returns (InvalidateGdprResponse);
 	rpc Snapshot(SnapshotRequest) returns (SnapshotResponse);
+	rpc GetLog(LogRequest) returns(LogResponse);
 }

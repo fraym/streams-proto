@@ -1,0 +1,26 @@
+syntax = "proto3";
+package clientchannel;
+import "clientchannel/event.proto";
+
+message LogRequest {
+	string tenant_id = 1;
+	string stream = 2;
+	string correlation_id = 3;
+}
+
+message LogResponse {
+	string tenant_id = 1;
+	repeated LogEvent logs = 2;
+}
+
+message LogEvent {
+	string id = 1;
+	string type = 2;
+	string stream = 3;
+	string correlation_id = 4; 
+	string causation_id = 5;
+	int64 raised_at = 6;
+	map<string, Data> payload = 7;
+	string reason = 8;
+	repeated string consumedByGroups = 9;
+}

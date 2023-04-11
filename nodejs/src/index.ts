@@ -14,6 +14,8 @@ export { GetEventsFromStartRequest } from "./clientchannel/get_events_from_start
 
 export { GetStreamRequest, GetStreamResponse } from "./clientchannel/get_stream";
 
+export { LogEvent, LogEvent_PayloadEntry, LogRequest, LogResponse } from "./clientchannel/log";
+
 export {
     IntroduceGdprOnFieldRequest,
     IntroduceGdprOnFieldResponse,

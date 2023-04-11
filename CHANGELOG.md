@@ -1,3 +1,7 @@
+# v7.0.0
+
+- (feature) Add log endpoint.
+
 # v7.0.0-alpha.1
 
 - (bc) Do less logic in streaming rpcs therefore introduce that logic in rpc calls
