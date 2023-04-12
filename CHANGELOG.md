@@ -1,6 +1,10 @@
+# v7.0.1
+
+- (bug) Remove unwanted log endpoint
+
 # v7.0.0
 
-- (feature) Add log endpoint.
+- (feature) Add log endpoint
 
 # v7.0.0-alpha.1
 

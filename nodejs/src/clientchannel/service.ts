@@ -20,7 +20,6 @@ import { GetEventsFromStartRequest } from "./get_events_from_start";
 import { GetStreamRequest, GetStreamResponse } from "./get_stream";
 import { IntroduceGdprOnFieldRequest, IntroduceGdprOnFieldResponse } from "./introduce_gdpr_on_field";
 import { InvalidateGdprRequest, InvalidateGdprResponse } from "./invalidate_gdpr";
-import { LogRequest, LogResponse } from "./log";
 import { PublishRequest, PublishResponse } from "./publish";
 import { SnapshotRequest, SnapshotResponse } from "./snapshot";
 import { SubscribeRequest, SubscribeResponse } from "./subscribe";
@@ -95,15 +94,6 @@ export const ServiceService = {
     responseSerialize: (value: SnapshotResponse) => Buffer.from(SnapshotResponse.encode(value).finish()),
     responseDeserialize: (value: Buffer) => SnapshotResponse.decode(value),
   },
-  getLog: {
-    path: "/clientchannel.Service/GetLog",
-    requestStream: false,
-    responseStream: false,
-    requestSerialize: (value: LogRequest) => Buffer.from(LogRequest.encode(value).finish()),
-    requestDeserialize: (value: Buffer) => LogRequest.decode(value),
-    responseSerialize: (value: LogResponse) => Buffer.from(LogResponse.encode(value).finish()),
-    responseDeserialize: (value: Buffer) => LogResponse.decode(value),
-  },
 } as const;
 
 export interface ServiceServer extends UntypedServiceImplementation {
@@ -114,7 +104,6 @@ export interface ServiceServer extends UntypedServiceImplementation {
   introduceGdprOnField: handleUnaryCall<IntroduceGdprOnFieldRequest, IntroduceGdprOnFieldResponse>;
   invalidateGdpr: handleUnaryCall<InvalidateGdprRequest, InvalidateGdprResponse>;
   snapshot: handleUnaryCall<SnapshotRequest, SnapshotResponse>;
-  getLog: handleUnaryCall<LogRequest, LogResponse>;
 }
 
 export interface ServiceClient extends Client {
@@ -207,18 +196,6 @@ export interface ServiceClient extends Client {
     metadata: Metadata,
     options: Partial<CallOptions>,
     callback: (error: ServiceError | null, response: SnapshotResponse) => void,
-  ): ClientUnaryCall;
-  getLog(request: LogRequest, callback: (error: ServiceError | null, response: LogResponse) => void): ClientUnaryCall;
-  getLog(
-    request: LogRequest,
-    metadata: Metadata,
-    callback: (error: ServiceError | null, response: LogResponse) => void,
-  ): ClientUnaryCall;
-  getLog(
-    request: LogRequest,
-    metadata: Metadata,
-    options: Partial<CallOptions>,
-    callback: (error: ServiceError | null, response: LogResponse) => void,
   ): ClientUnaryCall;
 }
 

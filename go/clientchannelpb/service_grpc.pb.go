@@ -29,7 +29,6 @@ type ServiceClient interface {
 	IntroduceGdprOnField(ctx context.Context, in *IntroduceGdprOnFieldRequest, opts ...grpc.CallOption) (*IntroduceGdprOnFieldResponse, error)
 	InvalidateGdpr(ctx context.Context, in *InvalidateGdprRequest, opts ...grpc.CallOption) (*InvalidateGdprResponse, error)
 	Snapshot(ctx context.Context, in *SnapshotRequest, opts ...grpc.CallOption) (*SnapshotResponse, error)
-	GetLog(ctx context.Context, in *LogRequest, opts ...grpc.CallOption) (*LogResponse, error)
 }
 
 type serviceClient struct {
@@ -148,15 +147,6 @@ func (c *serviceClient) Snapshot(ctx context.Context, in *SnapshotRequest, opts 
 	return out, nil
 }
 
-func (c *serviceClient) GetLog(ctx context.Context, in *LogRequest, opts ...grpc.CallOption) (*LogResponse, error) {
-	out := new(LogResponse)
-	err := c.cc.Invoke(ctx, "/clientchannel.Service/GetLog", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
 // ServiceServer is the server API for Service service.
 // All implementations must embed UnimplementedServiceServer
 // for forward compatibility
@@ -168,7 +158,6 @@ type ServiceServer interface {
 	IntroduceGdprOnField(context.Context, *IntroduceGdprOnFieldRequest) (*IntroduceGdprOnFieldResponse, error)
 	InvalidateGdpr(context.Context, *InvalidateGdprRequest) (*InvalidateGdprResponse, error)
 	Snapshot(context.Context, *SnapshotRequest) (*SnapshotResponse, error)
-	GetLog(context.Context, *LogRequest) (*LogResponse, error)
 	mustEmbedUnimplementedServiceServer()
 }
 
@@ -196,9 +185,6 @@ func (UnimplementedServiceServer) InvalidateGdpr(context.Context, *InvalidateGdp
 }
 func (UnimplementedServiceServer) Snapshot(context.Context, *SnapshotRequest) (*SnapshotResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Snapshot not implemented")
-}
-func (UnimplementedServiceServer) GetLog(context.Context, *LogRequest) (*LogResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetLog not implemented")
 }
 func (UnimplementedServiceServer) mustEmbedUnimplementedServiceServer() {}
 
@@ -350,24 +336,6 @@ func _Service_Snapshot_Handler(srv interface{}, ctx context.Context, dec func(in
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Service_GetLog_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(LogRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(ServiceServer).GetLog(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/clientchannel.Service/GetLog",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ServiceServer).GetLog(ctx, req.(*LogRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
 // Service_ServiceDesc is the grpc.ServiceDesc for Service service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -394,10 +362,6 @@ var Service_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "Snapshot",
 			Handler:    _Service_Snapshot_Handler,
-		},
-		{
-			MethodName: "GetLog",
-			Handler:    _Service_GetLog_Handler,
 		},
 	},
 	Streams: []grpc.StreamDesc{
