@@ -1,7 +1,7 @@
 {
     "name": "@fraym/streams-proto",
     "version": "7.0.1",
-    "license": "UNLICENSED",
+    "license": "MIT",
     "homepage": "https://github.com/fraym/streams-proto",
     "repository": {
         "type": "git",
