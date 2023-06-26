@@ -5,11 +5,12 @@ export const protobufPackage = "clientchannel";
 
 export interface GetEventRequest {
   tenantId: string;
+  topic: string;
   eventId: string;
 }
 
 function createBaseGetEventRequest(): GetEventRequest {
-  return { tenantId: "", eventId: "" };
+  return { tenantId: "", topic: "", eventId: "" };
 }
 
 export const GetEventRequest = {
@@ -17,8 +18,11 @@ export const GetEventRequest = {
     if (message.tenantId !== "") {
       writer.uint32(10).string(message.tenantId);
     }
+    if (message.topic !== "") {
+      writer.uint32(18).string(message.topic);
+    }
     if (message.eventId !== "") {
-      writer.uint32(18).string(message.eventId);
+      writer.uint32(26).string(message.eventId);
     }
     return writer;
   },
@@ -42,6 +46,13 @@ export const GetEventRequest = {
             break;
           }
 
+          message.topic = reader.string();
+          continue;
+        case 3:
+          if (tag !== 26) {
+            break;
+          }
+
           message.eventId = reader.string();
           continue;
       }
@@ -56,6 +67,7 @@ export const GetEventRequest = {
   fromJSON(object: any): GetEventRequest {
     return {
       tenantId: isSet(object.tenantId) ? String(object.tenantId) : "",
+      topic: isSet(object.topic) ? String(object.topic) : "",
       eventId: isSet(object.eventId) ? String(object.eventId) : "",
     };
   },
@@ -63,6 +75,7 @@ export const GetEventRequest = {
   toJSON(message: GetEventRequest): unknown {
     const obj: any = {};
     message.tenantId !== undefined && (obj.tenantId = message.tenantId);
+    message.topic !== undefined && (obj.topic = message.topic);
     message.eventId !== undefined && (obj.eventId = message.eventId);
     return obj;
   },
@@ -74,6 +87,7 @@ export const GetEventRequest = {
   fromPartial<I extends Exact<DeepPartial<GetEventRequest>, I>>(object: I): GetEventRequest {
     const message = createBaseGetEventRequest();
     message.tenantId = object.tenantId ?? "";
+    message.topic = object.topic ?? "";
     message.eventId = object.eventId ?? "";
     return message;
   },

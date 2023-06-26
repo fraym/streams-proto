@@ -1,3 +1,8 @@
+# v7.1.2
+
+- (bug) Add missing `topic` field to `GetEventRequest`
+- (bug) Add missing `tenant` field to `IntroduceGdprOnEventFieldRequest`
+
 # v7.1.1
 
 - (bug) Add `invalidated` field to `GdprMetadata`

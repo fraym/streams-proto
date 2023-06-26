@@ -4,6 +4,7 @@ import _m0 from "protobufjs/minimal";
 export const protobufPackage = "clientchannel";
 
 export interface IntroduceGdprOnEventFieldRequest {
+  tenant: string;
   topic: string;
   eventId: string;
   fieldName: string;
@@ -14,22 +15,25 @@ export interface IntroduceGdprOnEventFieldResponse {
 }
 
 function createBaseIntroduceGdprOnEventFieldRequest(): IntroduceGdprOnEventFieldRequest {
-  return { topic: "", eventId: "", fieldName: "", defaultValue: "" };
+  return { tenant: "", topic: "", eventId: "", fieldName: "", defaultValue: "" };
 }
 
 export const IntroduceGdprOnEventFieldRequest = {
   encode(message: IntroduceGdprOnEventFieldRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+    if (message.tenant !== "") {
+      writer.uint32(10).string(message.tenant);
+    }
     if (message.topic !== "") {
-      writer.uint32(10).string(message.topic);
+      writer.uint32(18).string(message.topic);
     }
     if (message.eventId !== "") {
-      writer.uint32(18).string(message.eventId);
+      writer.uint32(26).string(message.eventId);
     }
     if (message.fieldName !== "") {
-      writer.uint32(26).string(message.fieldName);
+      writer.uint32(34).string(message.fieldName);
     }
     if (message.defaultValue !== "") {
-      writer.uint32(34).string(message.defaultValue);
+      writer.uint32(42).string(message.defaultValue);
     }
     return writer;
   },
@@ -46,24 +50,31 @@ export const IntroduceGdprOnEventFieldRequest = {
             break;
           }
 
-          message.topic = reader.string();
+          message.tenant = reader.string();
           continue;
         case 2:
           if (tag !== 18) {
             break;
           }
 
-          message.eventId = reader.string();
+          message.topic = reader.string();
           continue;
         case 3:
           if (tag !== 26) {
             break;
           }
 
-          message.fieldName = reader.string();
+          message.eventId = reader.string();
           continue;
         case 4:
           if (tag !== 34) {
+            break;
+          }
+
+          message.fieldName = reader.string();
+          continue;
+        case 5:
+          if (tag !== 42) {
             break;
           }
 
@@ -80,6 +91,7 @@ export const IntroduceGdprOnEventFieldRequest = {
 
   fromJSON(object: any): IntroduceGdprOnEventFieldRequest {
     return {
+      tenant: isSet(object.tenant) ? String(object.tenant) : "",
       topic: isSet(object.topic) ? String(object.topic) : "",
       eventId: isSet(object.eventId) ? String(object.eventId) : "",
       fieldName: isSet(object.fieldName) ? String(object.fieldName) : "",
@@ -89,6 +101,7 @@ export const IntroduceGdprOnEventFieldRequest = {
 
   toJSON(message: IntroduceGdprOnEventFieldRequest): unknown {
     const obj: any = {};
+    message.tenant !== undefined && (obj.tenant = message.tenant);
     message.topic !== undefined && (obj.topic = message.topic);
     message.eventId !== undefined && (obj.eventId = message.eventId);
     message.fieldName !== undefined && (obj.fieldName = message.fieldName);
@@ -106,6 +119,7 @@ export const IntroduceGdprOnEventFieldRequest = {
     object: I,
   ): IntroduceGdprOnEventFieldRequest {
     const message = createBaseIntroduceGdprOnEventFieldRequest();
+    message.tenant = object.tenant ?? "";
     message.topic = object.topic ?? "";
     message.eventId = object.eventId ?? "";
     message.fieldName = object.fieldName ?? "";
