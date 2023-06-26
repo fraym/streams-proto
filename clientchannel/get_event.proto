@@ -1,0 +1,7 @@
+syntax = "proto3";
+package clientchannel;
+
+message GetEventRequest {
+	string tenant_id = 1;
+	string event_id = 2;
+}

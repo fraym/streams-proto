@@ -14,10 +14,17 @@ export { GetEventsFromStartRequest } from "./clientchannel/get_events_from_start
 
 export { GetStreamRequest, GetStreamResponse } from "./clientchannel/get_stream";
 
+export { GetEventRequest } from "./clientchannel/get_event";
+
 export {
     IntroduceGdprOnFieldRequest,
     IntroduceGdprOnFieldResponse,
 } from "./clientchannel/introduce_gdpr_on_field";
+
+export {
+    IntroduceGdprOnEventFieldRequest,
+    IntroduceGdprOnEventFieldResponse,
+} from "./clientchannel/introduce_gdpr_on_event_field";
 
 export { InvalidateGdprRequest, InvalidateGdprResponse } from "./clientchannel/invalidate_gdpr";
 

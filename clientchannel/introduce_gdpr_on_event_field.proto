@@ -1,0 +1,11 @@
+syntax = "proto3";
+package clientchannel;
+
+message IntroduceGdprOnEventFieldRequest {
+	string topic = 1;
+	string event_id = 2;
+	string field_name = 3;
+	string default_value = 4;
+}
+
+message IntroduceGdprOnEventFieldResponse {}

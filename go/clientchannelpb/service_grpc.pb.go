@@ -25,8 +25,10 @@ type ServiceClient interface {
 	Subscribe(ctx context.Context, opts ...grpc.CallOption) (Service_SubscribeClient, error)
 	Publish(ctx context.Context, in *PublishRequest, opts ...grpc.CallOption) (*PublishResponse, error)
 	GetStream(ctx context.Context, in *GetStreamRequest, opts ...grpc.CallOption) (*GetStreamResponse, error)
+	GetEvent(ctx context.Context, in *GetEventRequest, opts ...grpc.CallOption) (*PublishEventEnvelope, error)
 	GetEventsFromStart(ctx context.Context, in *GetEventsFromStartRequest, opts ...grpc.CallOption) (Service_GetEventsFromStartClient, error)
 	IntroduceGdprOnField(ctx context.Context, in *IntroduceGdprOnFieldRequest, opts ...grpc.CallOption) (*IntroduceGdprOnFieldResponse, error)
+	IntroduceGdprOnEventField(ctx context.Context, in *IntroduceGdprOnEventFieldRequest, opts ...grpc.CallOption) (*IntroduceGdprOnEventFieldResponse, error)
 	InvalidateGdpr(ctx context.Context, in *InvalidateGdprRequest, opts ...grpc.CallOption) (*InvalidateGdprResponse, error)
 	Snapshot(ctx context.Context, in *SnapshotRequest, opts ...grpc.CallOption) (*SnapshotResponse, error)
 }
@@ -88,6 +90,15 @@ func (c *serviceClient) GetStream(ctx context.Context, in *GetStreamRequest, opt
 	return out, nil
 }
 
+func (c *serviceClient) GetEvent(ctx context.Context, in *GetEventRequest, opts ...grpc.CallOption) (*PublishEventEnvelope, error) {
+	out := new(PublishEventEnvelope)
+	err := c.cc.Invoke(ctx, "/clientchannel.Service/GetEvent", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *serviceClient) GetEventsFromStart(ctx context.Context, in *GetEventsFromStartRequest, opts ...grpc.CallOption) (Service_GetEventsFromStartClient, error) {
 	stream, err := c.cc.NewStream(ctx, &Service_ServiceDesc.Streams[1], "/clientchannel.Service/GetEventsFromStart", opts...)
 	if err != nil {
@@ -129,6 +140,15 @@ func (c *serviceClient) IntroduceGdprOnField(ctx context.Context, in *IntroduceG
 	return out, nil
 }
 
+func (c *serviceClient) IntroduceGdprOnEventField(ctx context.Context, in *IntroduceGdprOnEventFieldRequest, opts ...grpc.CallOption) (*IntroduceGdprOnEventFieldResponse, error) {
+	out := new(IntroduceGdprOnEventFieldResponse)
+	err := c.cc.Invoke(ctx, "/clientchannel.Service/IntroduceGdprOnEventField", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *serviceClient) InvalidateGdpr(ctx context.Context, in *InvalidateGdprRequest, opts ...grpc.CallOption) (*InvalidateGdprResponse, error) {
 	out := new(InvalidateGdprResponse)
 	err := c.cc.Invoke(ctx, "/clientchannel.Service/InvalidateGdpr", in, out, opts...)
@@ -154,8 +174,10 @@ type ServiceServer interface {
 	Subscribe(Service_SubscribeServer) error
 	Publish(context.Context, *PublishRequest) (*PublishResponse, error)
 	GetStream(context.Context, *GetStreamRequest) (*GetStreamResponse, error)
+	GetEvent(context.Context, *GetEventRequest) (*PublishEventEnvelope, error)
 	GetEventsFromStart(*GetEventsFromStartRequest, Service_GetEventsFromStartServer) error
 	IntroduceGdprOnField(context.Context, *IntroduceGdprOnFieldRequest) (*IntroduceGdprOnFieldResponse, error)
+	IntroduceGdprOnEventField(context.Context, *IntroduceGdprOnEventFieldRequest) (*IntroduceGdprOnEventFieldResponse, error)
 	InvalidateGdpr(context.Context, *InvalidateGdprRequest) (*InvalidateGdprResponse, error)
 	Snapshot(context.Context, *SnapshotRequest) (*SnapshotResponse, error)
 	mustEmbedUnimplementedServiceServer()
@@ -174,11 +196,17 @@ func (UnimplementedServiceServer) Publish(context.Context, *PublishRequest) (*Pu
 func (UnimplementedServiceServer) GetStream(context.Context, *GetStreamRequest) (*GetStreamResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetStream not implemented")
 }
+func (UnimplementedServiceServer) GetEvent(context.Context, *GetEventRequest) (*PublishEventEnvelope, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetEvent not implemented")
+}
 func (UnimplementedServiceServer) GetEventsFromStart(*GetEventsFromStartRequest, Service_GetEventsFromStartServer) error {
 	return status.Errorf(codes.Unimplemented, "method GetEventsFromStart not implemented")
 }
 func (UnimplementedServiceServer) IntroduceGdprOnField(context.Context, *IntroduceGdprOnFieldRequest) (*IntroduceGdprOnFieldResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method IntroduceGdprOnField not implemented")
+}
+func (UnimplementedServiceServer) IntroduceGdprOnEventField(context.Context, *IntroduceGdprOnEventFieldRequest) (*IntroduceGdprOnEventFieldResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method IntroduceGdprOnEventField not implemented")
 }
 func (UnimplementedServiceServer) InvalidateGdpr(context.Context, *InvalidateGdprRequest) (*InvalidateGdprResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method InvalidateGdpr not implemented")
@@ -261,6 +289,24 @@ func _Service_GetStream_Handler(srv interface{}, ctx context.Context, dec func(i
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Service_GetEvent_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetEventRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ServiceServer).GetEvent(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/clientchannel.Service/GetEvent",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ServiceServer).GetEvent(ctx, req.(*GetEventRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _Service_GetEventsFromStart_Handler(srv interface{}, stream grpc.ServerStream) error {
 	m := new(GetEventsFromStartRequest)
 	if err := stream.RecvMsg(m); err != nil {
@@ -296,6 +342,24 @@ func _Service_IntroduceGdprOnField_Handler(srv interface{}, ctx context.Context,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(ServiceServer).IntroduceGdprOnField(ctx, req.(*IntroduceGdprOnFieldRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Service_IntroduceGdprOnEventField_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(IntroduceGdprOnEventFieldRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ServiceServer).IntroduceGdprOnEventField(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/clientchannel.Service/IntroduceGdprOnEventField",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ServiceServer).IntroduceGdprOnEventField(ctx, req.(*IntroduceGdprOnEventFieldRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -352,8 +416,16 @@ var Service_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _Service_GetStream_Handler,
 		},
 		{
+			MethodName: "GetEvent",
+			Handler:    _Service_GetEvent_Handler,
+		},
+		{
 			MethodName: "IntroduceGdprOnField",
 			Handler:    _Service_IntroduceGdprOnField_Handler,
+		},
+		{
+			MethodName: "IntroduceGdprOnEventField",
+			Handler:    _Service_IntroduceGdprOnEventField_Handler,
 		},
 		{
 			MethodName: "InvalidateGdpr",

@@ -1,3 +1,8 @@
+# v7.1.0
+
+- (feature) Add get event endpoint
+- (feature) Add introduce gdpr on event field endpoint
+
 # v7.0.1
 
 - (bug) Remove unwanted log endpoint
