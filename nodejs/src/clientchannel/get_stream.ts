@@ -29,22 +29,31 @@ export const GetStreamRequest = {
   },
 
   decode(input: _m0.Reader | Uint8Array, length?: number): GetStreamRequest {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+    const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseGetStreamRequest();
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1:
+          if (tag !== 10) {
+            break;
+          }
+
           message.tenantId = reader.string();
-          break;
+          continue;
         case 2:
+          if (tag !== 18) {
+            break;
+          }
+
           message.stream = reader.string();
-          break;
-        default:
-          reader.skipType(tag & 7);
-          break;
+          continue;
       }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skipType(tag & 7);
     }
     return message;
   },
@@ -61,6 +70,10 @@ export const GetStreamRequest = {
     message.tenantId !== undefined && (obj.tenantId = message.tenantId);
     message.stream !== undefined && (obj.stream = message.stream);
     return obj;
+  },
+
+  create<I extends Exact<DeepPartial<GetStreamRequest>, I>>(base?: I): GetStreamRequest {
+    return GetStreamRequest.fromPartial(base ?? {});
   },
 
   fromPartial<I extends Exact<DeepPartial<GetStreamRequest>, I>>(object: I): GetStreamRequest {
@@ -84,19 +97,24 @@ export const GetStreamResponse = {
   },
 
   decode(input: _m0.Reader | Uint8Array, length?: number): GetStreamResponse {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+    const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseGetStreamResponse();
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1:
+          if (tag !== 10) {
+            break;
+          }
+
           message.events.push(PublishEventEnvelope.decode(reader, reader.uint32()));
-          break;
-        default:
-          reader.skipType(tag & 7);
-          break;
+          continue;
       }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skipType(tag & 7);
     }
     return message;
   },
@@ -115,6 +133,10 @@ export const GetStreamResponse = {
       obj.events = [];
     }
     return obj;
+  },
+
+  create<I extends Exact<DeepPartial<GetStreamResponse>, I>>(base?: I): GetStreamResponse {
+    return GetStreamResponse.fromPartial(base ?? {});
   },
 
   fromPartial<I extends Exact<DeepPartial<GetStreamResponse>, I>>(object: I): GetStreamResponse {

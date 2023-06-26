@@ -24,22 +24,31 @@ export const GetEventRequest = {
   },
 
   decode(input: _m0.Reader | Uint8Array, length?: number): GetEventRequest {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+    const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseGetEventRequest();
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1:
+          if (tag !== 10) {
+            break;
+          }
+
           message.tenantId = reader.string();
-          break;
+          continue;
         case 2:
+          if (tag !== 18) {
+            break;
+          }
+
           message.eventId = reader.string();
-          break;
-        default:
-          reader.skipType(tag & 7);
-          break;
+          continue;
       }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skipType(tag & 7);
     }
     return message;
   },
@@ -56,6 +65,10 @@ export const GetEventRequest = {
     message.tenantId !== undefined && (obj.tenantId = message.tenantId);
     message.eventId !== undefined && (obj.eventId = message.eventId);
     return obj;
+  },
+
+  create<I extends Exact<DeepPartial<GetEventRequest>, I>>(base?: I): GetEventRequest {
+    return GetEventRequest.fromPartial(base ?? {});
   },
 
   fromPartial<I extends Exact<DeepPartial<GetEventRequest>, I>>(object: I): GetEventRequest {

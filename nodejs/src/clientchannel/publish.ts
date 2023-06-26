@@ -28,22 +28,31 @@ export const PublishRequest = {
   },
 
   decode(input: _m0.Reader | Uint8Array, length?: number): PublishRequest {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+    const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBasePublishRequest();
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1:
+          if (tag !== 10) {
+            break;
+          }
+
           message.topic = reader.string();
-          break;
+          continue;
         case 3:
+          if (tag !== 26) {
+            break;
+          }
+
           message.events.push(EventEnvelope.decode(reader, reader.uint32()));
-          break;
-        default:
-          reader.skipType(tag & 7);
-          break;
+          continue;
       }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skipType(tag & 7);
     }
     return message;
   },
@@ -66,6 +75,10 @@ export const PublishRequest = {
     return obj;
   },
 
+  create<I extends Exact<DeepPartial<PublishRequest>, I>>(base?: I): PublishRequest {
+    return PublishRequest.fromPartial(base ?? {});
+  },
+
   fromPartial<I extends Exact<DeepPartial<PublishRequest>, I>>(object: I): PublishRequest {
     const message = createBasePublishRequest();
     message.topic = object.topic ?? "";
@@ -84,16 +97,17 @@ export const PublishResponse = {
   },
 
   decode(input: _m0.Reader | Uint8Array, length?: number): PublishResponse {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+    const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBasePublishResponse();
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
-        default:
-          reader.skipType(tag & 7);
-          break;
       }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skipType(tag & 7);
     }
     return message;
   },
@@ -105,6 +119,10 @@ export const PublishResponse = {
   toJSON(_: PublishResponse): unknown {
     const obj: any = {};
     return obj;
+  },
+
+  create<I extends Exact<DeepPartial<PublishResponse>, I>>(base?: I): PublishResponse {
+    return PublishResponse.fromPartial(base ?? {});
   },
 
   fromPartial<I extends Exact<DeepPartial<PublishResponse>, I>>(_: I): PublishResponse {

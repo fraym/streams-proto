@@ -41,6 +41,7 @@ export interface Data {
 export interface Data_GdprMetadata {
   default: string;
   id: string;
+  invalidated: boolean;
 }
 
 function createBasePublishEventEnvelope(): PublishEventEnvelope {
@@ -65,28 +66,45 @@ export const PublishEventEnvelope = {
   },
 
   decode(input: _m0.Reader | Uint8Array, length?: number): PublishEventEnvelope {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+    const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBasePublishEventEnvelope();
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1:
+          if (tag !== 10) {
+            break;
+          }
+
           message.tenantId = reader.string();
-          break;
+          continue;
         case 2:
+          if (tag !== 18) {
+            break;
+          }
+
           message.topic = reader.string();
-          break;
+          continue;
         case 3:
+          if (tag !== 26) {
+            break;
+          }
+
           message.event = Event.decode(reader, reader.uint32());
-          break;
+          continue;
         case 4:
+          if (tag !== 32) {
+            break;
+          }
+
           message.broadcast = reader.bool();
-          break;
-        default:
-          reader.skipType(tag & 7);
-          break;
+          continue;
       }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skipType(tag & 7);
     }
     return message;
   },
@@ -107,6 +125,10 @@ export const PublishEventEnvelope = {
     message.event !== undefined && (obj.event = message.event ? Event.toJSON(message.event) : undefined);
     message.broadcast !== undefined && (obj.broadcast = message.broadcast);
     return obj;
+  },
+
+  create<I extends Exact<DeepPartial<PublishEventEnvelope>, I>>(base?: I): PublishEventEnvelope {
+    return PublishEventEnvelope.fromPartial(base ?? {});
   },
 
   fromPartial<I extends Exact<DeepPartial<PublishEventEnvelope>, I>>(object: I): PublishEventEnvelope {
@@ -138,25 +160,38 @@ export const EventEnvelope = {
   },
 
   decode(input: _m0.Reader | Uint8Array, length?: number): EventEnvelope {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+    const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseEventEnvelope();
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1:
+          if (tag !== 10) {
+            break;
+          }
+
           message.tenantId = reader.string();
-          break;
+          continue;
         case 2:
+          if (tag !== 16) {
+            break;
+          }
+
           message.broadcast = reader.bool();
-          break;
+          continue;
         case 3:
+          if (tag !== 26) {
+            break;
+          }
+
           message.event = Event.decode(reader, reader.uint32());
-          break;
-        default:
-          reader.skipType(tag & 7);
-          break;
+          continue;
       }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skipType(tag & 7);
     }
     return message;
   },
@@ -175,6 +210,10 @@ export const EventEnvelope = {
     message.broadcast !== undefined && (obj.broadcast = message.broadcast);
     message.event !== undefined && (obj.event = message.event ? Event.toJSON(message.event) : undefined);
     return obj;
+  },
+
+  create<I extends Exact<DeepPartial<EventEnvelope>, I>>(base?: I): EventEnvelope {
+    return EventEnvelope.fromPartial(base ?? {});
   },
 
   fromPartial<I extends Exact<DeepPartial<EventEnvelope>, I>>(object: I): EventEnvelope {
@@ -220,43 +259,76 @@ export const Event = {
   },
 
   decode(input: _m0.Reader | Uint8Array, length?: number): Event {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+    const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseEvent();
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1:
+          if (tag !== 10) {
+            break;
+          }
+
           message.id = reader.string();
-          break;
+          continue;
         case 2:
+          if (tag !== 18) {
+            break;
+          }
+
           message.type = reader.string();
-          break;
+          continue;
         case 3:
+          if (tag !== 26) {
+            break;
+          }
+
           message.stream = reader.string();
-          break;
+          continue;
         case 4:
+          if (tag !== 34) {
+            break;
+          }
+
           message.correlationId = reader.string();
-          break;
+          continue;
         case 5:
+          if (tag !== 42) {
+            break;
+          }
+
           message.causationId = reader.string();
-          break;
+          continue;
         case 6:
+          if (tag !== 48) {
+            break;
+          }
+
           message.raisedAt = longToString(reader.int64() as Long);
-          break;
+          continue;
         case 7:
+          if (tag !== 58) {
+            break;
+          }
+
           const entry7 = Event_PayloadEntry.decode(reader, reader.uint32());
           if (entry7.value !== undefined) {
             message.payload[entry7.key] = entry7.value;
           }
-          break;
+          continue;
         case 8:
+          if (tag !== 66) {
+            break;
+          }
+
           message.reason = reader.string();
-          break;
-        default:
-          reader.skipType(tag & 7);
-          break;
+          continue;
       }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skipType(tag & 7);
     }
     return message;
   },
@@ -297,6 +369,10 @@ export const Event = {
     return obj;
   },
 
+  create<I extends Exact<DeepPartial<Event>, I>>(base?: I): Event {
+    return Event.fromPartial(base ?? {});
+  },
+
   fromPartial<I extends Exact<DeepPartial<Event>, I>>(object: I): Event {
     const message = createBaseEvent();
     message.id = object.id ?? "";
@@ -332,22 +408,31 @@ export const Event_PayloadEntry = {
   },
 
   decode(input: _m0.Reader | Uint8Array, length?: number): Event_PayloadEntry {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+    const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseEvent_PayloadEntry();
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1:
+          if (tag !== 10) {
+            break;
+          }
+
           message.key = reader.string();
-          break;
+          continue;
         case 2:
+          if (tag !== 18) {
+            break;
+          }
+
           message.value = Data.decode(reader, reader.uint32());
-          break;
-        default:
-          reader.skipType(tag & 7);
-          break;
+          continue;
       }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skipType(tag & 7);
     }
     return message;
   },
@@ -364,6 +449,10 @@ export const Event_PayloadEntry = {
     message.key !== undefined && (obj.key = message.key);
     message.value !== undefined && (obj.value = message.value ? Data.toJSON(message.value) : undefined);
     return obj;
+  },
+
+  create<I extends Exact<DeepPartial<Event_PayloadEntry>, I>>(base?: I): Event_PayloadEntry {
+    return Event_PayloadEntry.fromPartial(base ?? {});
   },
 
   fromPartial<I extends Exact<DeepPartial<Event_PayloadEntry>, I>>(object: I): Event_PayloadEntry {
@@ -383,29 +472,40 @@ export const Data = {
     if (message.value !== "") {
       writer.uint32(10).string(message.value);
     }
-    if (message.metadata?.$case === "gdpr") {
-      Data_GdprMetadata.encode(message.metadata.gdpr, writer.uint32(18).fork()).ldelim();
+    switch (message.metadata?.$case) {
+      case "gdpr":
+        Data_GdprMetadata.encode(message.metadata.gdpr, writer.uint32(18).fork()).ldelim();
+        break;
     }
     return writer;
   },
 
   decode(input: _m0.Reader | Uint8Array, length?: number): Data {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+    const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseData();
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1:
+          if (tag !== 10) {
+            break;
+          }
+
           message.value = reader.string();
-          break;
+          continue;
         case 2:
+          if (tag !== 18) {
+            break;
+          }
+
           message.metadata = { $case: "gdpr", gdpr: Data_GdprMetadata.decode(reader, reader.uint32()) };
-          break;
-        default:
-          reader.skipType(tag & 7);
-          break;
+          continue;
       }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skipType(tag & 7);
     }
     return message;
   },
@@ -425,6 +525,10 @@ export const Data = {
     return obj;
   },
 
+  create<I extends Exact<DeepPartial<Data>, I>>(base?: I): Data {
+    return Data.fromPartial(base ?? {});
+  },
+
   fromPartial<I extends Exact<DeepPartial<Data>, I>>(object: I): Data {
     const message = createBaseData();
     message.value = object.value ?? "";
@@ -436,7 +540,7 @@ export const Data = {
 };
 
 function createBaseData_GdprMetadata(): Data_GdprMetadata {
-  return { default: "", id: "" };
+  return { default: "", id: "", invalidated: false };
 }
 
 export const Data_GdprMetadata = {
@@ -447,26 +551,45 @@ export const Data_GdprMetadata = {
     if (message.id !== "") {
       writer.uint32(18).string(message.id);
     }
+    if (message.invalidated === true) {
+      writer.uint32(24).bool(message.invalidated);
+    }
     return writer;
   },
 
   decode(input: _m0.Reader | Uint8Array, length?: number): Data_GdprMetadata {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+    const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseData_GdprMetadata();
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1:
+          if (tag !== 10) {
+            break;
+          }
+
           message.default = reader.string();
-          break;
+          continue;
         case 2:
+          if (tag !== 18) {
+            break;
+          }
+
           message.id = reader.string();
-          break;
-        default:
-          reader.skipType(tag & 7);
-          break;
+          continue;
+        case 3:
+          if (tag !== 24) {
+            break;
+          }
+
+          message.invalidated = reader.bool();
+          continue;
       }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skipType(tag & 7);
     }
     return message;
   },
@@ -475,6 +598,7 @@ export const Data_GdprMetadata = {
     return {
       default: isSet(object.default) ? String(object.default) : "",
       id: isSet(object.id) ? String(object.id) : "",
+      invalidated: isSet(object.invalidated) ? Boolean(object.invalidated) : false,
     };
   },
 
@@ -482,13 +606,19 @@ export const Data_GdprMetadata = {
     const obj: any = {};
     message.default !== undefined && (obj.default = message.default);
     message.id !== undefined && (obj.id = message.id);
+    message.invalidated !== undefined && (obj.invalidated = message.invalidated);
     return obj;
+  },
+
+  create<I extends Exact<DeepPartial<Data_GdprMetadata>, I>>(base?: I): Data_GdprMetadata {
+    return Data_GdprMetadata.fromPartial(base ?? {});
   },
 
   fromPartial<I extends Exact<DeepPartial<Data_GdprMetadata>, I>>(object: I): Data_GdprMetadata {
     const message = createBaseData_GdprMetadata();
     message.default = object.default ?? "";
     message.id = object.id ?? "";
+    message.invalidated = object.invalidated ?? false;
     return message;
   },
 };

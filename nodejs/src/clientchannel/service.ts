@@ -2,9 +2,9 @@
 import {
   CallOptions,
   ChannelCredentials,
-  ChannelOptions,
   Client,
   ClientDuplexStream,
+  ClientOptions,
   ClientReadableStream,
   ClientUnaryCall,
   handleBidiStreamingCall,
@@ -254,6 +254,6 @@ export interface ServiceClient extends Client {
 }
 
 export const ServiceClient = makeGenericClientConstructor(ServiceService, "clientchannel.Service") as unknown as {
-  new (address: string, credentials: ChannelCredentials, options?: Partial<ChannelOptions>): ServiceClient;
+  new (address: string, credentials: ChannelCredentials, options?: Partial<ClientOptions>): ServiceClient;
   service: typeof ServiceService;
 };

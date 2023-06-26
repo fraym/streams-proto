@@ -79,71 +79,98 @@ function createBaseSubscribeRequest(): SubscribeRequest {
 
 export const SubscribeRequest = {
   encode(message: SubscribeRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
-    if (message.payload?.$case === "init") {
-      SubscribeRequest_InitAction.encode(message.payload.init, writer.uint32(10).fork()).ldelim();
-    }
-    if (message.payload?.$case === "subscribe") {
-      SubscribeRequest_SubscribeAction.encode(message.payload.subscribe, writer.uint32(18).fork()).ldelim();
-    }
-    if (message.payload?.$case === "eventReceived") {
-      SubscribeRequest_EventReceived.encode(message.payload.eventReceived, writer.uint32(26).fork()).ldelim();
-    }
-    if (message.payload?.$case === "eventNotReceived") {
-      SubscribeRequest_EventNotReceived.encode(message.payload.eventNotReceived, writer.uint32(34).fork()).ldelim();
-    }
-    if (message.payload?.$case === "eventHandled") {
-      SubscribeRequest_EventHandled.encode(message.payload.eventHandled, writer.uint32(42).fork()).ldelim();
-    }
-    if (message.payload?.$case === "eventNotHandled") {
-      SubscribeRequest_EventNotHandled.encode(message.payload.eventNotHandled, writer.uint32(50).fork()).ldelim();
+    switch (message.payload?.$case) {
+      case "init":
+        SubscribeRequest_InitAction.encode(message.payload.init, writer.uint32(10).fork()).ldelim();
+        break;
+      case "subscribe":
+        SubscribeRequest_SubscribeAction.encode(message.payload.subscribe, writer.uint32(18).fork()).ldelim();
+        break;
+      case "eventReceived":
+        SubscribeRequest_EventReceived.encode(message.payload.eventReceived, writer.uint32(26).fork()).ldelim();
+        break;
+      case "eventNotReceived":
+        SubscribeRequest_EventNotReceived.encode(message.payload.eventNotReceived, writer.uint32(34).fork()).ldelim();
+        break;
+      case "eventHandled":
+        SubscribeRequest_EventHandled.encode(message.payload.eventHandled, writer.uint32(42).fork()).ldelim();
+        break;
+      case "eventNotHandled":
+        SubscribeRequest_EventNotHandled.encode(message.payload.eventNotHandled, writer.uint32(50).fork()).ldelim();
+        break;
     }
     return writer;
   },
 
   decode(input: _m0.Reader | Uint8Array, length?: number): SubscribeRequest {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+    const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseSubscribeRequest();
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1:
+          if (tag !== 10) {
+            break;
+          }
+
           message.payload = { $case: "init", init: SubscribeRequest_InitAction.decode(reader, reader.uint32()) };
-          break;
+          continue;
         case 2:
+          if (tag !== 18) {
+            break;
+          }
+
           message.payload = {
             $case: "subscribe",
             subscribe: SubscribeRequest_SubscribeAction.decode(reader, reader.uint32()),
           };
-          break;
+          continue;
         case 3:
+          if (tag !== 26) {
+            break;
+          }
+
           message.payload = {
             $case: "eventReceived",
             eventReceived: SubscribeRequest_EventReceived.decode(reader, reader.uint32()),
           };
-          break;
+          continue;
         case 4:
+          if (tag !== 34) {
+            break;
+          }
+
           message.payload = {
             $case: "eventNotReceived",
             eventNotReceived: SubscribeRequest_EventNotReceived.decode(reader, reader.uint32()),
           };
-          break;
+          continue;
         case 5:
+          if (tag !== 42) {
+            break;
+          }
+
           message.payload = {
             $case: "eventHandled",
             eventHandled: SubscribeRequest_EventHandled.decode(reader, reader.uint32()),
           };
-          break;
+          continue;
         case 6:
+          if (tag !== 50) {
+            break;
+          }
+
           message.payload = {
             $case: "eventNotHandled",
             eventNotHandled: SubscribeRequest_EventNotHandled.decode(reader, reader.uint32()),
           };
-          break;
-        default:
-          reader.skipType(tag & 7);
-          break;
+          continue;
       }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skipType(tag & 7);
     }
     return message;
   },
@@ -192,6 +219,10 @@ export const SubscribeRequest = {
       ? SubscribeRequest_EventNotHandled.toJSON(message.payload?.eventNotHandled)
       : undefined);
     return obj;
+  },
+
+  create<I extends Exact<DeepPartial<SubscribeRequest>, I>>(base?: I): SubscribeRequest {
+    return SubscribeRequest.fromPartial(base ?? {});
   },
 
   fromPartial<I extends Exact<DeepPartial<SubscribeRequest>, I>>(object: I): SubscribeRequest {
@@ -269,22 +300,31 @@ export const SubscribeRequest_InitAction = {
   },
 
   decode(input: _m0.Reader | Uint8Array, length?: number): SubscribeRequest_InitAction {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+    const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseSubscribeRequest_InitAction();
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1:
+          if (tag !== 10) {
+            break;
+          }
+
           message.groupId = reader.string();
-          break;
+          continue;
         case 2:
+          if (tag !== 18) {
+            break;
+          }
+
           message.subscriberId = reader.string();
-          break;
-        default:
-          reader.skipType(tag & 7);
-          break;
+          continue;
       }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skipType(tag & 7);
     }
     return message;
   },
@@ -301,6 +341,10 @@ export const SubscribeRequest_InitAction = {
     message.groupId !== undefined && (obj.groupId = message.groupId);
     message.subscriberId !== undefined && (obj.subscriberId = message.subscriberId);
     return obj;
+  },
+
+  create<I extends Exact<DeepPartial<SubscribeRequest_InitAction>, I>>(base?: I): SubscribeRequest_InitAction {
+    return SubscribeRequest_InitAction.fromPartial(base ?? {});
   },
 
   fromPartial<I extends Exact<DeepPartial<SubscribeRequest_InitAction>, I>>(object: I): SubscribeRequest_InitAction {
@@ -327,22 +371,31 @@ export const SubscribeRequest_SubscribeAction = {
   },
 
   decode(input: _m0.Reader | Uint8Array, length?: number): SubscribeRequest_SubscribeAction {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+    const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseSubscribeRequest_SubscribeAction();
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1:
+          if (tag !== 10) {
+            break;
+          }
+
           message.includedTopics.push(reader.string());
-          break;
+          continue;
         case 2:
+          if (tag !== 18) {
+            break;
+          }
+
           message.excludedTopics.push(reader.string());
-          break;
-        default:
-          reader.skipType(tag & 7);
-          break;
+          continue;
       }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skipType(tag & 7);
     }
     return message;
   },
@@ -367,6 +420,12 @@ export const SubscribeRequest_SubscribeAction = {
       obj.excludedTopics = [];
     }
     return obj;
+  },
+
+  create<I extends Exact<DeepPartial<SubscribeRequest_SubscribeAction>, I>>(
+    base?: I,
+  ): SubscribeRequest_SubscribeAction {
+    return SubscribeRequest_SubscribeAction.fromPartial(base ?? {});
   },
 
   fromPartial<I extends Exact<DeepPartial<SubscribeRequest_SubscribeAction>, I>>(
@@ -398,25 +457,38 @@ export const SubscribeRequest_EventReceived = {
   },
 
   decode(input: _m0.Reader | Uint8Array, length?: number): SubscribeRequest_EventReceived {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+    const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseSubscribeRequest_EventReceived();
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1:
+          if (tag !== 10) {
+            break;
+          }
+
           message.tenantId = reader.string();
-          break;
+          continue;
         case 2:
+          if (tag !== 18) {
+            break;
+          }
+
           message.topic = reader.string();
-          break;
+          continue;
         case 3:
+          if (tag !== 26) {
+            break;
+          }
+
           message.eventId = reader.string();
-          break;
-        default:
-          reader.skipType(tag & 7);
-          break;
+          continue;
       }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skipType(tag & 7);
     }
     return message;
   },
@@ -435,6 +507,10 @@ export const SubscribeRequest_EventReceived = {
     message.topic !== undefined && (obj.topic = message.topic);
     message.eventId !== undefined && (obj.eventId = message.eventId);
     return obj;
+  },
+
+  create<I extends Exact<DeepPartial<SubscribeRequest_EventReceived>, I>>(base?: I): SubscribeRequest_EventReceived {
+    return SubscribeRequest_EventReceived.fromPartial(base ?? {});
   },
 
   fromPartial<I extends Exact<DeepPartial<SubscribeRequest_EventReceived>, I>>(
@@ -470,28 +546,45 @@ export const SubscribeRequest_EventNotReceived = {
   },
 
   decode(input: _m0.Reader | Uint8Array, length?: number): SubscribeRequest_EventNotReceived {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+    const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseSubscribeRequest_EventNotReceived();
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1:
+          if (tag !== 10) {
+            break;
+          }
+
           message.tenantId = reader.string();
-          break;
+          continue;
         case 2:
+          if (tag !== 18) {
+            break;
+          }
+
           message.topic = reader.string();
-          break;
+          continue;
         case 3:
+          if (tag !== 26) {
+            break;
+          }
+
           message.eventId = reader.string();
-          break;
+          continue;
         case 4:
+          if (tag !== 34) {
+            break;
+          }
+
           message.reason = reader.string();
-          break;
-        default:
-          reader.skipType(tag & 7);
-          break;
+          continue;
       }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skipType(tag & 7);
     }
     return message;
   },
@@ -512,6 +605,12 @@ export const SubscribeRequest_EventNotReceived = {
     message.eventId !== undefined && (obj.eventId = message.eventId);
     message.reason !== undefined && (obj.reason = message.reason);
     return obj;
+  },
+
+  create<I extends Exact<DeepPartial<SubscribeRequest_EventNotReceived>, I>>(
+    base?: I,
+  ): SubscribeRequest_EventNotReceived {
+    return SubscribeRequest_EventNotReceived.fromPartial(base ?? {});
   },
 
   fromPartial<I extends Exact<DeepPartial<SubscribeRequest_EventNotReceived>, I>>(
@@ -545,25 +644,38 @@ export const SubscribeRequest_EventHandled = {
   },
 
   decode(input: _m0.Reader | Uint8Array, length?: number): SubscribeRequest_EventHandled {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+    const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseSubscribeRequest_EventHandled();
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1:
+          if (tag !== 10) {
+            break;
+          }
+
           message.tenantId = reader.string();
-          break;
+          continue;
         case 2:
+          if (tag !== 18) {
+            break;
+          }
+
           message.topic = reader.string();
-          break;
+          continue;
         case 3:
+          if (tag !== 26) {
+            break;
+          }
+
           message.eventId = reader.string();
-          break;
-        default:
-          reader.skipType(tag & 7);
-          break;
+          continue;
       }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skipType(tag & 7);
     }
     return message;
   },
@@ -582,6 +694,10 @@ export const SubscribeRequest_EventHandled = {
     message.topic !== undefined && (obj.topic = message.topic);
     message.eventId !== undefined && (obj.eventId = message.eventId);
     return obj;
+  },
+
+  create<I extends Exact<DeepPartial<SubscribeRequest_EventHandled>, I>>(base?: I): SubscribeRequest_EventHandled {
+    return SubscribeRequest_EventHandled.fromPartial(base ?? {});
   },
 
   fromPartial<I extends Exact<DeepPartial<SubscribeRequest_EventHandled>, I>>(
@@ -617,28 +733,45 @@ export const SubscribeRequest_EventNotHandled = {
   },
 
   decode(input: _m0.Reader | Uint8Array, length?: number): SubscribeRequest_EventNotHandled {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+    const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseSubscribeRequest_EventNotHandled();
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1:
+          if (tag !== 10) {
+            break;
+          }
+
           message.tenantId = reader.string();
-          break;
+          continue;
         case 2:
+          if (tag !== 18) {
+            break;
+          }
+
           message.topic = reader.string();
-          break;
+          continue;
         case 3:
+          if (tag !== 26) {
+            break;
+          }
+
           message.eventId = reader.string();
-          break;
+          continue;
         case 4:
+          if (tag !== 34) {
+            break;
+          }
+
           message.reason = reader.string();
-          break;
-        default:
-          reader.skipType(tag & 7);
-          break;
+          continue;
       }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skipType(tag & 7);
     }
     return message;
   },
@@ -661,6 +794,12 @@ export const SubscribeRequest_EventNotHandled = {
     return obj;
   },
 
+  create<I extends Exact<DeepPartial<SubscribeRequest_EventNotHandled>, I>>(
+    base?: I,
+  ): SubscribeRequest_EventNotHandled {
+    return SubscribeRequest_EventNotHandled.fromPartial(base ?? {});
+  },
+
   fromPartial<I extends Exact<DeepPartial<SubscribeRequest_EventNotHandled>, I>>(
     object: I,
   ): SubscribeRequest_EventNotHandled {
@@ -679,59 +818,82 @@ function createBaseSubscribeResponse(): SubscribeResponse {
 
 export const SubscribeResponse = {
   encode(message: SubscribeResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
-    if (message.data?.$case === "event") {
-      PublishEventEnvelope.encode(message.data.event, writer.uint32(10).fork()).ldelim();
-    }
-    if (message.data?.$case === "initAck") {
-      SubscribeResponse_InitAck.encode(message.data.initAck, writer.uint32(18).fork()).ldelim();
-    }
-    if (message.data?.$case === "initNotAck") {
-      SubscribeResponse_InitNotAck.encode(message.data.initNotAck, writer.uint32(26).fork()).ldelim();
-    }
-    if (message.data?.$case === "subscribeAck") {
-      SubscribeResponse_SubscribeAck.encode(message.data.subscribeAck, writer.uint32(34).fork()).ldelim();
-    }
-    if (message.data?.$case === "subscribeNotAck") {
-      SubscribeResponse_SubscribeNotAck.encode(message.data.subscribeNotAck, writer.uint32(42).fork()).ldelim();
+    switch (message.data?.$case) {
+      case "event":
+        PublishEventEnvelope.encode(message.data.event, writer.uint32(10).fork()).ldelim();
+        break;
+      case "initAck":
+        SubscribeResponse_InitAck.encode(message.data.initAck, writer.uint32(18).fork()).ldelim();
+        break;
+      case "initNotAck":
+        SubscribeResponse_InitNotAck.encode(message.data.initNotAck, writer.uint32(26).fork()).ldelim();
+        break;
+      case "subscribeAck":
+        SubscribeResponse_SubscribeAck.encode(message.data.subscribeAck, writer.uint32(34).fork()).ldelim();
+        break;
+      case "subscribeNotAck":
+        SubscribeResponse_SubscribeNotAck.encode(message.data.subscribeNotAck, writer.uint32(42).fork()).ldelim();
+        break;
     }
     return writer;
   },
 
   decode(input: _m0.Reader | Uint8Array, length?: number): SubscribeResponse {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+    const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseSubscribeResponse();
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1:
+          if (tag !== 10) {
+            break;
+          }
+
           message.data = { $case: "event", event: PublishEventEnvelope.decode(reader, reader.uint32()) };
-          break;
+          continue;
         case 2:
+          if (tag !== 18) {
+            break;
+          }
+
           message.data = { $case: "initAck", initAck: SubscribeResponse_InitAck.decode(reader, reader.uint32()) };
-          break;
+          continue;
         case 3:
+          if (tag !== 26) {
+            break;
+          }
+
           message.data = {
             $case: "initNotAck",
             initNotAck: SubscribeResponse_InitNotAck.decode(reader, reader.uint32()),
           };
-          break;
+          continue;
         case 4:
+          if (tag !== 34) {
+            break;
+          }
+
           message.data = {
             $case: "subscribeAck",
             subscribeAck: SubscribeResponse_SubscribeAck.decode(reader, reader.uint32()),
           };
-          break;
+          continue;
         case 5:
+          if (tag !== 42) {
+            break;
+          }
+
           message.data = {
             $case: "subscribeNotAck",
             subscribeNotAck: SubscribeResponse_SubscribeNotAck.decode(reader, reader.uint32()),
           };
-          break;
-        default:
-          reader.skipType(tag & 7);
-          break;
+          continue;
       }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skipType(tag & 7);
     }
     return message;
   },
@@ -771,6 +933,10 @@ export const SubscribeResponse = {
       ? SubscribeResponse_SubscribeNotAck.toJSON(message.data?.subscribeNotAck)
       : undefined);
     return obj;
+  },
+
+  create<I extends Exact<DeepPartial<SubscribeResponse>, I>>(base?: I): SubscribeResponse {
+    return SubscribeResponse.fromPartial(base ?? {});
   },
 
   fromPartial<I extends Exact<DeepPartial<SubscribeResponse>, I>>(object: I): SubscribeResponse {
@@ -823,16 +989,17 @@ export const SubscribeResponse_InitAck = {
   },
 
   decode(input: _m0.Reader | Uint8Array, length?: number): SubscribeResponse_InitAck {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+    const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseSubscribeResponse_InitAck();
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
-        default:
-          reader.skipType(tag & 7);
-          break;
       }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skipType(tag & 7);
     }
     return message;
   },
@@ -844,6 +1011,10 @@ export const SubscribeResponse_InitAck = {
   toJSON(_: SubscribeResponse_InitAck): unknown {
     const obj: any = {};
     return obj;
+  },
+
+  create<I extends Exact<DeepPartial<SubscribeResponse_InitAck>, I>>(base?: I): SubscribeResponse_InitAck {
+    return SubscribeResponse_InitAck.fromPartial(base ?? {});
   },
 
   fromPartial<I extends Exact<DeepPartial<SubscribeResponse_InitAck>, I>>(_: I): SubscribeResponse_InitAck {
@@ -865,19 +1036,24 @@ export const SubscribeResponse_InitNotAck = {
   },
 
   decode(input: _m0.Reader | Uint8Array, length?: number): SubscribeResponse_InitNotAck {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+    const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseSubscribeResponse_InitNotAck();
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1:
+          if (tag !== 10) {
+            break;
+          }
+
           message.reason = reader.string();
-          break;
-        default:
-          reader.skipType(tag & 7);
-          break;
+          continue;
       }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skipType(tag & 7);
     }
     return message;
   },
@@ -890,6 +1066,10 @@ export const SubscribeResponse_InitNotAck = {
     const obj: any = {};
     message.reason !== undefined && (obj.reason = message.reason);
     return obj;
+  },
+
+  create<I extends Exact<DeepPartial<SubscribeResponse_InitNotAck>, I>>(base?: I): SubscribeResponse_InitNotAck {
+    return SubscribeResponse_InitNotAck.fromPartial(base ?? {});
   },
 
   fromPartial<I extends Exact<DeepPartial<SubscribeResponse_InitNotAck>, I>>(object: I): SubscribeResponse_InitNotAck {
@@ -909,16 +1089,17 @@ export const SubscribeResponse_SubscribeAck = {
   },
 
   decode(input: _m0.Reader | Uint8Array, length?: number): SubscribeResponse_SubscribeAck {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+    const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseSubscribeResponse_SubscribeAck();
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
-        default:
-          reader.skipType(tag & 7);
-          break;
       }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skipType(tag & 7);
     }
     return message;
   },
@@ -930,6 +1111,10 @@ export const SubscribeResponse_SubscribeAck = {
   toJSON(_: SubscribeResponse_SubscribeAck): unknown {
     const obj: any = {};
     return obj;
+  },
+
+  create<I extends Exact<DeepPartial<SubscribeResponse_SubscribeAck>, I>>(base?: I): SubscribeResponse_SubscribeAck {
+    return SubscribeResponse_SubscribeAck.fromPartial(base ?? {});
   },
 
   fromPartial<I extends Exact<DeepPartial<SubscribeResponse_SubscribeAck>, I>>(_: I): SubscribeResponse_SubscribeAck {
@@ -951,19 +1136,24 @@ export const SubscribeResponse_SubscribeNotAck = {
   },
 
   decode(input: _m0.Reader | Uint8Array, length?: number): SubscribeResponse_SubscribeNotAck {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+    const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseSubscribeResponse_SubscribeNotAck();
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 2:
+          if (tag !== 18) {
+            break;
+          }
+
           message.reason = reader.string();
-          break;
-        default:
-          reader.skipType(tag & 7);
-          break;
+          continue;
       }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skipType(tag & 7);
     }
     return message;
   },
@@ -976,6 +1166,12 @@ export const SubscribeResponse_SubscribeNotAck = {
     const obj: any = {};
     message.reason !== undefined && (obj.reason = message.reason);
     return obj;
+  },
+
+  create<I extends Exact<DeepPartial<SubscribeResponse_SubscribeNotAck>, I>>(
+    base?: I,
+  ): SubscribeResponse_SubscribeNotAck {
+    return SubscribeResponse_SubscribeNotAck.fromPartial(base ?? {});
   },
 
   fromPartial<I extends Exact<DeepPartial<SubscribeResponse_SubscribeNotAck>, I>>(

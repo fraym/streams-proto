@@ -1,3 +1,7 @@
+# v7.1.1
+
+- (bug) Add `invalidated` field to `GdprMetadata`
+
 # v7.1.0
 
 - (feature) Add get event endpoint

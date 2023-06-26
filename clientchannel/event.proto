@@ -28,6 +28,7 @@ message Data {
 	message GdprMetadata {
 		string default = 1;
 		string id = 2;
+		bool invalidated = 3;
 	}
 
 	string value = 1;
